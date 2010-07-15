@@ -38,6 +38,9 @@ class Dispatcher(object):
     """ Function call dispatcher based on argument types."""
 
     def __init__(self, argspec, multi_arity):
+        """ Initialize dispatcher with ``argspec`` of type
+        :class:`inspect.ArgSpec` and ``multi_arity`` that represent number
+        params."""
         pos_arity = \
             len(argspec.args if argspec.args else []) - \
             len(argspec.defaults if argspec.defaults else [])
@@ -49,23 +52,27 @@ class Dispatcher(object):
         axis = [("arg_%d" % n, TypeAxis()) for n in range(multi_arity)]
         self.registry = Registry(*axis)
 
-    def register_rule(self, rule, *args):
-        if len(args) != self.multi_arity:
+    def register_rule(self, rule, *arg_types):
+        """ Register new ``rule`` for ``arg_types``."""
+        # Check if we have the right number of parametrized types 
+        if len(arg_types) != self.multi_arity:
             raise TypeError("Wrong number of type parameters.")
-        self.check_rule(rule)
-        self.registry.register(rule, *args)
 
-    def lookup_rule(self, *args):
-        return self.registry.lookup(*args[:self.multi_arity])
-
-    def check_rule(self, rule):
+        # Check if we have the same argspec (by number of args)
         argspec = inspect.getargspec(rule)
         if not map(lambda x: len(x) if x else 0, argspec) == \
           map(lambda x: len(x) if x else 0, self.argspec):
             raise TypeError("Rule does not conform "
                             "to previous implementations.")
 
+        self.registry.register(rule, *arg_types)
+
+    def lookup_rule(self, *args):
+        """ Lookup rule by ``args``. Returns None if no rule was found."""
+        return self.registry.lookup(*args[:self.multi_arity])
+
     def __call__(self, *args):
+        """ Dispatch call to appropriate rule."""
         rule = self.lookup_rule(*args)
         if rule is None:
             raise TypeError("No avaible rule found for %r" % (args,))
