@@ -13,11 +13,24 @@ def multimethod(*arg_types):
     """ Declare function as multimethod."""
     def register_rule(func):
         argspec = inspect.getargspec(func)
-        dispatcher = functools.wraps(func)(
-            Dispatcher(argspec, len(arg_types)))
+        wrapper = functools.wraps(func)
+        dispatcher = wrapper(Dispatcher(argspec, len(arg_types)))
         dispatcher.register_rule(func, *arg_types)
         return dispatcher
     return register_rule
+
+
+def arity(argspec):
+    """ Determinal positional arity of argspec."""
+    args = argspec.args if argspec.args else []
+    defaults = argspec.defaults if argspec.defaults else []
+    return len(args) - len(defaults)
+
+
+def is_equalent_argspecs(left, right):
+    """ Check argspec equalence."""
+    return map(lambda x: len(x) if x else 0, left) == \
+           map(lambda x: len(x) if x else 0, right)
 
 
 class Dispatcher(object):
@@ -28,10 +41,7 @@ class Dispatcher(object):
         :class:`inspect.ArgSpec` and ``multi_arity`` that represent number
         params."""
         # Check if we have enough positional arguments for number of type params
-        pos_arity = \
-            len(argspec.args if argspec.args else []) - \
-            len(argspec.defaults if argspec.defaults else [])
-        if pos_arity < multi_arity:
+        if arity(argspec) < multi_arity:
             raise TypeError("Not enough positional arguments "
                             "for number of type parameters provided.")
 
@@ -48,9 +58,8 @@ class Dispatcher(object):
             raise TypeError("Wrong number of type parameters.")
 
         # Check if we have the same argspec (by number of args)
-        argspec = inspect.getargspec(rule)
-        if not map(lambda x: len(x) if x else 0, argspec) == \
-          map(lambda x: len(x) if x else 0, self.argspec):
+        rule_argspec = inspect.getargspec(rule)
+        if not is_equalent_argspecs(rule_argspec, self.argspec):
             raise TypeError("Rule does not conform "
                             "to previous implementations.")
 
@@ -58,7 +67,8 @@ class Dispatcher(object):
 
     def lookup_rule(self, *args):
         """ Lookup rule by ``args``. Returns None if no rule was found."""
-        return self.registry.lookup(*args[:self.multi_arity])
+        args = args[:self.multi_arity]
+        return self.registry.lookup(*args)
 
     def when(self, *arg_types):
         """ Parametrized decorator to register new rules with dispatcher."""
