@@ -36,25 +36,25 @@ def is_equalent_argspecs(left, right):
 class Dispatcher(object):
     """ Function call dispatcher based on argument types."""
 
-    def __init__(self, argspec, multi_arity):
+    def __init__(self, argspec, params_arity):
         """ Initialize dispatcher with ``argspec`` of type
-        :class:`inspect.ArgSpec` and ``multi_arity`` that represent number
+        :class:`inspect.ArgSpec` and ``params_arity`` that represent number
         params."""
         # Check if we have enough positional arguments for number of type params
-        if arity(argspec) < multi_arity:
+        if arity(argspec) < params_arity:
             raise TypeError("Not enough positional arguments "
                             "for number of type parameters provided.")
 
         self.argspec = argspec
-        self.multi_arity = multi_arity
+        self.params_arity = params_arity
 
-        axis = [("arg_%d" % n, TypeAxis()) for n in range(multi_arity)]
+        axis = [("arg_%d" % n, TypeAxis()) for n in range(params_arity)]
         self.registry = Registry(*axis)
 
     def register_rule(self, rule, *arg_types):
         """ Register new ``rule`` for ``arg_types``."""
         # Check if we have the right number of parametrized types 
-        if len(arg_types) != self.multi_arity:
+        if len(arg_types) != self.params_arity:
             raise TypeError("Wrong number of type parameters.")
 
         # Check if we have the same argspec (by number of args)
@@ -67,7 +67,7 @@ class Dispatcher(object):
 
     def lookup_rule(self, *args):
         """ Lookup rule by ``args``. Returns None if no rule was found."""
-        args = args[:self.multi_arity]
+        args = args[:self.params_arity]
         return self.registry.lookup(*args)
 
     def when(self, *arg_types):
