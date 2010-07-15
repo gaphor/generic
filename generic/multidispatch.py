@@ -67,9 +67,9 @@ class Dispatcher(object):
             return self
         return register_rule
 
-    def __call__(self, *args):
+    def __call__(self, *args, **kwargs):
         """ Dispatch call to appropriate rule."""
         rule = self.lookup_rule(*args)
         if rule is None:
             raise TypeError("No available rule found for %r" % (args,))
-        return rule(*args)
+        return rule(*args, **kwargs)
