@@ -6,32 +6,18 @@ import inspect
 from generic.registry import Registry
 from generic.registry import TypeAxis
 
-__all__ = ["Dispatcher", "multimethod", "reset"]
-
-# function name -> dispatcher
-dispatchers = {}
+__all__ = ["Dispatcher", "multimethod"]
 
 
 def multimethod(*arg_types):
     """ Declare function as multimethod."""
-    global dispatchers
     def register_rule(func):
         argspec = inspect.getargspec(func)
-        if func.__name__ in dispatchers:
-            dispatcher = dispatchers[func.__name__]
-        else:
-            dispatcher = functools.wraps(func)(
-                Dispatcher(argspec, len(arg_types)))
-            dispatchers[func.__name__] = dispatcher
+        dispatcher = functools.wraps(func)(
+            Dispatcher(argspec, len(arg_types)))
         dispatcher.register_rule(func, *arg_types)
         return dispatcher
     return register_rule
-
-
-def reset():
-    """ Reset dispatchers. Useful for testing."""
-    global dispatchers
-    dispatchers = {}
 
 
 class Dispatcher(object):
@@ -41,14 +27,17 @@ class Dispatcher(object):
         """ Initialize dispatcher with ``argspec`` of type
         :class:`inspect.ArgSpec` and ``multi_arity`` that represent number
         params."""
+        # Check if we have enough positional arguments for number of type params
         pos_arity = \
             len(argspec.args if argspec.args else []) - \
             len(argspec.defaults if argspec.defaults else [])
         if pos_arity < multi_arity:
             raise TypeError("Not enough positional arguments "
                             "for number of type parameters provided.")
+
         self.argspec = argspec
         self.multi_arity = multi_arity
+
         axis = [("arg_%d" % n, TypeAxis()) for n in range(multi_arity)]
         self.registry = Registry(*axis)
 
@@ -70,6 +59,13 @@ class Dispatcher(object):
     def lookup_rule(self, *args):
         """ Lookup rule by ``args``. Returns None if no rule was found."""
         return self.registry.lookup(*args[:self.multi_arity])
+
+    def when(self, *arg_types):
+        """ Parametrized decorator to register new rules with dispatcher."""
+        def register_rule(func):
+            self.register_rule(func, *arg_types)
+            return self
+        return register_rule
 
     def __call__(self, *args):
         """ Dispatch call to appropriate rule."""

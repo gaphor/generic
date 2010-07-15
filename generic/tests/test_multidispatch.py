@@ -134,10 +134,6 @@ class DispatcherTests(unittest.TestCase):
 
 class TestMultimethod(unittest.TestCase):
 
-    def tearDown(self):
-        from generic.multidispatch import reset
-        reset()
-
     def test_it(self):
         from generic.multidispatch import multimethod
 
@@ -150,7 +146,7 @@ class TestMultimethod(unittest.TestCase):
         self.assertRaises(TypeError, func, "1", 2)
         self.assertRaises(TypeError, func, "1", "2")
 
-        @multimethod(str, str)
+        @func.when(str, str)
         def func(x, y):
             return x + y
 
