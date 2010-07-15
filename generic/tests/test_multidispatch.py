@@ -154,3 +154,19 @@ class TestMultimethod(unittest.TestCase):
         self.assertEqual(func("1", "2"), "12")
         self.assertRaises(TypeError, func, 1, 2)
         self.assertRaises(TypeError, func, "1", 2)
+
+    def test_overriding(self):
+        # for now, overriding is not allowed and Value error is raised
+        # open questions are:
+        #   1. Should we allow overriding by default.
+        #       a. If yes, should it be implicit or explicit (something like
+        #          Dispatcher.override method)
+        #       b. If no -- what exception we should raise.
+
+        from generic.multidispatch import multimethod
+
+        @multimethod(int, str)
+        def func(x, y):
+            return str(x) + y
+
+        self.assertRaises(ValueError, func.when(int, str), lambda x, y: str(x))
