@@ -6,13 +6,14 @@ import inspect
 from generic.registry import Registry
 from generic.registry import TypeAxis
 
-__all__ = []
+__all__ = ["Dispatcher", "multimethod", "reset"]
 
 # function name -> dispatcher
 dispatchers = {}
 
 
 def multimethod(*arg_types):
+    """ Declare function as multimethod."""
     global dispatchers
     def register_rule(func):
         if func.__name__ in dispatchers:
