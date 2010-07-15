@@ -156,7 +156,7 @@ class TestMultimethod(unittest.TestCase):
         self.assertRaises(TypeError, func, "1", 2)
 
     def test_overriding(self):
-        # for now, overriding is not allowed and Value error is raised
+        # XXX: for now, overriding is not allowed and Value error is raised
         # open questions are:
         #   1. Should we allow overriding by default.
         #       a. If yes, should it be implicit or explicit (something like
