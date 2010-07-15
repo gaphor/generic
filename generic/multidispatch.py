@@ -71,5 +71,5 @@ class Dispatcher(object):
         """ Dispatch call to appropriate rule."""
         rule = self.lookup_rule(*args)
         if rule is None:
-            raise TypeError("No avaible rule found for %r" % (args,))
+            raise TypeError("No available rule found for %r" % (args,))
         return rule(*args)
