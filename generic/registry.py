@@ -1,6 +1,8 @@
 """ Registry.
 
-This implementation was borrowed from happy project bt Chris Rossi.
+This implementation was borrowed from happy[1] project bt Chris Rossi.
+
+[1]: http://bitbucket.org/chrisrossi/happy
 """
 
 __all__ = ["Registry"]
