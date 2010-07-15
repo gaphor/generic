@@ -7,12 +7,12 @@ __all__ = ["DispatcherTests"]
 
 class DispatcherTests(unittest.TestCase):
 
-    def createDispatcher(self, multi_arity, args=None, varargs=None,
+    def createDispatcher(self, params_arity, args=None, varargs=None,
                          keywords=None, defaults=None):
         from inspect import ArgSpec
         from generic.multidispatch import Dispatcher
         return Dispatcher(ArgSpec(args=args, varargs=varargs, keywords=keywords,
-                                  defaults=defaults), multi_arity)
+                                  defaults=defaults), params_arity)
 
 
     def test_one_argument(self):
