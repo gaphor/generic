@@ -2,10 +2,12 @@ from setuptools import setup
 from setuptools import find_packages
 
 version = "0.1"
+long_description = open("README.rst", "r").read()
 
 setup(name="generic",
       version=version,
       description="A set of tools for generic programming.",
+      long_description=long_description,
       author="Andrey Popp",
       author_email="8mayday@gmail.com",
       license="BSD",
