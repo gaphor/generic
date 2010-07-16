@@ -135,9 +135,9 @@ class DispatcherTests(unittest.TestCase):
 class TestMultimethod(unittest.TestCase):
 
     def test_it(self):
-        from generic.multidispatch import multimethod
+        from generic.multidispatch import multifunction
 
-        @multimethod(int, str)
+        @multifunction(int, str)
         def func(x, y):
             return str(x) + y
 
@@ -163,9 +163,9 @@ class TestMultimethod(unittest.TestCase):
         #          Dispatcher.override method)
         #       b. If no -- what exception we should raise.
 
-        from generic.multidispatch import multimethod
+        from generic.multidispatch import multifunction
 
-        @multimethod(int, str)
+        @multifunction(int, str)
         def func(x, y):
             return str(x) + y
 

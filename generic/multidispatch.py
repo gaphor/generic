@@ -6,11 +6,11 @@ import inspect
 from generic.registry import Registry
 from generic.registry import TypeAxis
 
-__all__ = ["Dispatcher", "multimethod"]
+__all__ = ["Dispatcher", "multifunction"]
 
 
-def multimethod(*arg_types):
-    """ Declare function as multimethod."""
+def multifunction(*arg_types):
+    """ Declare function as multifunction."""
     def register_rule(func):
         argspec = inspect.getargspec(func)
         wrapper = functools.wraps(func)
@@ -68,7 +68,10 @@ class Dispatcher(object):
     def lookup_rule(self, *args):
         """ Lookup rule by ``args``. Returns None if no rule was found."""
         args = args[:self.params_arity]
-        return self.registry.lookup(*args)
+        rule = self.registry.lookup(*args)
+        if rule is None:
+            raise TypeError("No available rule found for %r" % (args,))
+        return rule
 
     def when(self, *arg_types):
         """ Parametrized decorator to register new rules with dispatcher."""
@@ -80,6 +83,4 @@ class Dispatcher(object):
     def __call__(self, *args, **kwargs):
         """ Dispatch call to appropriate rule."""
         rule = self.lookup_rule(*args)
-        if rule is None:
-            raise TypeError("No available rule found for %r" % (args,))
         return rule(*args, **kwargs)
