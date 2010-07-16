@@ -9,7 +9,7 @@ features the following:
 * Registries with different and user-defined lookup strategies.
 * Event system (not implemented).
 
-Its development takes place at http://githib.com/andreypopp.
+Its development takes place at http://github.com/andreypopp.
 
 Multidispatching
 ----------------
