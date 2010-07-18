@@ -113,9 +113,12 @@ class MethodDispatcher(Dispatcher):
         self.local.unbound_rules = []
 
     def register_unbound_rule(self, func, *argtypes):
+        """ Register unbound rule that should be processed by
+        ``proceed_unbound_rules`` later."""
         self.local.unbound_rules.append((argtypes, func))
 
     def proceed_unbound_rules(self, cls):
+        """ Process all unbound rule by binding them to ``cls`` type."""
         for argtypes, func in self.local.unbound_rules:
             argtypes = (cls,) + argtypes
             self.override_rule(func, *argtypes)
