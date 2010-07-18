@@ -170,3 +170,65 @@ class MultifunctionTests(unittest.TestCase):
             return str(x) + y
 
         self.assertRaises(ValueError, func.when(int, str), lambda x, y: str(x))
+
+
+class MultimethodTests(unittest.TestCase):
+
+    def test_multimethod(self):
+        from generic.multidispatch import multimethod
+        from generic.multidispatch import has_multimethods
+
+        @has_multimethods
+        class Dummy(object):
+
+            @multimethod(int)
+            def foo(self, x):
+                return x + 1
+
+            @foo.when(str)
+            def foo(self, x):
+                return x + "1"
+
+        self.assertEqual(Dummy().foo(1), 2)
+        self.assertEqual(Dummy().foo("1"), "11")
+        self.assertRaises(TypeError, Dummy().foo, [])
+
+    def test_inheritance(self):
+        from generic.multidispatch import multimethod
+        from generic.multidispatch import has_multimethods
+
+        @has_multimethods
+        class Dummy(object):
+
+            @multimethod(int)
+            def foo(self, x):
+                return x + 1
+
+            @foo.when(float)
+            def foo(self, x):
+                return x + 1.5
+
+        @has_multimethods
+        class DummySub(Dummy):
+
+            @Dummy.foo.when(str)
+            def foo(self, x):
+                return x + "1"
+
+            @foo.when(tuple)
+            def foo(self, x):
+                return x + (1,)
+
+            @Dummy.foo.when(bool)
+            def foo(self, x):
+                return not x
+
+        self.assertEqual(Dummy().foo(1), 2)
+        self.assertEqual(Dummy().foo(1.5), 3.0)
+        self.assertRaises(TypeError, Dummy().foo, "1")
+        self.assertEqual(DummySub().foo(1), 2)
+        self.assertEqual(DummySub().foo(1.5), 3.0)
+        self.assertEqual(DummySub().foo("1"), "11")
+        self.assertEqual(DummySub().foo((1,2)), (1,2,1))
+        self.assertEqual(DummySub().foo(True), False)
+        self.assertRaises(TypeError, DummySub().foo, [])

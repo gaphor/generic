@@ -2,6 +2,8 @@
 
 import functools
 import inspect
+import types
+import threading
 
 from generic.registry import Registry
 from generic.registry import TypeAxis
@@ -11,13 +13,28 @@ __all__ = ["Dispatcher", "multifunction"]
 
 def multifunction(*argtypes):
     """ Declare function as multifunction."""
-    def register_rule(func):
-        argspec = inspect.getargspec(func)
-        wrapper = functools.wraps(func)
-        dispatcher = wrapper(Dispatcher(argspec, len(argtypes)))
+    def _replace_with_dispatcher(func):
+        dispatcher = _make_dispatcher(Dispatcher, func, len(argtypes))
         dispatcher.register_rule(func, *argtypes)
         return dispatcher
-    return register_rule
+    return _replace_with_dispatcher
+
+
+def multimethod(*argtypes):
+    """ Declare method as multimethod."""
+    def _replace_with_dispatcher(func):
+        dispatcher = _make_dispatcher(MethodDispatcher, func, len(argtypes) + 1)
+        dispatcher.register_unbound_rule(func, *argtypes)
+        return dispatcher
+    return _replace_with_dispatcher
+
+
+def has_multimethods(cls):
+    """ Declare class as one that have multimethods."""
+    for name, obj in cls.__dict__.items():
+        if isinstance(obj, MethodDispatcher):
+            obj.proceed_unbound_rules(cls)
+    return cls
 
 
 class Dispatcher(object):
@@ -73,6 +90,36 @@ class Dispatcher(object):
         return rule(*args, **kwargs)
 
 
+class MethodDispatcher(Dispatcher):
+
+    def __init__(self, argspec, params_arity):
+        Dispatcher.__init__(self, argspec, params_arity)
+
+        # some data, that should be local to thread of execution
+        self.local = threading.local()
+        self.local.unbound_rules = []
+
+    def register_unbound_rule(self, func, *argtypes):
+        self.local.unbound_rules.append((argtypes, func))
+
+    def proceed_unbound_rules(self, cls):
+        for argtypes, func in self.local.unbound_rules:
+            argtypes = (cls,) + argtypes
+            self.register_rule(func, *argtypes)
+        self.local.unbound_rules = []
+
+    def __get__(self, obj, cls):
+        if obj is None:
+            return self
+        return types.MethodType(self, obj)
+
+    def when(self, *argtypes):
+        def make_declaration(meth):
+            self.register_unbound_rule(meth, *argtypes)
+            return self
+        return make_declaration
+
+
 def arity(argspec):
     """ Determinal positional arity of argspec."""
     args = argspec.args if argspec.args else []
@@ -84,3 +131,10 @@ def is_equalent_argspecs(left, right):
     """ Check argspec equalence."""
     return map(lambda x: len(x) if x else 0, left) == \
            map(lambda x: len(x) if x else 0, right)
+
+
+def _make_dispatcher(dispacther_cls, func, params_arity):
+    argspec = inspect.getargspec(func)
+    wrapper = functools.wraps(func)
+    dispatcher = wrapper(dispacther_cls(argspec, params_arity))
+    return dispatcher
