@@ -20,19 +20,6 @@ def multifunction(*arg_types):
     return register_rule
 
 
-def arity(argspec):
-    """ Determinal positional arity of argspec."""
-    args = argspec.args if argspec.args else []
-    defaults = argspec.defaults if argspec.defaults else []
-    return len(args) - len(defaults)
-
-
-def is_equalent_argspecs(left, right):
-    """ Check argspec equalence."""
-    return map(lambda x: len(x) if x else 0, left) == \
-           map(lambda x: len(x) if x else 0, right)
-
-
 class Dispatcher(object):
     """ Function call dispatcher based on argument types."""
 
@@ -84,3 +71,16 @@ class Dispatcher(object):
         """ Dispatch call to appropriate rule."""
         rule = self.lookup_rule(*args)
         return rule(*args, **kwargs)
+
+
+def arity(argspec):
+    """ Determinal positional arity of argspec."""
+    args = argspec.args if argspec.args else []
+    defaults = argspec.defaults if argspec.defaults else []
+    return len(args) - len(defaults)
+
+
+def is_equalent_argspecs(left, right):
+    """ Check argspec equalence."""
+    return map(lambda x: len(x) if x else 0, left) == \
+           map(lambda x: len(x) if x else 0, right)
