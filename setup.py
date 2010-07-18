@@ -1,8 +1,11 @@
 from setuptools import setup
 from setuptools import find_packages
 
-version = "0.1"
-long_description = open("README.rst", "r").read()
+version = "0.2"
+long_description = \
+        open("README.rst", "r").read() + \
+        "\n\n" + \
+        open("CHANGELOG.rst", "r").read()
 
 setup(name="generic",
       version=version,
