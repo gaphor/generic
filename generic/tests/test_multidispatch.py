@@ -132,7 +132,7 @@ class DispatcherTests(unittest.TestCase):
         self.assertEqual(dispatcher("1", 2), "1")
 
 
-class TestMultimethod(unittest.TestCase):
+class MultifunctionTests(unittest.TestCase):
 
     def test_it(self):
         from generic.multidispatch import multifunction
