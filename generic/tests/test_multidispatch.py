@@ -156,20 +156,20 @@ class MultifunctionTests(unittest.TestCase):
         self.assertRaises(TypeError, func, "1", 2)
 
     def test_overriding(self):
-        # XXX: for now, overriding is not allowed and Value error is raised
-        # open questions are:
-        #   1. Should we allow overriding by default.
-        #       a. If yes, should it be implicit or explicit (something like
-        #          Dispatcher.override method)
-        #       b. If no -- what exception we should raise.
-
         from generic.multidispatch import multifunction
 
         @multifunction(int, str)
         def func(x, y):
             return str(x) + y
 
+        self.assertEqual(func(1, "2"), "12")
         self.assertRaises(ValueError, func.when(int, str), lambda x, y: str(x))
+
+        @func.override(int, str)
+        def func(x, y):
+            return y + str(x)
+
+        self.assertEqual(func(1, "2"), "21")
 
 
 class MultimethodTests(unittest.TestCase):
@@ -232,3 +232,41 @@ class MultimethodTests(unittest.TestCase):
         self.assertEqual(DummySub().foo((1,2)), (1,2,1))
         self.assertEqual(DummySub().foo(True), False)
         self.assertRaises(TypeError, DummySub().foo, [])
+
+    def test_override(self):
+        from generic.multidispatch import multimethod
+        from generic.multidispatch import has_multimethods
+
+        @has_multimethods
+        class Dummy(object):
+
+            @multimethod(str, str)
+            def foo(self, x, y):
+                return x + y
+
+            @foo.when(str, str)
+            def foo(self, x, y):
+                return y + x
+
+        self.assertEqual(Dummy().foo("1", "2"), "21")
+
+    def test_inheritance_override(self):
+        from generic.multidispatch import multimethod
+        from generic.multidispatch import has_multimethods
+
+        @has_multimethods
+        class Dummy(object):
+
+            @multimethod(int)
+            def foo(self, x):
+                return x + 1
+
+        @has_multimethods
+        class DummySub(Dummy):
+
+            @Dummy.foo.when(int)
+            def foo(self, x):
+                return x + 2
+
+        self.assertEqual(Dummy().foo(1), 2)
+        self.assertEqual(DummySub().foo(1), 3)

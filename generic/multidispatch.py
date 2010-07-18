@@ -55,8 +55,7 @@ class Dispatcher(object):
         axis = [("arg_%d" % n, TypeAxis()) for n in range(params_arity)]
         self.registry = Registry(*axis)
 
-    def register_rule(self, rule, *argtypes):
-        """ Register new ``rule`` for ``argtypes``."""
+    def check_rule(self, rule, *argtypes):
         # Check if we have the right number of parametrized types 
         if len(argtypes) != self.params_arity:
             raise TypeError("Wrong number of type parameters.")
@@ -67,7 +66,15 @@ class Dispatcher(object):
             raise TypeError("Rule does not conform "
                             "to previous implementations.")
 
+    def register_rule(self, rule, *argtypes):
+        """ Register new ``rule`` for ``argtypes``."""
+        self.check_rule(rule, *argtypes)
         self.registry.register(rule, *argtypes)
+
+    def override_rule(self, rule, *argtypes):
+        """ Override ``rule`` for ``argtypes``."""
+        self.check_rule(rule, *argtypes)
+        self.registry.override(rule, *argtypes)
 
     def lookup_rule(self, *args):
         """ Lookup rule by ``args``. Returns None if no rule was found."""
@@ -83,6 +90,12 @@ class Dispatcher(object):
             self.register_rule(func, *argtypes)
             return self
         return register_rule
+
+    def override(self, *argtypes):
+        def override_rule(func):
+            self.override_rule(func, *argtypes)
+            return self
+        return override_rule
 
     def __call__(self, *args, **kwargs):
         """ Dispatch call to appropriate rule."""
@@ -105,7 +118,7 @@ class MethodDispatcher(Dispatcher):
     def proceed_unbound_rules(self, cls):
         for argtypes, func in self.local.unbound_rules:
             argtypes = (cls,) + argtypes
-            self.register_rule(func, *argtypes)
+            self.override_rule(func, *argtypes)
         self.local.unbound_rules = []
 
     def __get__(self, obj, cls):
@@ -118,6 +131,8 @@ class MethodDispatcher(Dispatcher):
             self.register_unbound_rule(meth, *argtypes)
             return self
         return make_declaration
+
+    override = when
 
 
 def arity(argspec):
