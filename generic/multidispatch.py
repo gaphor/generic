@@ -9,13 +9,13 @@ from generic.registry import TypeAxis
 __all__ = ["Dispatcher", "multifunction"]
 
 
-def multifunction(*arg_types):
+def multifunction(*argtypes):
     """ Declare function as multifunction."""
     def register_rule(func):
         argspec = inspect.getargspec(func)
         wrapper = functools.wraps(func)
-        dispatcher = wrapper(Dispatcher(argspec, len(arg_types)))
-        dispatcher.register_rule(func, *arg_types)
+        dispatcher = wrapper(Dispatcher(argspec, len(argtypes)))
+        dispatcher.register_rule(func, *argtypes)
         return dispatcher
     return register_rule
 
@@ -38,10 +38,10 @@ class Dispatcher(object):
         axis = [("arg_%d" % n, TypeAxis()) for n in range(params_arity)]
         self.registry = Registry(*axis)
 
-    def register_rule(self, rule, *arg_types):
-        """ Register new ``rule`` for ``arg_types``."""
+    def register_rule(self, rule, *argtypes):
+        """ Register new ``rule`` for ``argtypes``."""
         # Check if we have the right number of parametrized types 
-        if len(arg_types) != self.params_arity:
+        if len(argtypes) != self.params_arity:
             raise TypeError("Wrong number of type parameters.")
 
         # Check if we have the same argspec (by number of args)
@@ -50,7 +50,7 @@ class Dispatcher(object):
             raise TypeError("Rule does not conform "
                             "to previous implementations.")
 
-        self.registry.register(rule, *arg_types)
+        self.registry.register(rule, *argtypes)
 
     def lookup_rule(self, *args):
         """ Lookup rule by ``args``. Returns None if no rule was found."""
@@ -60,10 +60,10 @@ class Dispatcher(object):
             raise TypeError("No available rule found for %r" % (args,))
         return rule
 
-    def when(self, *arg_types):
+    def when(self, *argtypes):
         """ Parametrized decorator to register new rules with dispatcher."""
         def register_rule(func):
-            self.register_rule(func, *arg_types)
+            self.register_rule(func, *argtypes)
             return self
         return register_rule
 
