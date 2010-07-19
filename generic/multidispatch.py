@@ -12,16 +12,27 @@ __all__ = ["Dispatcher", "multifunction"]
 
 
 def multifunction(*argtypes):
-    """ Declare function as multifunction."""
+    """ Declare function as multifunction.
+
+    This decorator takes ``*argtypes`` argument types and replace decorated
+    function with :class:`generic.multidispatch.FunctionDispatcher` object,
+    which is responsible for multiple dispatch feature.
+    """
     def _replace_with_dispatcher(func):
-        dispatcher = _make_dispatcher(Dispatcher, func, len(argtypes))
+        dispatcher = _make_dispatcher(FunctionDispatcher, func, len(argtypes))
         dispatcher.register_rule(func, *argtypes)
         return dispatcher
     return _replace_with_dispatcher
 
 
 def multimethod(*argtypes):
-    """ Declare method as multimethod."""
+    """ Declare method as multimethod.
+
+    This decorator works exactly the same as
+    :func:`generic.multidispatch.multifunction` decorator but replaces
+    decorated method with :class:`generic.multidispatch.MethodDispatcher`
+    object instead.
+    """
     def _replace_with_dispatcher(func):
         dispatcher = _make_dispatcher(MethodDispatcher, func, len(argtypes) + 1)
         dispatcher.register_unbound_rule(func, *argtypes)
@@ -37,8 +48,12 @@ def has_multimethods(cls):
     return cls
 
 
-class Dispatcher(object):
-    """ Function call dispatcher based on argument types."""
+class FunctionDispatcher(object):
+    """ Multiple dispatch for functions.
+
+    This object dispatch calls to function by its argument types. Usually it is
+    produced by :func:`generic.multidispatch.multifunction` decorator.
+    """
 
     def __init__(self, argspec, params_arity):
         """ Initialize dispatcher with ``argspec`` of type
@@ -103,10 +118,16 @@ class Dispatcher(object):
         return rule(*args, **kwargs)
 
 
-class MethodDispatcher(Dispatcher):
+class MethodDispatcher(FunctionDispatcher):
+    """ Multiple dispatch for methods.
+
+    This object dispatch call to method by its class and arguments types.
+    Usually it is produced by :func:`generic.multidispatch.multimethod`
+    decorator.
+    """
 
     def __init__(self, argspec, params_arity):
-        Dispatcher.__init__(self, argspec, params_arity)
+        FunctionDispatcher.__init__(self, argspec, params_arity)
 
         # some data, that should be local to thread of execution
         self.local = threading.local()
