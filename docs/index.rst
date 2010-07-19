@@ -10,7 +10,7 @@ Welcome to Generic documentation
    :maxdepth: 2
 
 Generic is a programming library for Python that provides tools for generic
-programming. By, now there is only one feature -- multiple dispatch.
+programming. By now, there is only one feature -- multiple dispatch.
 
 Multiple dispatch
 -----------------
@@ -204,11 +204,3 @@ API referrence
 .. autoclass:: generic.multidispatch.FunctionDispatcher
 
 .. autoclass:: generic.multidispatch.MethodDispatcher
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
