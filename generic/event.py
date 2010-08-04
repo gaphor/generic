@@ -13,11 +13,14 @@ class HandlerSet(namedtuple("HandlerSet", ["parents", "handlers"])):
 
     @property
     def all_handlers(self):
+        """ Iterate over own and supertypes' handlers."""
         seen = set()
         seen_add = seen.add
+        # yield own handlers first
         for handler in self.handlers:
             seen_add(handler)
             yield handler
+        # yield supertypes' handlers then
         for parent in self.parents:
             for handler in parent.all_handlers:
                 if not handler in seen:
