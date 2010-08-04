@@ -64,7 +64,7 @@ class Manager(object):
         for parent in parents:
             parent_handlers = self.registry.get_registration(parent)
             if parent_handlers is None:
-                parent_handlers = self._register_handlers(parent)
+                parent_handlers = self._register_handler_set(parent)
             parent_handler_sets.append(parent_handlers)
 
         handler_set = HandlerSet(parents=parent_handler_sets, handlers=set())
