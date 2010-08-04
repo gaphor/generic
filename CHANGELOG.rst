@@ -4,6 +4,8 @@ Changes
 0.3
 ---
 
+- Event management with event inheritance support.
+
 0.2
 ---
 
