@@ -41,7 +41,7 @@ class Manager(object):
         """ Subscribe ``handler`` to specified ``event_type``."""
         handler_set = self.registry.get_registration(event_type)
         if not handler_set:
-            handler_set = self._register_handlers(event_type)
+            handler_set = self._register_handler_set(event_type)
         handler_set.handlers.add(handler)
 
     def unsubscribe(self, handler, event_type):
@@ -56,17 +56,18 @@ class Manager(object):
         for handler in handler_set.all_handlers:
             handler(event)
 
-    def _register_handlers(self, event_type):
-        """ Derive handlers by copying them for event's subclasses."""
-        handlers = set()
-        parents = event_type.__bases__
+    def _register_handler_set(self, event_type):
+        """ Register new handler set for ``event_type``."""
+        # Collect handler sets for supertypes
         parent_handler_sets = []
+        parents = event_type.__bases__
         for parent in parents:
             parent_handlers = self.registry.get_registration(parent)
             if parent_handlers is None:
                 parent_handlers = self._register_handlers(parent)
             parent_handler_sets.append(parent_handlers)
-        handler_set = HandlerSet(parents=parent_handler_sets, handlers=handlers)
+
+        handler_set = HandlerSet(parents=parent_handler_sets, handlers=set())
         self.registry.register(handler_set, event_type)
         return handler_set
 
