@@ -14,13 +14,14 @@ class HandlerSet(namedtuple("HandlerSet", ["parents", "handlers"])):
     @property
     def all_handlers(self):
         seen = set()
+        seen_add = seen.add
         for handler in self.handlers:
-            seen.add(handler)
+            seen_add(handler)
             yield handler
         for parent in self.parents:
             for handler in parent.all_handlers:
                 if not handler in seen:
-                    seen.add(handler)
+                    seen_add(handler)
                     yield handler
 
 
@@ -65,8 +66,10 @@ class Manager(object):
         return handler_set
 
 
+# Global event manager
 _global_manager = Manager()
 
+# Global event management API
 subscribe = _global_manager.subscribe
 unsubscribe = _global_manager.unsubscribe
 fire = _global_manager.fire
