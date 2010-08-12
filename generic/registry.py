@@ -5,7 +5,7 @@ This implementation was borrowed from happy[1] project by Chris Rossi.
 [1]: http://bitbucket.org/chrisrossi/happy
 """
 
-__all__ = ["Registry"]
+__all__ = ["Registry", "SimpleAxis", "TypeAxis"]
 
 
 class Registry(object):
