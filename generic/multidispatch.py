@@ -8,7 +8,7 @@ import threading
 from generic.registry import Registry
 from generic.registry import TypeAxis
 
-__all__ = ["Dispatcher", "multifunction"]
+__all__ = ["multifunction", "multimethod", "has_multimethods"]
 
 
 def multifunction(*argtypes):
