@@ -9,6 +9,7 @@ __all__ = ["Registry"]
 
 
 class Registry(object):
+    """ Registry implementation."""
 
     def __init__(self, *axes):
         self._tree = _TreeNode()
@@ -33,8 +34,7 @@ class Registry(object):
         if not (override or tree_node.target is None):
             raise ValueError(
                 "Registration conflicts with existing registration.  Use "
-                "override method to override."
-            )
+                "override method to override.")
 
         tree_node.target = target
 
