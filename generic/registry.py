@@ -27,11 +27,9 @@ class Registry(object):
     def _register(self, target, keys, override):
         tree_node = self._tree
         for key in keys:
-            if not tree_node.has_key(key):
-                tree_node[key] = _TreeNode()
-            tree_node = tree_node[key]
+            tree_node = tree_node.setdefault(key, _TreeNode())
 
-        if not (override or tree_node.target is None):
+        if not override and not tree_node.target is None:
             raise ValueError(
                 "Registration conflicts with existing registration.  Use "
                 "override method to override.")
@@ -112,6 +110,9 @@ class Registry(object):
 
 class _TreeNode(dict):
     target = None
+
+    def __str__(self):
+        return "<TreeNode %s %s>" % (self.target, dict.__str__(self))
 
 
 class SimpleAxis(object):
