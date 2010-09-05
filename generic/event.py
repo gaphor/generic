@@ -1,4 +1,16 @@
-""" Event management system."""
+""" Event management system.
+
+This module provides API for event management. There are two APIs provided:
+
+* Global event management API: subscribe, unsubscribe, fire.
+* Local event management API: Manager
+
+If you run only one instance of your application per Python
+interpreter you can stick with global API, but if you want to have
+more than one application instances running inside one interpreter and
+to have different configurations for them -- you should use local API
+and have one instance of Manager object per application instamce.
+"""
 
 from collections import namedtuple
 
@@ -9,11 +21,20 @@ __all__ = ["Manager", "subscribe", "unsubscribe", "fire"]
 
 
 class HandlerSet(namedtuple("HandlerSet", ["parents", "handlers"])):
-    """ Set of handlers for specific type of event."""
+    """ Set of handlers for specific type of event.
+    
+    This object stores ``handlers`` for specific event type and
+    ``parents`` reference to handler sets of event's supertypes.
+    """
 
     @property
     def all_handlers(self):
-        """ Iterate over own and supertypes' handlers."""
+        """ Iterate over own and supertypes' handlers.
+
+        This iterator yields just unique values, so it won't yield the
+        same handler twice, even if it was registered both for some
+        event type and its supertype.
+        """
         seen = set()
         seen_add = seen.add
 
