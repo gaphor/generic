@@ -17,7 +17,7 @@ from collections import namedtuple
 from generic.registry import Registry
 from generic.registry import TypeAxis
 
-__all__ = ["Manager", "subscribe", "unsubscribe", "fire"]
+__all__ = ["Manager", "subscribe", "unsubscribe", "fire", "subscriber"]
 
 
 class HandlerSet(namedtuple("HandlerSet", ["parents", "handlers"])):
@@ -117,3 +117,4 @@ _global_manager = Manager()
 subscribe = _global_manager.subscribe
 unsubscribe = _global_manager.unsubscribe
 fire = _global_manager.fire
+subscriber = _global_manager.subscriber
