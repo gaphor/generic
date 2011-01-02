@@ -9,7 +9,7 @@ If you run only one instance of your application per Python
 interpreter you can stick with global API, but if you want to have
 more than one application instances running inside one interpreter and
 to have different configurations for them -- you should use local API
-and have one instance of Manager object per application instamce.
+and have one instance of Manager object per application instance.
 """
 
 from collections import namedtuple
@@ -91,7 +91,6 @@ class Manager(object):
         handler_set = HandlerSet(parents=parent_handler_sets, handlers=set())
         self.registry.register(handler_set, event_type)
         return handler_set
-
 
 # Global event manager
 _global_manager = Manager()
