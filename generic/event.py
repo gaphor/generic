@@ -22,7 +22,7 @@ __all__ = ["Manager", "subscribe", "unsubscribe", "fire"]
 
 class HandlerSet(namedtuple("HandlerSet", ["parents", "handlers"])):
     """ Set of handlers for specific type of event.
-    
+
     This object stores ``handlers`` for specific event type and
     ``parents`` reference to handler sets of event's supertypes.
     """
