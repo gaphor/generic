@@ -92,6 +92,24 @@ class Manager(object):
         self.registry.register(handler_set, event_type)
         return handler_set
 
+    def subscriber(self, event_type):
+        """ Decorator for subscribing decorated functions.
+
+        Works like this:
+
+            >>> @mymanager.subscriber(MyEvent)
+            ... def mysubscriber(evt):
+            ...     # handle event
+            ...     return
+
+            >>> mymanager.fire(MyEvent())
+
+        """
+        def registrator(func):
+            self.subscribe(func, event_type)
+            return func
+        return registrator
+
 # Global event manager
 _global_manager = Manager()
 

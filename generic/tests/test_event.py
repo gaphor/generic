@@ -22,6 +22,14 @@ class ManagerTests(unittest.TestCase):
         self.assertEqual(len(e.effects), 1)
         self.assertTrue("handler1" in e.effects)
 
+    def test_subscribe_via_decorator(self):
+        events = self.createManager()
+        events.subscriber(EventA)(self.makeHandler("handler1"))
+        e = EventA()
+        events.fire(e)
+        self.assertEqual(len(e.effects), 1)
+        self.assertTrue("handler1" in e.effects)
+
     def test_subscribe_event_inheritance(self):
         events = self.createManager()
         events.subscribe(self.makeHandler("handler1"), EventA)
