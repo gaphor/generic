@@ -9,7 +9,7 @@ Changes
 0.2
 ---
 
-- Method with multidispatch by object type and positional arguments.
+- Methods with multidispatch by object type and positional arguments.
 - Override multifunctions with ``override`` method.
 
 0.1
