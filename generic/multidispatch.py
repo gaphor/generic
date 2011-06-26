@@ -71,7 +71,7 @@ class FunctionDispatcher(object):
         self.registry = Registry(*axis)
 
     def check_rule(self, rule, *argtypes):
-        # Check if we have the right number of parametrized types 
+        # Check if we have the right number of parametrized types
         if len(argtypes) != self.params_arity:
             raise TypeError("Wrong number of type parameters.")
 
@@ -103,6 +103,13 @@ class FunctionDispatcher(object):
         """ Parametrized decorator to register new rules with dispatcher."""
         def register_rule(func):
             self.register_rule(func, *argtypes)
+            return self
+        return register_rule
+
+    @property
+    def otherwise(self):
+        def register_rule(func):
+            self.register_rule(func, [object]*self.params_arity)
             return self
         return register_rule
 
@@ -157,6 +164,13 @@ class MethodDispatcher(FunctionDispatcher):
         return make_declaration
 
     override = when
+
+    @property
+    def otherwise(self):
+        def make_declaration(func):
+            self.register_unbound_rule(func, [object]*self.params_arity)
+            return self
+        return make_declaration
 
 
 def arity(argspec):
