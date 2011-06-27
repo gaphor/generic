@@ -238,6 +238,12 @@ p.admonition-title {
 p.admonition-title:after {
     content: ":";
 }
+
+div.sidebar {
+    font-size: 0.9em;
+    background: #F8F8F8;
+    border: 1px solid #EEE;
+}
  
 pre {
     padding: 10px;
