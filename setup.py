@@ -1,7 +1,7 @@
 from setuptools import setup
 from setuptools import find_packages
 
-version = "0.3"
+version = "0.3.1"
 long_description = \
         open("README.rst", "r").read() + \
         "\n\n" + \
@@ -13,6 +13,7 @@ setup(name="generic",
       long_description=long_description,
       author="Andrey Popp",
       author_email="8mayday@gmail.com",
+      url="http://pypi.python.org/generic",
       license="BSD",
       packages=find_packages(exclude=["ez_setup", "examples", "tests"]),
       test_suite="generic.tests",
