@@ -589,12 +589,27 @@ div.viewcode-block:target {
     padding: 0 10px;
 }
 
+span.pre {
+  background: #e8e8e8;
+  font-size: 90%;
+}
+
 /* -- autodoc --------------------------------------------------------------- */
 
 dl.class,
 dl.module,
 dl.function {
   font-size: 90%;
+}
+dl.class a,
+dl.module a,
+dl.function a {
+  text-decoration: none; 
+}
+dl.class a:hover,
+dl.module a:hover,
+dl.function a:hover {
+  text-decoration: underline;
 }
 
 /* -- math display ---------------------------------------------------------- */
