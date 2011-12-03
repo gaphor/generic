@@ -162,8 +162,13 @@ span.linkdescr {
 /* -- general index --------------------------------------------------------- */
 
 table.indextable {
+    font-size: 90%;
     width: 100%;
+    margin-bottom: 20px;
 }
+
+table.indextable a { text-decoration: none; }
+table.indextable a:hover { text-decoration: underline; }
 
 table.indextable td {
     text-align: left;
@@ -203,6 +208,8 @@ div.genindex-jumpbox {
     margin: 1em 0 1em 0;
     padding: 0.4em;
 }
+div.genindex-jumpbox a { text-decoration: none; }
+div.genindex-jumpbox a:hover { text-decoration: underline; }
 
 /* -- general body styles --------------------------------------------------- */
 
