@@ -10,6 +10,11 @@ type of object you call this method on.
 Generic provides another way of implementing subtype polymorphism in Python --
 multidispatching in form of *multifunctions* and *multimethods*.
 
+.. contents::
+   :local:
+
+.. _subtype polymorphism: http://en.wikipedia.org/wiki/Subtype_polymorphism
+
 Multifunctions
 --------------
 
@@ -78,10 +83,32 @@ You can have any number of arguments to dispatch on but they should be all
 positional, keyword arguments are allowed for multifunctions only if they're not
 used for dispatch.
 
+Providing "catch-all" case
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Overriding cases
+~~~~~~~~~~~~~~~~
+
 Multimethods
 ------------
+
+Inheritance with multimethods
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Multidispatching vs. subclassing
 --------------------------------
 
-.. _subtype polymorphism: http://en.wikipedia.org/wiki/Subtype_polymorphism
+API reference
+-------------
+
+.. autofunction:: generic.multidispatch.multifunction
+
+.. autofunction:: generic.multidispatch.multimethod
+
+.. autofunction:: generic.multidispatch.has_multimethods
+
+.. autoclass:: generic.multidispatch.FunctionDispatcher
+   :members: when, override, otherwise
+
+.. autoclass:: generic.multidispatch.MethodDispatcher
+   :members: when, override, otherwise

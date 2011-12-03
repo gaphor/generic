@@ -1,4 +1,4 @@
-""" Multidispatch for functions."""
+""" Multidispatch for functions and methods"""
 
 import functools
 import inspect
@@ -12,11 +12,11 @@ __all__ = ["multifunction", "multimethod", "has_multimethods"]
 
 
 def multifunction(*argtypes):
-    """ Declare function as multifunction.
+    """ Declare function as multifunction
 
-    This decorator takes ``*argtypes`` argument types and replace decorated
-    function with :class:`generic.multidispatch.FunctionDispatcher` object,
-    which is responsible for multiple dispatch feature.
+    This decorator takes ``argtypes`` argument types and replace decorated
+    function with :class:`.FunctionDispatcher` object, which is responsible for
+    multiple dispatch feature.
     """
     def _replace_with_dispatcher(func):
         dispatcher = _make_dispatcher(FunctionDispatcher, func, len(argtypes))
@@ -26,12 +26,14 @@ def multifunction(*argtypes):
 
 
 def multimethod(*argtypes):
-    """ Declare method as multimethod.
+    """ Declare method as multimethod
 
-    This decorator works exactly the same as
-    :func:`generic.multidispatch.multifunction` decorator but replaces
-    decorated method with :class:`generic.multidispatch.MethodDispatcher`
-    object instead.
+    This decorator works exactly the same as :func:`.multifunction` decorator
+    but replaces decorated method with :class:`.MethodDispatcher` object
+    instead.
+
+    Should be used only for decorating methods and enclosing class should have
+    :func:`.has_multimethods` decorator.
     """
     def _replace_with_dispatcher(func):
         dispatcher = _make_dispatcher(MethodDispatcher, func, len(argtypes) + 1)
@@ -41,7 +43,11 @@ def multimethod(*argtypes):
 
 
 def has_multimethods(cls):
-    """ Declare class as one that have multimethods."""
+    """ Declare class as one that have multimethods
+
+    Should only be used for decorating classes which have methods decorated with
+    :func:`.multimethod` decorator.
+    """
     for name, obj in cls.__dict__.items():
         if isinstance(obj, MethodDispatcher):
             obj.proceed_unbound_rules(cls)
@@ -49,10 +55,12 @@ def has_multimethods(cls):
 
 
 class FunctionDispatcher(object):
-    """ Multiple dispatch for functions.
+    """ Multidispatcher for functions
 
     This object dispatch calls to function by its argument types. Usually it is
-    produced by :func:`generic.multidispatch.multifunction` decorator.
+    produced by :func:`.multifunction` decorator.
+
+    You should not manually create objects of this type.
     """
 
     def __init__(self, argspec, params_arity):
@@ -100,7 +108,13 @@ class FunctionDispatcher(object):
         return rule
 
     def when(self, *argtypes):
-        """ Parametrized decorator to register new rules with dispatcher."""
+        """ Decorator for registering new case for multifunction
+
+        New case will be registered for types identified by ``argtypes``. The
+        length of ``argtypes`` should be equal to the length of ``argtypes``
+        argument were passed corresponding :func:`.multifunction` call, which
+        also indicated the number of arguments multifunction dispatches on.
+        """
         def register_rule(func):
             self.register_rule(func, *argtypes)
             return self
@@ -108,12 +122,14 @@ class FunctionDispatcher(object):
 
     @property
     def otherwise(self):
+        """ Decorator which registeres "catch-all" case for multifunction"""
         def register_rule(func):
             self.register_rule(func, [object]*self.params_arity)
             return self
         return register_rule
 
     def override(self, *argtypes):
+        """ Decorator for overriding case for ``argtypes``"""
         def override_rule(func):
             self.override_rule(func, *argtypes)
             return self
@@ -126,11 +142,12 @@ class FunctionDispatcher(object):
 
 
 class MethodDispatcher(FunctionDispatcher):
-    """ Multiple dispatch for methods.
+    """ Multiple dispatch for methods
 
     This object dispatch call to method by its class and arguments types.
-    Usually it is produced by :func:`generic.multidispatch.multimethod`
-    decorator.
+    Usually it is produced by :func:`.multimethod` decorator.
+
+    You should not manually create objects of this type.
     """
 
     def __init__(self, argspec, params_arity):
@@ -158,15 +175,19 @@ class MethodDispatcher(FunctionDispatcher):
         return types.MethodType(self, obj)
 
     def when(self, *argtypes):
+        """ Register new case for multimethod for ``argtypes``"""
         def make_declaration(meth):
             self.register_unbound_rule(meth, *argtypes)
             return self
         return make_declaration
 
-    override = when
+    def override(self, *argtypes):
+        """ Decorator for overriding case for ``argtypes``"""
+        return self.when(*argtypes)
 
     @property
     def otherwise(self):
+        """ Decorator which registeres "catch-all" case for multimethod"""
         def make_declaration(func):
             self.register_unbound_rule(func, [object]*self.params_arity)
             return self

@@ -9,7 +9,7 @@ This documentation suits both needs in a tutorial and an API reference for
 generic:
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 3
 
    multidispatching
    event_system
