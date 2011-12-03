@@ -269,6 +269,10 @@ div.body td {
     text-align: left;
 }
 
+div.contents {
+  padding: 0px !important;
+}
+
 .contents a,
 .toctree-wrapper a {
   text-decoration: none;
@@ -284,6 +288,10 @@ div.body td {
 
 .first {
     margin-top: 0 !important;
+}
+
+ul {
+  list-style-type: square;
 }
 
 p.rubric {
@@ -552,7 +560,6 @@ table.highlighttable td {
 tt.descname {
     background-color: transparent;
     font-weight: bold;
-    font-size: 1.2em;
 }
 
 tt.descclassname {
@@ -580,6 +587,14 @@ h1 tt, h2 tt, h3 tt, h4 tt, h5 tt, h6 tt {
 div.viewcode-block:target {
     margin: -1px -10px;
     padding: 0 10px;
+}
+
+/* -- autodoc --------------------------------------------------------------- */
+
+dl.class,
+dl.module,
+dl.function {
+  font-size: 90%;
 }
 
 /* -- math display ---------------------------------------------------------- */
