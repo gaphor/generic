@@ -165,6 +165,9 @@ the same::
 The only thing to care is you should not forget to include ``@has_multimethods``
 decorator on classes which define or override multimethods.
 
+You can also provide a "catch-all" case for multimethod using ``otherwise``
+decorator like in example for multifunctions.
+
 API reference
 -------------
 
