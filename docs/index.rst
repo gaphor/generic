@@ -1,8 +1,8 @@
-Generic documentation
-=====================
+Generic programming library for Python
+======================================
 
-Generic is trying to provide Python programmer with primitives for creating reusable
-software components by employing advanced techniques of OOP and other
+Generic is trying to provide a Python programmer with primitives for creating
+reusable software components by employing advanced techniques of OOP and other
 programming paradigms.
 
 This documentation suits both needs in a tutorial and an API reference for
@@ -14,7 +14,7 @@ generic:
    multidispatching
    event_system
    registry
-   
+
 Installation
 ------------
 

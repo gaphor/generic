@@ -1,8 +1,12 @@
 Generic programming library for Python
 ======================================
 
-Generic is trying to be simple and easy-to-use programming library that
-provides a set of tools for generic programming with Python.
+Generic is trying to provide a Python programmer with primitives for creating
+reusable software components by employing advanced techniques of OOP and other
+programming paradigms.
 
-Documentation is at http://packages.python.org/generic/.
-Its development takes place at http://github.com/andreypopp/generic.
+You can read documentation_ hosted at excellent readthedocs.org project.
+Development takes place at github_.
+
+.. _documentation: http://generic.readthedocs.org/en/latest/index.html
+.. _github: http://github.com/andreypopp/generic
