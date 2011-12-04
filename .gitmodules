@@ -1,0 +1,3 @@
+[submodule "doc/_themes/bw"]
+	path = doc/_themes/bw
+	url = git://github.com/andreypopp/bw-sphinx-theme.git
