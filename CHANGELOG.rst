@@ -1,6 +1,11 @@
 Changes
 =======
 
+0.3.1
+-----
+
+- Minor fixes in distribution.
+
 0.3
 ---
 
