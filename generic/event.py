@@ -52,27 +52,36 @@ class HandlerSet(namedtuple("HandlerSet", ["parents", "handlers"])):
 
 
 class Manager(object):
-    """ Event manager."""
+    """ Event manager
+
+    Provides API for subscribing for and firing events. There's also global
+    event manager instantiated at module level with functions
+    :func:`.subscribe`, :func:`.fire` and decorator :func:`.subscriber` aliased
+    to corresponding methods of class.
+    """
 
     def __init__(self):
         axes = (("event_type", TypeAxis()),)
         self.registry = Registry(*axes)
 
     def subscribe(self, handler, event_type):
-        """ Subscribe ``handler`` to specified ``event_type``."""
+        """ Subscribe ``handler`` to specified ``event_type``"""
         handler_set = self.registry.get_registration(event_type)
         if not handler_set:
             handler_set = self._register_handler_set(event_type)
         handler_set.handlers.add(handler)
 
     def unsubscribe(self, handler, event_type):
-        """ Unsubscribe ``handler`` from ``event_type``."""
+        """ Unsubscribe ``handler`` from ``event_type``"""
         handler_set = self.registry.get_registration(event_type)
         if handler_set and handler in handler_set.handlers:
             handler_set.handlers.remove(handler)
 
     def fire(self, event):
-        """ Fire event instance."""
+        """ Fire ``event``
+
+        All subscribers will be executed with no determined order.
+        """
         handler_set = self.registry.lookup(event)
         for handler in handler_set.all_handlers:
             handler(event)
@@ -93,7 +102,7 @@ class Manager(object):
         return handler_set
 
     def subscriber(self, event_type):
-        """ Decorator for subscribing decorated functions.
+        """ Decorator for subscribing handlers
 
         Works like this:
 

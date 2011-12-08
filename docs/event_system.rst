@@ -43,3 +43,17 @@ Event inheritance
 
 Using per-application event API
 -------------------------------
+
+API reference
+-------------
+
+.. autoclass:: generic.event.Manager
+   :members: subscribe, subscriber, fire, unsubscribe
+
+Functions below are just aliases for methods of globally instantiated
+manager:
+
+.. autofunction:: generic.event.subscribe(handler, event_type)
+.. autofunction:: generic.event.subscriber(event_type)
+.. autofunction:: generic.event.fire(event)
+.. autofunction:: generic.event.unsubscribe(handler, event_type)
