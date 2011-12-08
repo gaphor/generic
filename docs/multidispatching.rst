@@ -1,20 +1,15 @@
 Multidispatching
 ================
 
-Multidispatching is a way of implementing `subtype polymorphism`_ in programming
-languages. Python already has subtype polymorphism in form of methods on classes
--- you can define different implementations of single method on different
-classes then calling such method would execute different implementation based on
-type of object you call this method on.
+Multidispatching allows you to define methods and functions which should behave
+differently based on arguments' types without cluttering ``if-elif-else`` chains
+and ``isinstance`` calls.
 
-Generic provides another way of implementing subtype polymorphism in Python --
-multidispatching in form of *multifunctions* and *multimethods*. All
-functionality is provided via ``generic.multidispatch`` module.
+All you need is inside ``generic.multidispatch`` module. See examples below to
+learn how to use it to define multifunctions and multimethods.
 
 .. contents::
    :local:
-
-.. _subtype polymorphism: http://en.wikipedia.org/wiki/Subtype_polymorphism
 
 Multifunctions
 --------------
@@ -22,7 +17,7 @@ Multifunctions
 Suppose we want to define a function which behaves differently based on
 arguments' types. The naive solution is to inspect argument types with
 ``isinstance`` function calls but generic provides us with ``@multifunction``
-decorator which can easily reduce the amount of boilerplate code and provide
+decorator which can easily reduce the amount of boilerplate and provide
 desired level of extensibility::
 
   from generic.multidispatching import multifunction
@@ -64,28 +59,28 @@ multifunction *dispatches* on this argument.
 Multifunctions of several arguments
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can also have multifunctions of several arguments and even decide on
-which of the first arguments you want to dispatch. For example the following
-function will only dispatch on its first argument while requiring both of them::
+You can also define multifunctions of several arguments and even decide on which
+of first arguments you want to dispatch. For example the following function will
+only dispatch on its first argument while requiring both of them::
 
   @multifunction(Dog)
   def walk(dog, meters):
     print "Dog walks for %d meters" % meters
 
-But sometimes you want multifunctions to dispatch on more than one argument, the
-you just have to provide several arguments to ``multifunction`` decorator and to
-subsequent ``when`` decorators::
+But sometimes you want multifunctions to dispatch on more than one argument,
+then you just have to provide several arguments to ``multifunction`` decorator
+and to subsequent ``when`` decorators::
 
   @multifunction(Dog, Cat)
-  def is_chases(dog, cat):
+  def chases(dog, cat):
     return True
 
-  @is_chases.when(Dog, Dog)
-  def is_chases(dog, dog):
+  @chases.when(Dog, Dog)
+  def chases(dog, dog):
     return None
 
-  @is_chases.when(Cat, Dog)
-  def is_chases(cat, dog):
+  @chases.when(Cat, Dog)
+  def chases(cat, dog):
     return False
 
 You can have any number of arguments to dispatch on but they should be all
@@ -152,9 +147,9 @@ and override ``can_eat`` method definition::
     def can_eat(self, food):
       return True
 
-This will redefine ``can_eat`` method on ``Predator`` instances but the *only*
-for case for ``Meat`` argument, we can check if with ``Vegetable`` behaviour is
-the same::
+This will override ``can_eat`` on ``Predator`` instances but *only* for the case
+for ``Meat`` argument, case for the ``Vegetable`` is not overridden, so class
+inherits it from ``Animal``::
 
   >>> predator = Predator()
   >>> predator.can_eat(Vegetable())
@@ -166,7 +161,7 @@ The only thing to care is you should not forget to include ``@has_multimethods``
 decorator on classes which define or override multimethods.
 
 You can also provide a "catch-all" case for multimethod using ``otherwise``
-decorator like in example for multifunctions.
+decorator just like in example for multifunctions.
 
 API reference
 -------------
