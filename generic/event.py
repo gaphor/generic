@@ -17,8 +17,7 @@ from collections import namedtuple
 from generic.registry import Registry
 from generic.registry import TypeAxis
 
-__all__ = ["Manager", "subscribe", "unsubscribe", "fire", "subscriber"]
-
+__all__ = ("Manager", "subscribe", "unsubscribe", "fire", "subscriber")
 
 class HandlerSet(namedtuple("HandlerSet", ["parents", "handlers"])):
     """ Set of handlers for specific type of event.
@@ -49,7 +48,6 @@ class HandlerSet(namedtuple("HandlerSet", ["parents", "handlers"])):
                 if not handler in seen:
                     seen_add(handler)
                     yield handler
-
 
 class Manager(object):
     """ Event manager

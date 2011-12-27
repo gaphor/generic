@@ -2,8 +2,7 @@
 
 import unittest
 
-__all__ = ["ManagerTests"]
-
+__all__ = ("ManagerTests",)
 
 class ManagerTests(unittest.TestCase):
 
@@ -129,7 +128,6 @@ class ManagerTests(unittest.TestCase):
         events.fire(eb)
         self.assertEqual(len(eb.effects), 1)
         self.assertTrue("handler2" in eb.effects)
-
 
 class Event(object):
 

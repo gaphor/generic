@@ -5,8 +5,7 @@ This implementation was borrowed from happy[1] project by Chris Rossi.
 [1]: http://bitbucket.org/chrisrossi/happy
 """
 
-__all__ = ["Registry", "SimpleAxis", "TypeAxis"]
-
+__all__ = ("Registry", "SimpleAxis", "TypeAxis")
 
 class Registry(object):
     """ Registry implementation."""
@@ -107,13 +106,11 @@ class Registry(object):
 
         return aligned
 
-
 class _TreeNode(dict):
     target = None
 
     def __str__(self):
         return "<TreeNode %s %s>" % (self.target, dict.__str__(self))
-
 
 class SimpleAxis(object):
     """ A simple axis where the key into the axis is the same as the object to
@@ -136,7 +133,6 @@ class SimpleAxis(object):
         most specific to least specific.  A convenient override point.
         """
         return [obj,]
-
 
 class TypeAxis(SimpleAxis):
     """ An axis which matches the class and super classes of an object in

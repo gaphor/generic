@@ -2,8 +2,7 @@
 
 import unittest
 
-__all__ = ["RegistryTests"]
-
+__all__ = ("RegistryTests",)
 
 class RegistryTests(unittest.TestCase):
 
@@ -121,14 +120,11 @@ class RegistryTests(unittest.TestCase):
         self.assertRaises(ValueError, registry.lookup, foo=1)
         self.assertRaises(ValueError, registry.register, 1, 'foo', name='foo')
 
-
 class DummyA(object):
     pass
 
-
 class DummyB(DummyA):
     pass
-
 
 class Target(object):
     def __init__(self, name):

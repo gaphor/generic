@@ -8,8 +8,7 @@ import threading
 from generic.registry import Registry
 from generic.registry import TypeAxis
 
-__all__ = ["multifunction", "multimethod", "has_multimethods"]
-
+__all__ = ("multifunction", "multimethod", "has_multimethods")
 
 def multifunction(*argtypes):
     """ Declare function as multifunction
@@ -23,7 +22,6 @@ def multifunction(*argtypes):
         dispatcher.register_rule(func, *argtypes)
         return dispatcher
     return _replace_with_dispatcher
-
 
 def multimethod(*argtypes):
     """ Declare method as multimethod
@@ -41,7 +39,6 @@ def multimethod(*argtypes):
         return dispatcher
     return _replace_with_dispatcher
 
-
 def has_multimethods(cls):
     """ Declare class as one that have multimethods
 
@@ -52,7 +49,6 @@ def has_multimethods(cls):
         if isinstance(obj, MethodDispatcher):
             obj.proceed_unbound_rules(cls)
     return cls
-
 
 class FunctionDispatcher(object):
     """ Multidispatcher for functions
@@ -140,7 +136,6 @@ class FunctionDispatcher(object):
         rule = self.lookup_rule(*args)
         return rule(*args, **kwargs)
 
-
 class MethodDispatcher(FunctionDispatcher):
     """ Multiple dispatch for methods
 
@@ -193,19 +188,16 @@ class MethodDispatcher(FunctionDispatcher):
             return self
         return make_declaration
 
-
 def arity(argspec):
     """ Determinal positional arity of argspec."""
     args = argspec.args if argspec.args else []
     defaults = argspec.defaults if argspec.defaults else []
     return len(args) - len(defaults)
 
-
 def is_equalent_argspecs(left, right):
     """ Check argspec equalence."""
     return map(lambda x: len(x) if x else 0, left) == \
            map(lambda x: len(x) if x else 0, right)
-
 
 def _make_dispatcher(dispacther_cls, func, params_arity):
     argspec = inspect.getargspec(func)

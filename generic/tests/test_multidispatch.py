@@ -2,8 +2,7 @@
 
 import unittest
 
-__all__ = ["DispatcherTests"]
-
+__all__ = ("DispatcherTests",)
 
 class DispatcherTests(unittest.TestCase):
 
@@ -132,7 +131,6 @@ class DispatcherTests(unittest.TestCase):
         self.assertEqual(dispatcher("1", "2"), "1")
         self.assertEqual(dispatcher("1", 2), "1")
 
-
 class MultifunctionTests(unittest.TestCase):
 
     def test_it(self):
@@ -171,7 +169,6 @@ class MultifunctionTests(unittest.TestCase):
             return y + str(x)
 
         self.assertEqual(func(1, "2"), "21")
-
 
 class MultimethodTests(unittest.TestCase):
 
