@@ -3,3 +3,4 @@ generic.egg-info/
 docs/_build/
 .coverage
 .ropeproject
+__pycache__
