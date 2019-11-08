@@ -24,13 +24,14 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.6"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
 pytest-cov = "^2.7"
 pytest-runner = "^5.1"
-black = { version = "^19.10b0", python = "^3.7" }
+black = { version = "^19.10b0", python = "^3.6" }
+mypy = "0.740"
 pre-commit = "^1.17"
 bw_sphinxtheme = "^0.1.8"
 
