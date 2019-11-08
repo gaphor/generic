@@ -1,3 +1,5 @@
+dist/
+generic.egg-info/
 docs/_build/
 .coverage
 .ropeproject

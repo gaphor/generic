@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "generic"
+version = "1.0.0a1"
+description = "Generic programming library for Python"
+authors = [
+    "Andrey Popp <8mayday@gmail.com>",
+    "Arjan Molenaar <gaphor@gmail.com>"
+]
+license = "BSD License"
+readme = "README.md"
+homepage = "https://generic.readthedocs.io/"
+repository = "https://github.com/gaphor/generic"
+documentation = "https://generic.readthedocs.io/"
+
+keywords = ["generic", "multi dispatch", "dispatch", "event"]
+
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python",
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+pytest-cov = "^2.7"
+pytest-runner = "^5.1"
+black = { version = "^19.10b0", python = "^3.7" }
+pre-commit = "^1.17"
+bw_sphinxtheme = "^0.1.8"
+
+[build-system]
+requires = ["poetry>=1.0.0b3"]
+build-backend = "poetry.masonry.api"
