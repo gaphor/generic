@@ -3,12 +3,19 @@ Multi-method builds on the functionality provided by `multidispatch`
 to provide generic methods.
 """
 
+from __future__ import annotations
+
 from typing import cast, Any, Callable, Type, TypeVar, Union
 
-import inspect, functools, threading, types
+import inspect
+import functools
+import threading
+import types
 
 from generic.multidispatch import FunctionDispatcher, _arity, KeyType
 
+
+__all__ = ("multimethod", "has_multimethods")
 
 C = TypeVar("C")
 T = TypeVar("T", bound=Union[Callable[..., Any], type])
