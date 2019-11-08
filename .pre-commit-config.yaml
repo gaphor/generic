@@ -8,3 +8,4 @@ repos:
   rev: v0.740
   hooks:
   - id: mypy
+    args: [ --show-error-codes ]

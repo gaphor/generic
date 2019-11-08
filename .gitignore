@@ -4,3 +4,4 @@ docs/_build/
 .coverage
 .ropeproject
 __pycache__
+.mypy_cache
