@@ -3,12 +3,18 @@ Multi-method builds on the functionality provided by `multidispatch`
 to provide generic methods.
 """
 
+from typing import cast, Any, Callable, Type, TypeVar, Union
+
 import inspect, functools, threading, types
 
-from generic.multidispatch import FunctionDispatcher, _arity
+from generic.multidispatch import FunctionDispatcher, _arity, KeyType
 
 
-def multimethod(*argtypes):
+C = TypeVar("C")
+T = TypeVar("T", bound=Union[Callable[..., Any], type])
+
+
+def multimethod(*argtypes: KeyType) -> Callable[[T], MethodDispatcher[T]]:
     """ Declare method as multimethod
  
     This decorator works exactly the same as :func:`.multidispatch` decorator
@@ -23,8 +29,11 @@ def multimethod(*argtypes):
         nonlocal argtypes
         argspec = inspect.getfullargspec(func)
 
-        dispatcher = functools.update_wrapper(
-            MethodDispatcher(argspec, len(argtypes) + 1), func
+        dispatcher = cast(
+            MethodDispatcher,
+            functools.update_wrapper(
+                MethodDispatcher(argspec, len(argtypes) + 1), func
+            ),
         )
         dispatcher.register_unbound_rule(func, *argtypes)
         return dispatcher
@@ -32,7 +41,7 @@ def multimethod(*argtypes):
     return _replace_with_dispatcher
 
 
-def has_multimethods(cls):
+def has_multimethods(cls: Type[C]) -> Type[C]:
     """ Declare class as one that have multimethods
 
     Should only be used for decorating classes which have methods decorated with
@@ -44,7 +53,7 @@ def has_multimethods(cls):
     return cls
 
 
-class MethodDispatcher(FunctionDispatcher):
+class MethodDispatcher(FunctionDispatcher[T]):
     """ Multiple dispatch for methods
 
     This object dispatch call to method by its class and arguments types.
@@ -53,19 +62,19 @@ class MethodDispatcher(FunctionDispatcher):
     You should not manually create objects of this type.
     """
 
-    def __init__(self, argspec, params_arity):
-        FunctionDispatcher.__init__(self, argspec, params_arity)
+    def __init__(self, argspec: inspect.FullArgSpec, params_arity: int) -> None:
+        super().__init__(argspec, params_arity)
 
         # some data, that should be local to thread of execution
         self.local = threading.local()
         self.local.unbound_rules = []
 
-    def register_unbound_rule(self, func, *argtypes):
+    def register_unbound_rule(self, func, *argtypes) -> None:
         """ Register unbound rule that should be processed by
         ``proceed_unbound_rules`` later."""
         self.local.unbound_rules.append((argtypes, func))
 
-    def proceed_unbound_rules(self, cls):
+    def proceed_unbound_rules(self, cls) -> None:
         """ Process all unbound rule by binding them to ``cls`` type."""
         for argtypes, func in self.local.unbound_rules:
             argtypes = (cls,) + argtypes
@@ -77,7 +86,7 @@ class MethodDispatcher(FunctionDispatcher):
             return self
         return types.MethodType(self, obj)
 
-    def register(self, *argtypes):
+    def register(self, *argtypes: KeyType) -> Callable[[T], T]:
         """ Register new case for multimethod for ``argtypes``"""
 
         def make_declaration(meth):
@@ -87,7 +96,7 @@ class MethodDispatcher(FunctionDispatcher):
         return make_declaration
 
     @property
-    def otherwise(self):
+    def otherwise(self) -> Callable[[T], T]:
         """ Decorator which registeres "catch-all" case for multimethod"""
 
         def make_declaration(func):

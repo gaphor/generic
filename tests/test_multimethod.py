@@ -10,7 +10,7 @@ def test_multimethod():
         def foo(self, x):
             return x + 1
 
-        @foo.register(str)
+        @foo.register(str)  # type: ignore[no-redef]
         def foo(self, x):
             return x + "1"
 
@@ -27,7 +27,7 @@ def test_inheritance():
         def foo(self, x):
             return x + 1
 
-        @foo.register(float)
+        @foo.register(float)  # type: ignore[no-redef]
         def foo(self, x):
             return x + 1.5
 
@@ -37,11 +37,11 @@ def test_inheritance():
         def foo(self, x):
             return x + "1"
 
-        @foo.register(tuple)
+        @foo.register(tuple)  # type: ignore[no-redef]
         def foo(self, x):
             return x + (1,)
 
-        @Dummy.foo.register(bool)
+        @Dummy.foo.register(bool)  # type: ignore[no-redef]
         def foo(self, x):
             return not x
 
@@ -68,7 +68,7 @@ def test_override_in_same_class_not_allowed():
             def foo(self, x, y):
                 return x + y
 
-            @foo.register(str, str)
+            @foo.register(str, str)  # type: ignore[no-redef]
             def foo(self, x, y):
                 return y + x
 
