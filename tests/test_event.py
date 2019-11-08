@@ -1,150 +1,181 @@
 """ Tests for :module:`generic.event`."""
 
-import unittest
+from __future__ import annotations
 
-__all__ = ("ManagerTests",)
+from typing import Callable, List
+from generic.event import Manager
 
-class ManagerTests(unittest.TestCase):
 
-    def makeHandler(self, effect):
-        return lambda e: e.effects.append(effect)
+def make_handler(effect: object) -> Callable[[Event], None]:
+    return lambda e: e.effects.append(effect)
 
-    def createManager(self):
-        from generic.event import Manager
-        return Manager()
 
-    def test_subscribe_single_event(self):
-        events = self.createManager()
-        events.subscribe(self.makeHandler("handler1"), EventA)
-        e = EventA()
-        events.fire(e)
-        self.assertEqual(len(e.effects), 1)
-        self.assertTrue("handler1" in e.effects)
+def create_manager():
+    return Manager()
 
-    def test_subscribe_via_decorator(self):
-        events = self.createManager()
-        events.subscriber(EventA)(self.makeHandler("handler1"))
-        e = EventA()
-        events.fire(e)
-        self.assertEqual(len(e.effects), 1)
-        self.assertTrue("handler1" in e.effects)
 
-    def test_subscribe_event_inheritance(self):
-        events = self.createManager()
-        events.subscribe(self.makeHandler("handler1"), EventA)
-        events.subscribe(self.makeHandler("handler2"), EventB)
+def test_subscribe_single_event():
+    events = create_manager()
+    events.subscribe(make_handler("handler1"), EventA)
+    e = EventA()
+    events.handle(e)
+    assert len(e.effects) == 1
+    assert "handler1" in e.effects
 
-        ea = EventA()
-        events.fire(ea)
-        self.assertEqual(len(ea.effects), 1)
-        self.assertTrue("handler1" in ea.effects)
 
-        eb = EventB()
-        events.fire(eb)
-        self.assertEqual(len(eb.effects), 2)
-        self.assertTrue("handler1" in eb.effects)
-        self.assertTrue("handler2" in eb.effects)
+def test_subscribe_via_decorator():
+    events = create_manager()
+    events.subscriber(EventA)(make_handler("handler1"))
+    e = EventA()
+    events.handle(e)
+    assert len(e.effects) == 1
+    assert "handler1" in e.effects
 
-    def test_subscribe_event_multiple_inheritance(self):
-        events = self.createManager()
-        events.subscribe(self.makeHandler("handler1"), EventA)
-        events.subscribe(self.makeHandler("handler2"), EventC)
-        events.subscribe(self.makeHandler("handler3"), EventD)
 
-        ea = EventA()
-        events.fire(ea)
-        self.assertEqual(len(ea.effects), 1)
-        self.assertTrue("handler1" in ea.effects)
+def test_subscribe_event_inheritance():
+    events = create_manager()
+    events.subscribe(make_handler("handler1"), EventA)
+    events.subscribe(make_handler("handler2"), EventB)
 
-        ec = EventC()
-        events.fire(ec)
-        self.assertEqual(len(ec.effects), 1)
-        self.assertTrue("handler2" in ec.effects)
+    ea = EventA()
+    events.handle(ea)
+    assert len(ea.effects) == 1
+    assert "handler1" in ea.effects
 
-        ed = EventD()
-        events.fire(ed)
-        self.assertEqual(len(ed.effects), 3)
-        self.assertTrue("handler1" in ed.effects)
-        self.assertTrue("handler2" in ed.effects)
-        self.assertTrue("handler3" in ed.effects)
+    eb = EventB()
+    events.handle(eb)
+    assert len(eb.effects) == 2
+    assert "handler1" in eb.effects
+    assert "handler2" in eb.effects
 
-    def test_subscribe_event_malformed_multiple_inheritance(self):
-        events = self.createManager()
-        events.subscribe(self.makeHandler("handler1"), EventA)
-        events.subscribe(self.makeHandler("handler2"), EventD)
-        events.subscribe(self.makeHandler("handler3"), EventE)
 
-        ea = EventA()
-        events.fire(ea)
-        self.assertEqual(len(ea.effects), 1)
-        self.assertTrue("handler1" in ea.effects)
+def test_subscribe_event_multiple_inheritance():
+    events = create_manager()
+    events.subscribe(make_handler("handler1"), EventA)
+    events.subscribe(make_handler("handler2"), EventC)
+    events.subscribe(make_handler("handler3"), EventD)
 
-        ed = EventD()
-        events.fire(ed)
-        self.assertEqual(len(ed.effects), 2)
-        self.assertTrue("handler1" in ed.effects)
-        self.assertTrue("handler2" in ed.effects)
+    ea = EventA()
+    events.handle(ea)
+    assert len(ea.effects) == 1
+    assert "handler1" in ea.effects
 
-        ee = EventE()
-        events.fire(ee)
-        self.assertEqual(len(ee.effects), 3)
-        self.assertTrue("handler1" in ee.effects)
-        self.assertTrue("handler2" in ee.effects)
-        self.assertTrue("handler3" in ee.effects)
+    ec = EventC()
+    events.handle(ec)
+    assert len(ec.effects) == 1
+    assert "handler2" in ec.effects
 
-    def test_subscribe_event_with_no_subscribers_in_the_middle_of_mro(self):
-        events = self.createManager()
-        events.subscribe(self.makeHandler("handler1"), Event)
-        events.subscribe(self.makeHandler("handler2"), EventB)
+    ed = EventD()
+    events.handle(ed)
+    assert len(ed.effects) == 3
+    assert "handler1" in ed.effects
+    assert "handler2" in ed.effects
+    assert "handler3" in ed.effects
 
-        eb = EventB()
-        events.fire(eb)
-        self.assertEqual(len(eb.effects), 2)
-        self.assertTrue("handler1" in eb.effects)
-        self.assertTrue("handler2" in eb.effects)
 
-    def test_unsubscribe_single_event(self):
-        events = self.createManager()
-        handler = self.makeHandler("handler1")
-        events.subscribe(handler, EventA)
-        events.unsubscribe(handler, EventA)
-        e = EventA()
-        events.fire(e)
-        self.assertEqual(len(e.effects), 0)
+def test_subscribe_no_events():
+    events = create_manager()
 
-    def test_unsubscribe_event_inheritance(self):
-        events = self.createManager()
-        handler1 = self.makeHandler("handler1")
-        handler2 = self.makeHandler("handler2")
-        events.subscribe(handler1, EventA)
-        events.subscribe(handler2, EventB)
-        events.unsubscribe(handler1, EventA)
+    ea = EventA()
+    events.handle(ea)
+    assert len(ea.effects) == 0
 
-        ea = EventA()
-        events.fire(ea)
-        self.assertEqual(len(ea.effects), 0)
 
-        eb = EventB()
-        events.fire(eb)
-        self.assertEqual(len(eb.effects), 1)
-        self.assertTrue("handler2" in eb.effects)
+def test_subscribe_base_event():
+    events = create_manager()
+    events.subscribe(make_handler("handler1"), EventA)
 
-class Event(object):
+    ea = EventB()
+    events.handle(ea)
+    assert len(ea.effects) == 1
+    assert "handler1" in ea.effects
 
-    def __init__(self):
-        self.effects = []
+
+def test_subscribe_event_malformed_multiple_inheritance():
+    events = create_manager()
+    events.subscribe(make_handler("handler1"), EventA)
+    events.subscribe(make_handler("handler2"), EventD)
+    events.subscribe(make_handler("handler3"), EventE)
+
+    ea = EventA()
+    events.handle(ea)
+    assert len(ea.effects) == 1
+    assert "handler1" in ea.effects
+
+    ed = EventD()
+    events.handle(ed)
+    assert len(ed.effects) == 2
+    assert "handler1" in ed.effects
+    assert "handler2" in ed.effects
+
+    ee = EventE()
+    events.handle(ee)
+    assert len(ee.effects) == 3
+    assert "handler1" in ee.effects
+    assert "handler2" in ee.effects
+    assert "handler3" in ee.effects
+
+
+def test_subscribe_event_with_no_subscribers_in_the_middle_of_mro():
+    events = create_manager()
+    events.subscribe(make_handler("handler1"), Event)
+    events.subscribe(make_handler("handler2"), EventB)
+
+    eb = EventB()
+    events.handle(eb)
+    assert len(eb.effects) == 2
+    assert "handler1" in eb.effects
+    assert "handler2" in eb.effects
+
+
+def test_unsubscribe_single_event():
+    events = create_manager()
+    handler = make_handler("handler1")
+    events.subscribe(handler, EventA)
+    events.unsubscribe(handler, EventA)
+    e = EventA()
+    events.handle(e)
+    assert len(e.effects) == 0
+
+
+def test_unsubscribe_event_inheritance():
+    events = create_manager()
+    handler1 = make_handler("handler1")
+    handler2 = make_handler("handler2")
+    events.subscribe(handler1, EventA)
+    events.subscribe(handler2, EventB)
+    events.unsubscribe(handler1, EventA)
+
+    ea = EventA()
+    events.handle(ea)
+    assert len(ea.effects) == 0
+
+    eb = EventB()
+    events.handle(eb)
+    assert len(eb.effects) == 1
+    assert "handler2" in eb.effects
+
+
+class Event:
+    def __init__(self) -> None:
+        self.effects: List[object] = []
+
 
 class EventA(Event):
     pass
 
+
 class EventB(EventA):
     pass
+
 
 class EventC(Event):
     pass
 
+
 class EventD(EventA, EventC):
     pass
+
 
 class EventE(EventD, EventA):
     pass

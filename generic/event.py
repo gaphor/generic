@@ -2,7 +2,7 @@
 
 This module provides API for event management. There are two APIs provided:
 
-* Global event management API: subscribe, unsubscribe, fire.
+* Global event management API: subscribe, unsubscribe, handle.
 * Local event management API: Manager
 
 If you run only one instance of your application per Python
@@ -12,116 +12,83 @@ to have different configurations for them -- you should use local API
 and have one instance of Manager object per application instance.
 """
 
-from collections import namedtuple
+from typing import Callable, Set, Type
 
-from generic.registry import Registry
-from generic.registry import TypeAxis
+from generic.registry import Registry, TypeAxis
 
-__all__ = ("Manager", "subscribe", "unsubscribe", "fire", "subscriber")
 
-class HandlerSet(namedtuple("HandlerSet", ["parents", "handlers"])):
-    """ Set of handlers for specific type of event.
+__all__ = "Manager"
 
-    This object stores ``handlers`` for specific event type and
-    ``parents`` reference to handler sets of event's supertypes.
-    """
+Event = object
+Handler = Callable[[object], None]
+HandlerSet = Set[Handler]
 
-    @property
-    def all_handlers(self):
-        """ Iterate over own and supertypes' handlers.
 
-        This iterator yields just unique values, so it won't yield the
-        same handler twice, even if it was registered both for some
-        event type and its supertype.
-        """
-        seen = set()
-        seen_add = seen.add
-
-        # yield own handlers first
-        for handler in self.handlers:
-            seen_add(handler)
-            yield handler
-
-        # yield supertypes' handlers then
-        for parent in self.parents:
-            for handler in parent.all_handlers:
-                if not handler in seen:
-                    seen_add(handler)
-                    yield handler
-
-class Manager(object):
+class Manager:
     """ Event manager
 
     Provides API for subscribing for and firing events. There's also global
     event manager instantiated at module level with functions
-    :func:`.subscribe`, :func:`.fire` and decorator :func:`.subscriber` aliased
+    :func:`.subscribe`, :func:`.handle` and decorator :func:`.subscriber` aliased
     to corresponding methods of class.
     """
 
-    def __init__(self):
+    registry: Registry[HandlerSet]
+
+    def __init__(self) -> None:
         axes = (("event_type", TypeAxis()),)
         self.registry = Registry(*axes)
 
-    def subscribe(self, handler, event_type):
+    def subscribe(self, handler: Handler, event_type: Type[Event]) -> None:
         """ Subscribe ``handler`` to specified ``event_type``"""
         handler_set = self.registry.get_registration(event_type)
-        if not handler_set:
+        if handler_set is None:
             handler_set = self._register_handler_set(event_type)
-        handler_set.handlers.add(handler)
+        handler_set.add(handler)
 
-    def unsubscribe(self, handler, event_type):
+    def unsubscribe(self, handler: Handler, event_type: Type[Event]) -> None:
         """ Unsubscribe ``handler`` from ``event_type``"""
         handler_set = self.registry.get_registration(event_type)
-        if handler_set and handler in handler_set.handlers:
-            handler_set.handlers.remove(handler)
+        if handler_set and handler in handler_set:
+            handler_set.remove(handler)
 
-    def fire(self, event):
+    def handle(self, event: Event) -> None:
         """ Fire ``event``
 
         All subscribers will be executed with no determined order.
         """
-        handler_set = self.registry.lookup(event)
-        for handler in handler_set.all_handlers:
-            handler(event)
+        handler_sets = self.registry.query(event)
+        for handler_set in handler_sets:
+            if handler_set:
+                for handler in set(handler_set):
+                    handler(event)
 
-    def _register_handler_set(self, event_type):
-        """ Register new handler set for ``event_type``."""
-        # Collect handler sets for supertypes
-        parent_handler_sets = []
-        parents = event_type.__bases__
-        for parent in parents:
-            parent_handlers = self.registry.get_registration(parent)
-            if parent_handlers is None:
-                parent_handlers = self._register_handler_set(parent)
-            parent_handler_sets.append(parent_handlers)
-
-        handler_set = HandlerSet(parents=parent_handler_sets, handlers=set())
+    def _register_handler_set(self, event_type: Type[Event]) -> HandlerSet:
+        """ Register new handler set for ``event_type``.
+        """
+        handler_set: HandlerSet = set()
         self.registry.register(handler_set, event_type)
         return handler_set
 
-    def subscriber(self, event_type):
+    def subscriber(self, event_type: Type[Event]) -> Callable[[Handler], Handler]:
         """ Decorator for subscribing handlers
 
         Works like this:
 
+            >>> mymanager = Manager()
+            >>> class MyEvent():
+            ...     pass
             >>> @mymanager.subscriber(MyEvent)
             ... def mysubscriber(evt):
             ...     # handle event
             ...     return
 
-            >>> mymanager.fire(MyEvent())
+            >>> mymanager.handle(MyEvent())
 
         """
-        def registrator(func):
+
+        def registrator(func: Handler) -> Handler:
             self.subscribe(func, event_type)
             return func
+
         return registrator
-
-# Global event manager
-_global_manager = Manager()
-
-# Global event management API
-subscribe = _global_manager.subscribe
-unsubscribe = _global_manager.unsubscribe
-fire = _global_manager.fire
-subscriber = _global_manager.subscriber
