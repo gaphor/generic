@@ -85,6 +85,7 @@ class MethodDispatcher(FunctionDispatcher[T]):
         """ Process all unbound rule by binding them to ``cls`` type."""
         for argtypes, func in self.local.unbound_rules:
             argtypes = (cls,) + argtypes
+            print("register rule", argtypes)
             self.register_rule(func, *argtypes)
         self.local.unbound_rules = []
 
@@ -106,8 +107,8 @@ class MethodDispatcher(FunctionDispatcher[T]):
     def otherwise(self) -> Callable[[T], T]:
         """ Decorator which registeres "catch-all" case for multimethod"""
 
-        def make_declaration(func):
-            self.register_unbound_rule(func, [object] * self.params_arity)
+        def make_declaration(meth):
+            self.register_unbound_rule(meth, *([object] * (self.params_arity - 1)))
             return self
 
         return make_declaration

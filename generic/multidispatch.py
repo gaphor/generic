@@ -121,6 +121,7 @@ class FunctionDispatcher(Generic[T]):
         trimmed_args = args[: self.params_arity]
         rule = self.registry.lookup(*trimmed_args)
         if not rule:
+            print(self.registry._tree)
             raise TypeError(f"No available rule found for {trimmed_args!r}")
         return rule(*args, **kwargs)
 
