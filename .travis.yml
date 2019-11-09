@@ -22,7 +22,7 @@ jobs:
       after_success: skip
 
 install:
-  - pip install poetry
+  - pip install poetry==1.0.0b3
   - poetry install
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
