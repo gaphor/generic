@@ -31,6 +31,7 @@ before_script:
 script:
   - pytest --cov=generic
 after_script:
+  - coverage xml
   - ./cc-test-reporter after-build --coverage-input-type coverage.py --exit-code $TRAVIS_TEST_RESULT
 
 notifications:
