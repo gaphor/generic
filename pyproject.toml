@@ -1,12 +1,16 @@
 [tool.poetry]
 name = "generic"
-version = "1.0.0a1"
+version = "1.0.0b1"
 description = "Generic programming library for Python"
 authors = [
     "Andrey Popp <8mayday@gmail.com>",
+    "Arjan Molenaar <gaphor@gmail.com>"
+]
+maintainers = [
     "Arjan Molenaar <gaphor@gmail.com>",
     "Dan Yeaw <dan@yeaw.me>"
 ]
+
 license = "BSD License"
 readme = "README.md"
 homepage = "https://generic.readthedocs.io/"
