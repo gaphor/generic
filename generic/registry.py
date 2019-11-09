@@ -41,7 +41,7 @@ class Registry(Generic[T]):
     def register(self, target: T, *arg_keys: K, **kw_keys: K) -> None:
         tree_node = self._tree
         for key in self._align_with_axes(arg_keys, kw_keys):
-            tree_node = tree_node.setdefault(key, _TreeNode[T]())
+            tree_node = tree_node.setdefault(key, _TreeNode())
 
         if not tree_node.target is None:
             raise ValueError(
