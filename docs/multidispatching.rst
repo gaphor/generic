@@ -16,17 +16,17 @@ Multifunctions
 
 Suppose we want to define a function which behaves differently based on
 arguments' types. The naive solution is to inspect argument types with
-``isinstance`` function calls but generic provides us with ``@multifunction``
+``isinstance`` function calls but generic provides us with ``@multidispatch``
 decorator which can easily reduce the amount of boilerplate and provide
 desired level of extensibility::
 
-  from generic.multidispatching import multifunction
+  from generic.multidispatch import multidispatch
 
-  @multifunction(Dog)
+  @multidispatch(Dog)
   def sound(o):
     print "Woof!"
 
-  @sound.when(Cat)
+  @sound.register(Cat)
   def sound(o):
     print "Meow!"
 
@@ -49,7 +49,7 @@ even in separate module::
 
   from somemodule import sound
 
-  @sound.when
+  @sound.register
   def sound(o)
     print "Quack!"
 
@@ -63,23 +63,23 @@ You can also define multifunctions of several arguments and even decide on which
 of first arguments you want to dispatch. For example the following function will
 only dispatch on its first argument while requiring both of them::
 
-  @multifunction(Dog)
+  @multidispatch(Dog)
   def walk(dog, meters):
     print "Dog walks for %d meters" % meters
 
 But sometimes you want multifunctions to dispatch on more than one argument,
-then you just have to provide several arguments to ``multifunction`` decorator
+then you just have to provide several arguments to ``multidispatch`` decorator
 and to subsequent ``when`` decorators::
 
-  @multifunction(Dog, Cat)
+  @multidispatch(Dog, Cat)
   def chases(dog, cat):
     return True
 
-  @chases.when(Dog, Dog)
+  @chases.register(Dog, Dog)
   def chases(dog, dog):
     return None
 
-  @chases.when(Cat, Dog)
+  @chases.register(Cat, Dog)
   def chases(cat, dog):
     return False
 
@@ -104,17 +104,17 @@ never fall with ``TypeError`` anymore.
 Multimethods
 ------------
 
-Another functionality provided by ``generic.multidispatch`` module are
+Another functionality provided by ``generic.multimethod`` module are
 *multimethods*. Multimethods are similar to multifunctions except they are...
 methods. Technically the main and the only difference between multifunctions and
 multimethods is the latter is also dispatch on ``self`` argument.
 
 Implementing multimethods is similar to implementing multifunctions, you just
 have to decorate your methods with ``multimethod`` decorator instead of
-``multifunction``.  But there's some issue with how Python's classes works which
+``multidispatch``.  But there's some issue with how Python's classes works which
 forces us to use also ``has_multimethods`` class decorator::
 
-  from generic.multidispatch import multimethod, has_multimethods
+  from generic.multimethod import multimethod, has_multimethods
 
   @has_multimethods
   class Animal(object):
@@ -123,7 +123,7 @@ forces us to use also ``has_multimethods`` class decorator::
     def can_eat(self, food):
       return True
 
-    @can_eat.when(Meat)
+    @can_eat.register(Meat)
     def can_eat(self, food):
       return False
 
@@ -143,7 +143,7 @@ and override ``can_eat`` method definition::
   @has_multimethods
   class Predator(Animal):
 
-    @Animal.can_eat.when(Meat)
+    @Animal.can_eat.register(Meat)
     def can_eat(self, food):
       return True
 
@@ -166,14 +166,14 @@ decorator just like in example for multifunctions.
 API reference
 -------------
 
-.. autofunction:: generic.multidispatch.multifunction
+.. autofunction:: generic.multidispatch.multidispatch
 
-.. autofunction:: generic.multidispatch.multimethod
+.. autofunction:: generic.multimethod.multimethod
 
-.. autofunction:: generic.multidispatch.has_multimethods
+.. autofunction:: generic.multimethod.has_multimethods
 
 .. autoclass:: generic.multidispatch.FunctionDispatcher
-   :members: when, override, otherwise
+   :members: register
 
-.. autoclass:: generic.multidispatch.MethodDispatcher
-   :members: when, override, otherwise
+.. autoclass:: generic.multidmultimethodispatch.MethodDispatcher
+   :members: register, otherwise

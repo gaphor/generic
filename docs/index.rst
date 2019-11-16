@@ -29,7 +29,7 @@ or *pip* command::
 In case you find a bug or have a feature request, please file a ticket at
 `GitHub Issues`_.
 
-.. _GitHub Issues: https://github.com/andreypopp/generic/issues
+.. _GitHub Issues: https://github.com/gaphor/generic/issues
 
 Development process
 -------------------
@@ -37,9 +37,9 @@ Development process
 Development takes place at `GitHub`_, you can clone source code repository with the
 following command::
 
-  % git clone git://github.com/andreypopp/generic.git
+  % git clone git://github.com/gaphor/generic.git
 
 In case submitting patch or GitHub pull request please ensure you have
 corresponding tests for your bugfix or new functionality.
 
-.. _GitHub: https://github.com/andreypopp/generic
+.. _GitHub: https://github.com/gaphor/generic
