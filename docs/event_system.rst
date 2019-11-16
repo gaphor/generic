@@ -16,25 +16,26 @@ First you need to describe event types you want to use in your application,
 ``generic.event`` dispatches events to corresponding handlers by inspecting
 events' types, so it's natural to model those as classes::
 
-  class CommentAdded(object):
-    def __init__(self, post_id, comment):
-      self.post_id = post_id
-      self.comment = comment
+    >>> class CommentAdded(object):
+    ...   def __init__(self, post_id, comment):
+    ...     self.post_id = post_id
+    ...     self.comment = comment
 
 Now you want to register handler for your event type::
 
-  from generic.event import Manager
+  >>> from generic.event import Manager
 
-  manager = Manager()
+  >>> manager = Manager()
 
-  @manager.subscriber(CommentAdded)
-  def print_comment(ev):
-    print "Got new comment: %s" % ev.comment
+  >>> @manager.subscriber(CommentAdded)
+  ... def print_comment(ev):
+  ...   print(f"Got new comment: {ev.comment}")
 
 Then you just call ``generic.event.handle`` function with ``CommentAdded``
 instance as its argument::
 
-  manager.handle(CommentAdded(167, "Hello!")) # prints `Got new comment: Hello!`
+  >>> manager.handle(CommentAdded(167, "Hello!"))
+  Got new comment: Hello!
 
 This is how it works.
 

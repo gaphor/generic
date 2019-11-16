@@ -11,6 +11,12 @@ learn how to use it to define multifunctions and multimethods.
 .. contents::
    :local:
 
+First the basics:
+
+  >>> class Cat: pass
+  >>> class Dog: pass
+  >>> class Duck: pass
+  
 Multifunctions
 --------------
 
@@ -20,15 +26,15 @@ arguments' types. The naive solution is to inspect argument types with
 decorator which can easily reduce the amount of boilerplate and provide
 desired level of extensibility::
 
-  from generic.multidispatch import multidispatch
+  >>> from generic.multidispatch import multidispatch
 
-  @multidispatch(Dog)
-  def sound(o):
-    print "Woof!"
+  >>> @multidispatch(Dog)
+  ... def sound(o):
+  ...   print("Woof!")
 
-  @sound.register(Cat)
-  def sound(o):
-    print "Meow!"
+  >>> @sound.register(Cat)
+  ... def cat_sound(o):
+  ...   print("Meow!")
 
 Each separate definition of ``sound`` function works for different argument
 types, we will call each such definition *a multifunction case* or simply *a
@@ -38,20 +44,18 @@ case*. We can test if our ``sound`` multifunction works as expected::
   Woof!
   >>> sound(Cat())
   Meow!
-  >>> sound(Duck())
-  Traceback
-  ...
-  TypeError
+  >>> sound(Duck())  # doctest: +ELLIPSIS
+  Traceback (most recent call last):
+    ...
+  TypeError: No available rule found for ...
 
 The main advantage of using multifunctions over single function with a bunch of
 ``isinstance`` checks is extensibility -- you can add more cases for other types
 even in separate module::
 
-  from somemodule import sound
-
-  @sound.register
-  def sound(o)
-    print "Quack!"
+  >>> @sound.register(Duck)
+  ... def duck_sound(o):
+  ...   print("Quack!")
 
 When behaviour of multifunction depends on some argument we will say that this
 multifunction *dispatches* on this argument.
@@ -63,43 +67,29 @@ You can also define multifunctions of several arguments and even decide on which
 of first arguments you want to dispatch. For example the following function will
 only dispatch on its first argument while requiring both of them::
 
-  @multidispatch(Dog)
-  def walk(dog, meters):
-    print "Dog walks for %d meters" % meters
+  >>> @multidispatch(Dog)
+  ... def walk(dog, meters):
+  ...   print("Dog walks for %d meters" % meters)
 
 But sometimes you want multifunctions to dispatch on more than one argument,
 then you just have to provide several arguments to ``multidispatch`` decorator
 and to subsequent ``when`` decorators::
 
-  @multidispatch(Dog, Cat)
-  def chases(dog, cat):
-    return True
+  >>> @multidispatch(Dog, Cat)
+  ... def chases(dog, cat):
+  ...   return True
 
-  @chases.register(Dog, Dog)
-  def chases(dog, dog):
-    return None
+  >>> @chases.register(Dog, Dog)
+  ... def chases_dog_dog(dog1, dog2):
+  ...   return None
 
-  @chases.register(Cat, Dog)
-  def chases(cat, dog):
-    return False
+  >>> @chases.register(Cat, Dog)
+  ... def chases_cat_dog(cat, dog):
+  ...   return False
 
 You can have any number of arguments to dispatch on but they should be all
 positional, keyword arguments are allowed for multifunctions only if they're not
 used for dispatch.
-
-Providing "catch-all" case
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-There should be an analog to ``else`` statement -- a case which is used when no
-matching case is found, we will call such case *a catch-all case*, here is how
-you can define it using ``otherwise`` decorator::
-
-  @sound.otherwise
-  def sound(o):
-    print "<unknown>"
-
-You can try calling ``sound`` with whatever argument type you wish, it will
-never fall with ``TypeError`` anymore.
 
 Multimethods
 ------------
@@ -114,18 +104,21 @@ have to decorate your methods with ``multimethod`` decorator instead of
 ``multidispatch``.  But there's some issue with how Python's classes works which
 forces us to use also ``has_multimethods`` class decorator::
 
-  from generic.multimethod import multimethod, has_multimethods
+  >>> class Vegetable: pass
+  >>> class Meat: pass
 
-  @has_multimethods
-  class Animal(object):
+  >>> from generic.multimethod import multimethod, has_multimethods
 
-    @multimethod(Vegetable)
-    def can_eat(self, food):
-      return True
-
-    @can_eat.register(Meat)
-    def can_eat(self, food):
-      return False
+  >>> @has_multimethods
+  ... class Animal(object):
+  ... 
+  ...   @multimethod(Vegetable)
+  ...   def can_eat(self, food):
+  ...     return True
+  ... 
+  ...   @can_eat.register(Meat)
+  ...   def can_eat(self, food):
+  ...     return False
 
 This would work like this::
 
@@ -140,12 +133,11 @@ but as it have already been said there's one -- multimethods use ``self``
 argument for dispatch. We can see that if we would subclass our ``Animal`` class
 and override ``can_eat`` method definition::
 
-  @has_multimethods
-  class Predator(Animal):
-
-    @Animal.can_eat.register(Meat)
-    def can_eat(self, food):
-      return True
+  >>> @has_multimethods
+  ... class Predator(Animal):
+  ...   @Animal.can_eat.register(Meat)
+  ...   def can_eat(self, food):
+  ...     return True
 
 This will override ``can_eat`` on ``Predator`` instances but *only* for the case
 for ``Meat`` argument, case for the ``Vegetable`` is not overridden, so class
@@ -162,6 +154,34 @@ decorator on classes which define or override multimethods.
 
 You can also provide a "catch-all" case for multimethod using ``otherwise``
 decorator just like in example for multifunctions.
+
+Providing "catch-all" case
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+There should be an analog to ``else`` statement -- a case which is used when no
+matching case is found, we will call such case *a catch-all case*, here is how
+you can define it using ``otherwise`` decorator::
+
+  >>> @has_multimethods
+  ... class Animal(object):
+  ... 
+  ...   @multimethod(Vegetable)
+  ...   def can_eat(self, food):
+  ...     return True
+  ... 
+  ...   @can_eat.register(Meat)
+  ...   def can_eat(self, food):
+  ...     return False
+  ...
+  ...   @can_eat.otherwise
+  ...   def can_eat(self, food):
+  ...     return "?"
+
+  >>> Animal().can_eat(1)
+  '?'
+
+You can try calling ``sound`` with whatever argument type you wish, it will
+never fall with ``TypeError`` anymore.
 
 API reference
 -------------
