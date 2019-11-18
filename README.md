@@ -22,6 +22,11 @@ excellent readthedocs.org project. Development takes place on
 
 # Changes
 
+## 1.0.0
+
+- Updated documentation on [Readthedocs](https://generic.readthedocs.io)
+- Fix `multimethod.otherwise` clause
+
 ## 1.0.0b1
 
 - Ported the code to Python 3.7, Python 2 is no longer supported
