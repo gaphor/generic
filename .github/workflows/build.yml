@@ -39,7 +39,7 @@ jobs:
           poetry install
       - name: Test with pytest
         run: |
-          poetry run pytest --cov=generic
+          poetry run pytest
       # - name: Code Climate Coverage Action
       #   uses: paambaati/codeclimate-action@v2.3.0
       #   env:
