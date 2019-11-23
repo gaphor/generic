@@ -1,6 +1,7 @@
 # Generic programming library for Python
 
-[![Build Status](https://travis-ci.org/gaphor/generic.svg?branch=master)](https://travis-ci.org/gaphor/generic)
+[![Build Status](https://github.com/gaphor/generic)](https://travis-ci.org/gaphor/generic)
+[![Build state](https://github.com/gaphor/generic/workflows/build/badge.svg)](https://github.com/gaphor/generic/actions)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c7be2d28400687b1375a/maintainability)](https://codeclimate.com/github/gaphor/generic/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/c7be2d28400687b1375a/test_coverage)](https://codeclimate.com/github/gaphor/generic/test_coverage)
 [![Documentation Status](https://readthedocs.org/projects/generic/badge/?version=latest)](https://generic.readthedocs.io/en/latest/?badge=latest)
