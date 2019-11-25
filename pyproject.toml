@@ -38,7 +38,24 @@ black = { version = "^19.10b0", python = "^3.7" }
 mypy = "0.740"
 pre-commit = "^1.17"
 bw_sphinxtheme = "^0.1.8"
+tox = "^3.14"
 
 [build-system]
 requires = ["poetry>=1.0.0b3"]
 build-backend = "poetry.masonry.api"
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+isolated_build = true
+envlist = py37, py38
+
+[testenv]
+whitelist_externals =
+    poetry
+    xvfb-run
+skip_install = true
+commands =
+    poetry install -v
+    xvfb-run -a pytest
+"""
