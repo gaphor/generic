@@ -1,11 +1,9 @@
 name: build
-
 on:
   pull_request:
   push:
     branches:
       - master
-
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -20,9 +18,7 @@ jobs:
           pip install pre-commit
           pre-commit install-hooks
       - name: Lint with pre-commit
-        run: |
-          pre-commit run --all-files
-
+        run: pre-commit run --all-files
   test:
     needs: lint
     runs-on: ubuntu-latest
@@ -36,17 +32,17 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install Python dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install poetry==1.0.0b3
-          poetry install
-      - name: Test with pytest
-        run: |
-          poetry run pytest
-      # - name: Code Climate Coverage Action
-      #   uses: paambaati/codeclimate-action@v2.3.0
-      #   env:
-      #     CC_TEST_REPORTER_ID:
-      #   with:
-      #     coverageCommand: poetry run coverage xml
+      - name: Install Poetry
+        uses: dschep/install-poetry-action@v1.2
+        with:
+          version: 1.0.0b3
+      - name: Install Python Dependencies
+        run: poetry install
+      - name: Test with Pytest
+        run: poetry run xvfb-run pytest
+      - name: Code Climate Coverage Action
+        uses: paambaati/codeclimate-action@v2.3.0
+        env:
+          CC_TEST_REPORTER_ID: f9441442730130d385df69241a779ac3b663756ed21881179826e3fab7e01924
+        with:
+          coverageCommand: poetry run coverage xml
