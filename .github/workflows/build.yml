@@ -13,12 +13,14 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: '3.x'
-      - name: Install dependencies
-        run: |
-          pip install pre-commit
-          pre-commit install-hooks
-      - name: Lint with pre-commit
-        run: pre-commit run --all-files
+      - name: set PY
+        run: echo "::set-env name=PY::$(python --version --version | sha256sum | cut -d' ' -f1)"
+      - uses: actions/cache@v1
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit|${{ env.PY }}|${{ hashFiles('.pre-commit-config.yaml') }}
+      - name: Lint with Pre-commit
+        uses: pre-commit/action@v1.0.0
   test:
     needs: lint
     runs-on: ubuntu-latest
