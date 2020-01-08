@@ -35,16 +35,16 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install Poetry
-        uses: dschep/install-poetry-action@v1.2
+        uses: dschep/install-poetry-action@v1.3
         with:
           version: 1.0.0b3
       - name: Install Python Dependencies
         run: poetry install
       - name: Test with Pytest
-        run: poetry run xvfb-run pytest
+        run: xvfb-run pytest
       - name: Code Climate Coverage Action
         uses: paambaati/codeclimate-action@v2.3.0
         env:
           CC_TEST_REPORTER_ID: f9441442730130d385df69241a779ac3b663756ed21881179826e3fab7e01924
         with:
-          coverageCommand: poetry run coverage xml
+          coverageCommand: coverage xml
