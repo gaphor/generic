@@ -12,8 +12,10 @@
 # serve to show the default.
 
 import sys, os
-import pkg_resources
+from pathlib import Path
 
+project_dir = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(project_dir))
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the

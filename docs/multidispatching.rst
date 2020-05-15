@@ -16,7 +16,7 @@ First the basics:
   >>> class Cat: pass
   >>> class Dog: pass
   >>> class Duck: pass
-  
+
 Multifunctions
 --------------
 
@@ -111,11 +111,11 @@ forces us to use also ``has_multimethods`` class decorator::
 
   >>> @has_multimethods
   ... class Animal(object):
-  ... 
+  ...
   ...   @multimethod(Vegetable)
   ...   def can_eat(self, food):
   ...     return True
-  ... 
+  ...
   ...   @can_eat.register(Meat)
   ...   def can_eat(self, food):
   ...     return False
@@ -164,11 +164,11 @@ you can define it using ``otherwise`` decorator::
 
   >>> @has_multimethods
   ... class Animal(object):
-  ... 
+  ...
   ...   @multimethod(Vegetable)
   ...   def can_eat(self, food):
   ...     return True
-  ... 
+  ...
   ...   @can_eat.register(Meat)
   ...   def can_eat(self, food):
   ...     return False
@@ -195,5 +195,5 @@ API reference
 .. autoclass:: generic.multidispatch.FunctionDispatcher
    :members: register
 
-.. autoclass:: generic.multidmultimethodispatch.MethodDispatcher
+.. autoclass:: generic.multimethod.MethodDispatcher
    :members: register, otherwise
