@@ -81,6 +81,10 @@ class FunctionDispatcher(Generic[T]):
         self.registry = Registry(*axis)
 
     def check_rule(self, rule: T, *argtypes: KeyType) -> None:
+        """ Check if the argument types match wrt number of arguments.
+
+        Raise TypeError in case of failure.
+        """
         # Check if we have the right number of parametrized types
         if len(argtypes) != self.params_arity:
             raise TypeError(
@@ -111,6 +115,7 @@ class FunctionDispatcher(Generic[T]):
         """
 
         def register_rule(func: T) -> T:
+            """ Register rule wrapper function."""
             self.register_rule(func, *argtypes)
             return func
 

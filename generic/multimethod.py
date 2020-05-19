@@ -105,7 +105,7 @@ class MethodDispatcher(FunctionDispatcher[T]):
 
     @property
     def otherwise(self) -> Callable[[T], T]:
-        """ Decorator which registeres "catch-all" case for multimethod"""
+        """ Decorator which registers "catch-all" case for multimethod"""
 
         def make_declaration(meth):
             self.register_unbound_rule(meth, *([object] * (self.params_arity - 1)))
