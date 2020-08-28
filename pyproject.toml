@@ -32,7 +32,7 @@ python = "^3.7"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.0"
-pytest-cov = "^2.7"
+pytest-cov = "^2.10"
 pytest-runner = "^5.1"
 black = { version = "^19.10b0", python = "^3.7" }
 mypy = "0.740"
