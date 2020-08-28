@@ -8,17 +8,11 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.3.2
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
       - name: Set up Python
         uses: actions/setup-python@v2.1.2
-        with:
-          python-version: '3.x'
-      - name: set PY
-        run: echo "::set-env name=PY::$(python --version --version | sha256sum | cut -d' ' -f1)"
-      - uses: actions/cache@v2.1.1
-        with:
-          path: ~/.cache/pre-commit
-          key: pre-commit|${{ env.PY }}|${{ hashFiles('.pre-commit-config.yaml') }}
       - name: Lint with Pre-commit
         uses: pre-commit/action@v2.0.0
   test:
