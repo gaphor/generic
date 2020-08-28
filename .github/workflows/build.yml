@@ -15,7 +15,7 @@ jobs:
           python-version: '3.x'
       - name: set PY
         run: echo "::set-env name=PY::$(python --version --version | sha256sum | cut -d' ' -f1)"
-      - uses: actions/cache@v1
+      - uses: actions/cache@v2.1.1
         with:
           path: ~/.cache/pre-commit
           key: pre-commit|${{ env.PY }}|${{ hashFiles('.pre-commit-config.yaml') }}
