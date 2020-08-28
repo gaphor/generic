@@ -93,7 +93,7 @@ version = "7.0"
 [[package]]
 category = "dev"
 description = "Cross-platform colored terminal text."
-marker = "sys_platform == \"win32\""
+marker = "sys_platform == \"win32\" or platform_system == \"Windows\""
 name = "colorama"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
@@ -341,8 +341,8 @@ category = "dev"
 description = "Python 2 and 3 compatibility utilities"
 name = "six"
 optional = false
-python-versions = ">=2.6, !=3.0.*, !=3.1.*"
-version = "1.13.0"
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
+version = "1.15.0"
 
 [[package]]
 category = "dev"
@@ -358,24 +358,25 @@ description = "tox is a generic virtualenv management and test command line tool
 name = "tox"
 optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
-version = "3.14.1"
+version = "3.19.0"
 
 [package.dependencies]
-filelock = ">=3.0.0,<4"
+colorama = ">=0.4.1"
+filelock = ">=3.0.0"
 packaging = ">=14"
-pluggy = ">=0.12.0,<1"
-py = ">=1.4.17,<2"
-six = ">=1.0.0,<2"
+pluggy = ">=0.12.0"
+py = ">=1.4.17"
+six = ">=1.14.0"
 toml = ">=0.9.4"
-virtualenv = ">=16.0.0"
+virtualenv = ">=16.0.0,<20.0.0 || >20.0.0,<20.0.1 || >20.0.1,<20.0.2 || >20.0.2,<20.0.3 || >20.0.3,<20.0.4 || >20.0.4,<20.0.5 || >20.0.5,<20.0.6 || >20.0.6,<20.0.7 || >20.0.7"
 
 [package.dependencies.importlib-metadata]
 python = "<3.8"
-version = ">=0.12,<1"
+version = ">=0.12,<2"
 
 [package.extras]
-docs = ["sphinx (>=2.0.0,<3)", "towncrier (>=18.5.0)", "pygments-github-lexers (>=0.0.5)", "sphinxcontrib-autoprogram (>=0.1.5)"]
-testing = ["freezegun (>=0.3.11,<1)", "pathlib2 (>=2.3.3,<3)", "pytest (>=4.0.0,<6)", "pytest-cov (>=2.5.1,<3)", "pytest-mock (>=1.10.0,<2)", "pytest-xdist (>=1.22.2,<2)", "pytest-randomly (>=1.0.0,<4)", "flaky (>=3.4.0,<4)", "psutil (>=5.6.1,<6)"]
+docs = ["pygments-github-lexers (>=0.0.5)", "sphinx (>=2.0.0)", "sphinxcontrib-autoprogram (>=0.1.5)", "towncrier (>=18.5.0)"]
+testing = ["flaky (>=3.4.0)", "freezegun (>=0.3.11)", "pathlib2 (>=2.3.3)", "psutil (>=5.6.1)", "pytest (>=4.0.0)", "pytest-cov (>=2.5.1)", "pytest-mock (>=1.10.0)", "pytest-randomly (>=1.0.0)", "pytest-xdist (>=1.22.2)"]
 
 [[package]]
 category = "dev"
@@ -422,7 +423,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["pathlib2", "contextlib2", "unittest2"]
 
 [metadata]
-content-hash = "da568635cef1bac0681372069e892bdb3aabe3ee86a8bfeaf81eb2d25d079982"
+content-hash = "e1c204fd53c982216af91cfac9f1d55a41316c61f5646c0c728439565dc60c73"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -604,8 +605,8 @@ regex = [
     {file = "regex-2019.11.1.tar.gz", hash = "sha256:720e34a539a76a1fedcebe4397290604cc2bdf6f81eca44adb9fb2ea071c0c69"},
 ]
 six = [
-    {file = "six-1.13.0-py2.py3-none-any.whl", hash = "sha256:1f1b7d42e254082a9db6279deae68afb421ceba6158efa6131de7b3003ee93fd"},
-    {file = "six-1.13.0.tar.gz", hash = "sha256:30f610279e8b2578cab6db20741130331735c781b56053c59c4076da27f06b66"},
+    {file = "six-1.15.0-py2.py3-none-any.whl", hash = "sha256:8b74bedcbbbaca38ff6d7491d76f2b06b3592611af620f8426e82dddb04a5ced"},
+    {file = "six-1.15.0.tar.gz", hash = "sha256:30639c035cdb23534cd4aa2dd52c3bf48f06e5f4a941509c8bafd8ce11080259"},
 ]
 toml = [
     {file = "toml-0.10.0-py2.7.egg", hash = "sha256:f1db651f9657708513243e61e6cc67d101a39bad662eaa9b5546f789338e07a3"},
@@ -613,8 +614,8 @@ toml = [
     {file = "toml-0.10.0.tar.gz", hash = "sha256:229f81c57791a41d65e399fc06bf0848bab550a9dfd5ed66df18ce5f05e73d5c"},
 ]
 tox = [
-    {file = "tox-3.14.1-py2.py3-none-any.whl", hash = "sha256:1d1368ac86e8332f79e2bcef9fefe2b077469f08449eadf0183759b34f3b2070"},
-    {file = "tox-3.14.1.tar.gz", hash = "sha256:bcfa3e40abc1e9b70607b56adfd976fe7dc8286ad56aab44e3151daca7d2d0d0"},
+    {file = "tox-3.19.0-py2.py3-none-any.whl", hash = "sha256:3d94b6921a0b6dc90fd8128df83741f30bb41ccd6cd52d131a6a6944ca8f16e6"},
+    {file = "tox-3.19.0.tar.gz", hash = "sha256:17e61a93afe5c49281fb969ab71f7a3f22d7586d1c56f9a74219910f356fe7d3"},
 ]
 typed-ast = [
     {file = "typed_ast-1.4.0-cp35-cp35m-manylinux1_i686.whl", hash = "sha256:262c247a82d005e43b5b7f69aff746370538e176131c32dda9cb0f324d27141e"},
