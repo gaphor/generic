@@ -5,15 +5,13 @@ to provide generic methods.
 
 from __future__ import annotations
 
-from typing import cast, Any, Callable, Type, TypeVar, Union
-
-import inspect
 import functools
+import inspect
 import threading
 import types
+from typing import Any, Callable, Type, TypeVar, Union, cast
 
-from generic.multidispatch import FunctionDispatcher, _arity, KeyType
-
+from generic.multidispatch import FunctionDispatcher, KeyType, _arity
 
 __all__ = ("multimethod", "has_multimethods")
 
@@ -22,8 +20,8 @@ T = TypeVar("T", bound=Union[Callable[..., Any], type])
 
 
 def multimethod(*argtypes: KeyType) -> Callable[[T], MethodDispatcher[T]]:
-    """ Declare method as multimethod
- 
+    """Declare method as multimethod
+
     This decorator works exactly the same as :func:`.multidispatch` decorator
     but replaces decorated method with :class:`.MethodDispatcher` object
     instead.
@@ -49,7 +47,7 @@ def multimethod(*argtypes: KeyType) -> Callable[[T], MethodDispatcher[T]]:
 
 
 def has_multimethods(cls: Type[C]) -> Type[C]:
-    """ Declare class as one that have multimethods
+    """Declare class as one that have multimethods
 
     Should only be used for decorating classes which have methods decorated with
     :func:`.multimethod` decorator.
@@ -61,11 +59,11 @@ def has_multimethods(cls: Type[C]) -> Type[C]:
 
 
 class MethodDispatcher(FunctionDispatcher[T]):
-    """ Multiple dispatch for methods
+    """Multiple dispatch for methods
 
     This object dispatch call to method by its class and arguments types.
     Usually it is produced by :func:`.multimethod` decorator.
- 
+
     You should not manually create objects of this type.
     """
 
@@ -77,7 +75,7 @@ class MethodDispatcher(FunctionDispatcher[T]):
         self.local.unbound_rules = []
 
     def register_unbound_rule(self, func, *argtypes) -> None:
-        """ Register unbound rule that should be processed by
+        """Register unbound rule that should be processed by
         ``proceed_unbound_rules`` later."""
         self.local.unbound_rules.append((argtypes, func))
 
