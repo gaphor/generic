@@ -11,7 +11,7 @@ import threading
 import types
 from typing import Any, Callable, Type, TypeVar, Union, cast
 
-from generic.multidispatch import FunctionDispatcher, KeyType, _arity
+from generic.multidispatch import FunctionDispatcher, KeyType
 
 __all__ = ("multimethod", "has_multimethods")
 

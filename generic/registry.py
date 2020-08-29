@@ -43,7 +43,7 @@ class Registry(Generic[T]):
         for key in self._align_with_axes(arg_keys, kw_keys):
             tree_node = tree_node.setdefault(key, _TreeNode())
 
-        if not tree_node.target is None:
+        if tree_node.target is not None:
             raise ValueError(
                 f"Registration for {target} conflicts with existing registration {tree_node.target}."
             )
@@ -53,7 +53,7 @@ class Registry(Generic[T]):
     def get_registration(self, *arg_keys: K, **kw_keys: K) -> Optional[T]:
         tree_node = self._tree
         for key in self._align_with_axes(arg_keys, kw_keys):
-            if not key in tree_node:
+            if key not in tree_node:
                 return None
             tree_node = tree_node[key]
 
