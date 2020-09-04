@@ -1,9 +1,10 @@
 """ Tests for :module:`generic.multidispatch`."""
 
+from inspect import FullArgSpec
+
 import pytest
 
-from inspect import FullArgSpec
-from generic.multidispatch import multidispatch, FunctionDispatcher
+from generic.multidispatch import FunctionDispatcher, multidispatch
 
 
 def create_dispatcher(

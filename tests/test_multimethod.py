@@ -102,7 +102,7 @@ def test_inheritance():
     assert DummySub().foo(1.5) == 3.0
     assert DummySub().foo("1") == "11"
     assert DummySub().foo((1, 2)) == (1, 2, 1)
-    assert DummySub().foo(True) == False
+    assert DummySub().foo(True) is False
     with pytest.raises(TypeError):
         DummySub().foo([])
 

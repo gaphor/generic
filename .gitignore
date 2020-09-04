@@ -8,3 +8,9 @@ __pycache__
 cc-test-reporter
 htmlcov/
 .python-version
+
+# Virtualenv
+.venv
+
+# Tox
+.tox

@@ -7,21 +7,21 @@ This implementation was borrowed from happy[1] project by Chris Rossi.
 
 from __future__ import annotations
 
-__all__ = ("Registry", "SimpleAxis", "TypeAxis")
-
 from typing import (
     Any,
     Dict,
+    Generator,
     Generic,
     KeysView,
     List,
-    Generator,
     Optional,
     Sequence,
     Tuple,
     TypeVar,
     Union,
 )
+
+__all__ = ("Registry", "SimpleAxis", "TypeAxis")
 
 K = TypeVar("K")
 S = TypeVar("S")
@@ -43,7 +43,7 @@ class Registry(Generic[T]):
         for key in self._align_with_axes(arg_keys, kw_keys):
             tree_node = tree_node.setdefault(key, _TreeNode())
 
-        if not tree_node.target is None:
+        if tree_node.target is not None:
             raise ValueError(
                 f"Registration for {target} conflicts with existing registration {tree_node.target}."
             )
@@ -53,7 +53,7 @@ class Registry(Generic[T]):
     def get_registration(self, *arg_keys: K, **kw_keys: K) -> Optional[T]:
         tree_node = self._tree
         for key in self._align_with_axes(arg_keys, kw_keys):
-            if not key in tree_node:
+            if key not in tree_node:
                 return None
             tree_node = tree_node[key]
 
@@ -70,9 +70,9 @@ class Registry(Generic[T]):
     def _query(
         self, tree_node: _TreeNode[T], objs: Sequence[Optional[V]], axes: Sequence[Axis]
     ) -> Generator[Optional[T], None, None]:
-        """ Recursively traverse registration tree, from left to right, most
+        """Recursively traverse registration tree, from left to right, most
         specific to least specific, returning the first target found on a
-        matching node.  """
+        matching node."""
         if not objs:
             yield tree_node.target
         else:
@@ -92,9 +92,9 @@ class Registry(Generic[T]):
     def _align_with_axes(
         self, args: Sequence[S], kw: Dict[str, S]
     ) -> Sequence[Optional[S]]:
-        """ Create a list matching up all args and kwargs with their
+        """Create a list matching up all args and kwargs with their
         corresponding axes, in order, using ``None`` as a placeholder for
-        skipped axes.  """
+        skipped axes."""
         axes_dict = self._axes_dict
         aligned: List[Optional[S]] = [None for i in range(len(axes_dict))]
 
@@ -133,7 +133,7 @@ class _TreeNode(Generic[T], Dict[Any, Any]):
 
 
 class SimpleAxis:
-    """ A simple axis where the key into the axis is the same as the object to
+    """A simple axis where the key into the axis is the same as the object to
     be matched (aka the identity axis). This axis behaves just like a
     dictionary.  You might use this axis if you are interested in registering
     something by name, where you're registering an object with the string that
@@ -152,7 +152,7 @@ class SimpleAxis:
 
 
 class TypeAxis:
-    """ An axis which matches the class and super classes of an object in
+    """An axis which matches the class and super classes of an object in
     method resolution order.
     """
 

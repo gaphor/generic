@@ -16,7 +16,6 @@ from typing import Callable, Set, Type
 
 from generic.registry import Registry, TypeAxis
 
-
 __all__ = "Manager"
 
 Event = object
@@ -25,7 +24,7 @@ HandlerSet = Set[Handler]
 
 
 class Manager:
-    """ Event manager
+    """Event manager
 
     Provides API for subscribing for and firing events. There's also global
     event manager instantiated at module level with functions
@@ -53,7 +52,7 @@ class Manager:
             handler_set.remove(handler)
 
     def handle(self, event: Event) -> None:
-        """ Fire ``event``
+        """Fire ``event``
 
         All subscribers will be executed with no determined order.
         """
@@ -64,14 +63,13 @@ class Manager:
                     handler(event)
 
     def _register_handler_set(self, event_type: Type[Event]) -> HandlerSet:
-        """ Register new handler set for ``event_type``.
-        """
+        """Register new handler set for ``event_type``."""
         handler_set: HandlerSet = set()
         self.registry.register(handler_set, event_type)
         return handler_set
 
     def subscriber(self, event_type: Type[Event]) -> Callable[[Handler], Handler]:
-        """ Decorator for subscribing handlers
+        """Decorator for subscribing handlers
 
         Works like this:
 

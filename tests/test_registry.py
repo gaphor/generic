@@ -1,8 +1,9 @@
 """ Tests for :module:`generic.registry`."""
 
+from typing import Union
+
 import pytest
 
-from typing import Union
 from generic.registry import Registry, SimpleAxis, TypeAxis
 
 
