@@ -1,4 +1,4 @@
-""" Event management system.
+"""Event management system.
 
 This module provides API for event management. There are two APIs provided:
 
@@ -24,7 +24,7 @@ HandlerSet = Set[Handler]
 
 
 class Manager:
-    """Event manager
+    """Event manager.
 
     Provides API for subscribing for and firing events. There's also global
     event manager instantiated at module level with functions
@@ -39,14 +39,14 @@ class Manager:
         self.registry = Registry(*axes)
 
     def subscribe(self, handler: Handler, event_type: Type[Event]) -> None:
-        """ Subscribe ``handler`` to specified ``event_type``"""
+        """Subscribe ``handler`` to specified ``event_type``"""
         handler_set = self.registry.get_registration(event_type)
         if handler_set is None:
             handler_set = self._register_handler_set(event_type)
         handler_set.add(handler)
 
     def unsubscribe(self, handler: Handler, event_type: Type[Event]) -> None:
-        """ Unsubscribe ``handler`` from ``event_type``"""
+        """Unsubscribe ``handler`` from ``event_type``"""
         handler_set = self.registry.get_registration(event_type)
         if handler_set and handler in handler_set:
             handler_set.remove(handler)
@@ -69,7 +69,7 @@ class Manager:
         return handler_set
 
     def subscriber(self, event_type: Type[Event]) -> Callable[[Handler], Handler]:
-        """Decorator for subscribing handlers
+        """Decorator for subscribing handlers.
 
         Works like this:
 
@@ -82,7 +82,6 @@ class Manager:
             ...     return
 
             >>> mymanager.handle(MyEvent())
-
         """
 
         def registrator(func: Handler) -> Handler:

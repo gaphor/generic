@@ -1,4 +1,4 @@
-""" Multidispatch for functions and methods.
+"""Multidispatch for functions and methods.
 
 This code is a Python 3, slimmed down version of the
 generic package by Andrey Popp.
@@ -24,11 +24,11 @@ KeyType = Union[type, None]
 
 
 def multidispatch(*argtypes: KeyType) -> Callable[[T], FunctionDispatcher[T]]:
-    """Declare function as multidispatch
+    """Declare function as multidispatch.
 
-    This decorator takes ``argtypes`` argument types and replace decorated
-    function with :class:`.FunctionDispatcher` object, which is responsible for
-    multiple dispatch feature.
+    This decorator takes ``argtypes`` argument types and replace
+    decorated function with :class:`.FunctionDispatcher` object, which
+    is responsible for multiple dispatch feature.
     """
 
     def _replace_with_dispatcher(func: T) -> FunctionDispatcher[T]:
@@ -52,7 +52,7 @@ def multidispatch(*argtypes: KeyType) -> Callable[[T], FunctionDispatcher[T]]:
 
 
 class FunctionDispatcher(Generic[T]):
-    """Multidispatcher for functions
+    """Multidispatcher for functions.
 
     This object dispatch calls to function by its argument types. Usually it is
     produced by :func:`.multidispatch` decorator.
@@ -100,28 +100,29 @@ class FunctionDispatcher(Generic[T]):
             )
 
     def register_rule(self, rule: T, *argtypes: KeyType) -> None:
-        """ Register new ``rule`` for ``argtypes``."""
+        """Register new ``rule`` for ``argtypes``."""
         self.check_rule(rule, *argtypes)
         self.registry.register(rule, *argtypes)
 
     def register(self, *argtypes: KeyType) -> Callable[[T], T]:
-        """Decorator for registering new case for multidispatch
+        """Decorator for registering new case for multidispatch.
 
-        New case will be registered for types identified by ``argtypes``. The
-        length of ``argtypes`` should be equal to the length of ``argtypes``
-        argument were passed corresponding :func:`.multidispatch` call, which
-        also indicated the number of arguments multidispatch dispatches on.
+        New case will be registered for types identified by
+        ``argtypes``. The length of ``argtypes`` should be equal to the
+        length of ``argtypes`` argument were passed corresponding
+        :func:`.multidispatch` call, which also indicated the number of
+        arguments multidispatch dispatches on.
         """
 
         def register_rule(func: T) -> T:
-            """ Register rule wrapper function."""
+            """Register rule wrapper function."""
             self.register_rule(func, *argtypes)
             return func
 
         return register_rule
 
     def __call__(self, *args: Any, **kwargs: Any) -> Any:
-        """ Dispatch call to appropriate rule."""
+        """Dispatch call to appropriate rule."""
         trimmed_args = args[: self.params_arity]
         rule = self.registry.lookup(*trimmed_args)
         if not rule:
@@ -131,7 +132,7 @@ class FunctionDispatcher(Generic[T]):
 
 
 def _arity(argspec: inspect.FullArgSpec) -> int:
-    """ Determinal positional arity of argspec."""
+    """Determinal positional arity of argspec."""
     args = argspec.args if argspec.args else []
     defaults = argspec.defaults if argspec.defaults else []
     return len(args) - len(defaults)

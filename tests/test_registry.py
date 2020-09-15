@@ -1,4 +1,4 @@
-""" Tests for :module:`generic.registry`."""
+"""Tests for :module:`generic.registry`."""
 
 from typing import Union
 

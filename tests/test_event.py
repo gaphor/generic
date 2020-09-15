@@ -1,4 +1,4 @@
-""" Tests for :module:`generic.event`."""
+"""Tests for :module:`generic.event`."""
 
 from __future__ import annotations
 
