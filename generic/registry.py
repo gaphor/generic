@@ -1,4 +1,4 @@
-""" Registry.
+"""Registry.
 
 This implementation was borrowed from happy[1] project by Chris Rossi.
 
@@ -31,7 +31,7 @@ Axis = Union["SimpleAxis", "TypeAxis"]
 
 
 class Registry(Generic[T]):
-    """ Registry implementation."""
+    """Registry implementation."""
 
     def __init__(self, *axes: Tuple[str, Axis]):
         self._tree: _TreeNode[T] = _TreeNode()
@@ -139,8 +139,8 @@ class SimpleAxis:
     something by name, where you're registering an object with the string that
     is the name and then using the name to look it up again later.
 
-    Subclasses can override the ``get_keys`` method for implementing arbitrary
-    axes.
+    Subclasses can override the ``get_keys`` method for implementing
+    arbitrary axes.
     """
 
     def matches(
@@ -152,9 +152,8 @@ class SimpleAxis:
 
 
 class TypeAxis:
-    """An axis which matches the class and super classes of an object in
-    method resolution order.
-    """
+    """An axis which matches the class and super classes of an object in method
+    resolution order."""
 
     def matches(
         self, obj: object, keys: KeysView[Optional[type]]

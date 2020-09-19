@@ -1,7 +1,5 @@
-"""
-Multi-method builds on the functionality provided by `multidispatch`
-to provide generic methods.
-"""
+"""Multi-method builds on the functionality provided by `multidispatch` to
+provide generic methods."""
 
 from __future__ import annotations
 
@@ -20,7 +18,7 @@ T = TypeVar("T", bound=Union[Callable[..., Any], type])
 
 
 def multimethod(*argtypes: KeyType) -> Callable[[T], MethodDispatcher[T]]:
-    """Declare method as multimethod
+    """Declare method as multimethod.
 
     This decorator works exactly the same as :func:`.multidispatch` decorator
     but replaces decorated method with :class:`.MethodDispatcher` object
@@ -47,7 +45,7 @@ def multimethod(*argtypes: KeyType) -> Callable[[T], MethodDispatcher[T]]:
 
 
 def has_multimethods(cls: Type[C]) -> Type[C]:
-    """Declare class as one that have multimethods
+    """Declare class as one that have multimethods.
 
     Should only be used for decorating classes which have methods decorated with
     :func:`.multimethod` decorator.
@@ -59,7 +57,7 @@ def has_multimethods(cls: Type[C]) -> Type[C]:
 
 
 class MethodDispatcher(FunctionDispatcher[T]):
-    """Multiple dispatch for methods
+    """Multiple dispatch for methods.
 
     This object dispatch call to method by its class and arguments types.
     Usually it is produced by :func:`.multimethod` decorator.
@@ -80,7 +78,7 @@ class MethodDispatcher(FunctionDispatcher[T]):
         self.local.unbound_rules.append((argtypes, func))
 
     def proceed_unbound_rules(self, cls) -> None:
-        """ Process all unbound rule by binding them to ``cls`` type."""
+        """Process all unbound rule by binding them to ``cls`` type."""
         for argtypes, func in self.local.unbound_rules:
             argtypes = (cls,) + argtypes
             print("register rule", argtypes)
@@ -93,7 +91,7 @@ class MethodDispatcher(FunctionDispatcher[T]):
         return types.MethodType(self, obj)
 
     def register(self, *argtypes: KeyType) -> Callable[[T], T]:
-        """ Register new case for multimethod for ``argtypes``"""
+        """Register new case for multimethod for ``argtypes``"""
 
         def make_declaration(meth):
             self.register_unbound_rule(meth, *argtypes)
@@ -103,7 +101,7 @@ class MethodDispatcher(FunctionDispatcher[T]):
 
     @property
     def otherwise(self) -> Callable[[T], T]:
-        """ Decorator which registers "catch-all" case for multimethod"""
+        """Decorator which registers "catch-all" case for multimethod."""
 
         def make_declaration(meth):
             self.register_unbound_rule(meth, *([object] * (self.params_arity - 1)))

@@ -1,4 +1,4 @@
-""" Tests for :module:`generic.multidispatch`."""
+"""Tests for :module:`generic.multidispatch`."""
 
 from inspect import FullArgSpec
 
