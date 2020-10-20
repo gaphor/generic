@@ -60,6 +60,14 @@ commands =
     xvfb-run -a pytest
 """
 
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+    "docs",
+    ]
+doctest-glob = "*.rst"
+addopts = "--doctest-modules"
+
 [tool.isort]
 multi_line_output = 3
 include_trailing_comma = true
