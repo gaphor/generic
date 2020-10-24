@@ -41,24 +41,52 @@ bw_sphinxtheme = "^0.1.8"
 tox = "^3.20"
 
 [build-system]
-requires = ["poetry>=1.0.0b3"]
-build-backend = "poetry.masonry.api"
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
 
 [tool.tox]
 legacy_tox_ini = """
 [tox]
 isolated_build = true
-envlist = py37, py38
+envlist = clean, py37, py38, py39, report
+
+[gh-actions]
+python =
+    2.7: py27
+    3.6: py36
+    3.7: py37
+    3.8: py38, mypy
+    3.9: py39
 
 [testenv]
-whitelist_externals =
-    poetry
-    xvfb-run
+commands =
+    pytest --cov --cov-append --cov-report=term-missing {posargs}
+deps =
+    pytest
+    pytest-cov
+depends =
+    {py37,py38,py39}: clean
+    report: py37,py38,py39
+
+[testenv:report]
+deps = coverage[toml]
 skip_install = true
 commands =
-    poetry install -v
-    xvfb-run -a pytest
+    coverage report
+    coverage html
+
+[testenv:clean]
+deps = coverage[toml]
+skip_install = true
+commands = coverage erase
 """
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+    "docs",
+    ]
+addopts = "--doctest-modules --doctest-glob='*.rst'"
 
 [tool.isort]
 multi_line_output = 3
@@ -68,3 +96,6 @@ use_parentheses = true
 line_length = 88
 known_third_party = ["pytest"]
 skip = ".venv,build,dist"
+
+[tool.coverage.run]
+source = ["generic"]
