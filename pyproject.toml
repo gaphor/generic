@@ -50,6 +50,14 @@ legacy_tox_ini = """
 isolated_build = true
 envlist = clean, py37, py38, py39, report
 
+[gh-actions]
+python =
+    2.7: py27
+    3.6: py36
+    3.7: py37
+    3.8: py38, mypy
+    3.9: py39
+
 [testenv]
 commands =
     pytest --cov --cov-append --cov-report=term-missing {posargs}
