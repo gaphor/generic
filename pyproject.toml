@@ -69,14 +69,14 @@ depends =
     report: py37,py38,py39
 
 [testenv:report]
-deps = coverage
+deps = coverage[toml]
 skip_install = true
 commands =
     coverage report
     coverage html
 
 [testenv:clean]
-deps = coverage
+deps = coverage[toml]
 skip_install = true
 commands = coverage erase
 """
@@ -96,3 +96,6 @@ use_parentheses = true
 line_length = 88
 known_third_party = ["pytest"]
 skip = ".venv,build,dist"
+
+[tool.coverage.run]
+source = ["generic"]
