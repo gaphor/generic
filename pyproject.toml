@@ -48,16 +48,29 @@ build-backend = "poetry.core.masonry.api"
 legacy_tox_ini = """
 [tox]
 isolated_build = true
-envlist = py37, py38, py39
+envlist = clean, py37, py38, py39, report
 
 [testenv]
-whitelist_externals =
-    poetry
-    xvfb-run
+commands =
+    pytest --cov --cov-append --cov-report=term-missing {posargs}
+deps =
+    pytest
+    pytest-cov
+depends =
+    {py37,py38,py39}: clean
+    report: py37,py38,py39
+
+[testenv:report]
+deps = coverage
 skip_install = true
 commands =
-    poetry install -v
-    xvfb-run -a pytest
+    coverage report
+    coverage html
+
+[testenv:clean]
+deps = coverage
+skip_install = true
+commands = coverage erase
 """
 
 [tool.pytest.ini_options]
