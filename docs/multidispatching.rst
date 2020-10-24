@@ -119,6 +119,8 @@ forces us to use also ``has_multimethods`` class decorator::
   ...   @can_eat.register(Meat)
   ...   def can_eat(self, food):
   ...     return False
+  register rule (<class '__main__.Animal'>, <class '__main__.Vegetable'>)
+  register rule (<class '__main__.Animal'>, <class '__main__.Meat'>)
 
 This would work like this::
 
@@ -138,6 +140,7 @@ and override ``can_eat`` method definition::
   ...   @Animal.can_eat.register(Meat)
   ...   def can_eat(self, food):
   ...     return True
+  register rule (<class '__main__.Predator'>, <class '__main__.Meat'>)
 
 This will override ``can_eat`` on ``Predator`` instances but *only* for the case
 for ``Meat`` argument, case for the ``Vegetable`` is not overridden, so class
@@ -176,6 +179,9 @@ you can define it using ``otherwise`` decorator::
   ...   @can_eat.otherwise
   ...   def can_eat(self, food):
   ...     return "?"
+  register rule (<class '__main__.Animal'>, <class '__main__.Vegetable'>)
+  register rule (<class '__main__.Animal'>, <class '__main__.Meat'>)
+  register rule (<class '__main__.Animal'>, <class 'object'>)
 
   >>> Animal().can_eat(1)
   '?'
