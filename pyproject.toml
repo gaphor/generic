@@ -38,7 +38,7 @@ black = { version = "^20.8b1", python = "^3.7" }
 mypy = "0.800"
 pre-commit = "^2.10"
 bw_sphinxtheme = "^0.1.8"
-tox = "^3.21"
+tox = "^3.22"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
