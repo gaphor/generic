@@ -7,7 +7,7 @@ import functools
 import inspect
 import threading
 import types
-from typing import Any, Callable, Type, TypeVar, Union, cast
+from typing import Any, Callable, TypeVar, Union, cast
 
 from generic.multidispatch import FunctionDispatcher, KeyType
 
@@ -44,7 +44,7 @@ def multimethod(*argtypes: KeyType) -> Callable[[T], MethodDispatcher[T]]:
     return _replace_with_dispatcher
 
 
-def has_multimethods(cls: Type[C]) -> Type[C]:
+def has_multimethods(cls: type[C]) -> type[C]:
     """Declare class as one that have multimethods.
 
     Should only be used for decorating classes which have methods decorated with
