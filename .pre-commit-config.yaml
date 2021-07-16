@@ -25,5 +25,9 @@ repos:
 - repo: https://github.com/myint/docformatter
   rev: v1.4
   hooks:
-    - id: docformatter
-      args: [--in-place]
+  - id: docformatter
+    args: [--in-place]
+- repo: https://github.com/asottile/pyupgrade
+  rev: v2.19.4
+  hooks:
+  - id: pyupgrade

@@ -7,19 +7,7 @@ This implementation was borrowed from happy[1] project by Chris Rossi.
 
 from __future__ import annotations
 
-from typing import (
-    Any,
-    Dict,
-    Generator,
-    Generic,
-    KeysView,
-    List,
-    Optional,
-    Sequence,
-    Tuple,
-    TypeVar,
-    Union,
-)
+from typing import Any, Dict, Generator, Generic, KeysView, Sequence, TypeVar, Union
 
 __all__ = ("Registry", "SimpleAxis", "TypeAxis")
 
@@ -33,7 +21,7 @@ Axis = Union["SimpleAxis", "TypeAxis"]
 class Registry(Generic[T]):
     """Registry implementation."""
 
-    def __init__(self, *axes: Tuple[str, Axis]):
+    def __init__(self, *axes: tuple[str, Axis]):
         self._tree: _TreeNode[T] = _TreeNode()
         self._axes = [axis for name, axis in axes]
         self._axes_dict = {name: (i, axis) for i, (name, axis) in enumerate(axes)}
@@ -50,7 +38,7 @@ class Registry(Generic[T]):
 
         tree_node.target = target
 
-    def get_registration(self, *arg_keys: K, **kw_keys: K) -> Optional[T]:
+    def get_registration(self, *arg_keys: K, **kw_keys: K) -> T | None:
         tree_node = self._tree
         for key in self._align_with_axes(arg_keys, kw_keys):
             if key not in tree_node:
@@ -59,17 +47,17 @@ class Registry(Generic[T]):
 
         return tree_node.target
 
-    def lookup(self, *arg_objs: V, **kw_objs: V) -> Optional[T]:
+    def lookup(self, *arg_objs: V, **kw_objs: V) -> T | None:
         return next(self.query(*arg_objs, **kw_objs), None)
 
-    def query(self, *arg_objs: V, **kw_objs: V) -> Generator[Optional[T], None, None]:
+    def query(self, *arg_objs: V, **kw_objs: V) -> Generator[T | None, None, None]:
         objs = self._align_with_axes(arg_objs, kw_objs)
         axes = self._axes
         return self._query(self._tree, objs, axes)
 
     def _query(
-        self, tree_node: _TreeNode[T], objs: Sequence[Optional[V]], axes: Sequence[Axis]
-    ) -> Generator[Optional[T], None, None]:
+        self, tree_node: _TreeNode[T], objs: Sequence[V | None], axes: Sequence[Axis]
+    ) -> Generator[T | None, None, None]:
         """Recursively traverse registration tree, from left to right, most
         specific to least specific, returning the first target found on a
         matching node."""
@@ -80,7 +68,7 @@ class Registry(Generic[T]):
 
             # Skip non-participating nodes
             if obj is None:
-                next_node: Optional[_TreeNode[T]] = tree_node.get(None, None)
+                next_node: _TreeNode[T] | None = tree_node.get(None, None)
                 if next_node is not None:
                     yield from self._query(next_node, objs[1:], axes[1:])
             else:
@@ -90,13 +78,13 @@ class Registry(Generic[T]):
                     yield from self._query(tree_node[match_key], objs[1:], axes[1:])
 
     def _align_with_axes(
-        self, args: Sequence[S], kw: Dict[str, S]
-    ) -> Sequence[Optional[S]]:
+        self, args: Sequence[S], kw: dict[str, S]
+    ) -> Sequence[S | None]:
         """Create a list matching up all args and kwargs with their
         corresponding axes, in order, using ``None`` as a placeholder for
         skipped axes."""
         axes_dict = self._axes_dict
-        aligned: List[Optional[S]] = [None for i in range(len(axes_dict))]
+        aligned: list[S | None] = [None for i in range(len(axes_dict))]
 
         args_len = len(args)
         if args_len + len(kw) > len(aligned):
@@ -126,7 +114,7 @@ class Registry(Generic[T]):
 
 
 class _TreeNode(Generic[T], Dict[Any, Any]):
-    target: Optional[T] = None
+    target: T | None = None
 
     def __str__(self) -> str:
         return f"<TreeNode {self.target} {dict.__str__(self)}>"
@@ -144,7 +132,7 @@ class SimpleAxis:
     """
 
     def matches(
-        self, obj: object, keys: KeysView[Optional[object]]
+        self, obj: object, keys: KeysView[object | None]
     ) -> Generator[object, None, None]:
         for key in [obj]:
             if key in keys:
@@ -156,7 +144,7 @@ class TypeAxis:
     resolution order."""
 
     def matches(
-        self, obj: object, keys: KeysView[Optional[type]]
+        self, obj: object, keys: KeysView[type | None]
     ) -> Generator[type, None, None]:
         for key in type(obj).mro():
             if key in keys:

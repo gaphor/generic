@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Callable, List
+from typing import Callable
 
 from generic.event import Manager
 
@@ -159,7 +159,7 @@ def test_unsubscribe_event_inheritance():
 
 class Event:
     def __init__(self) -> None:
-        self.effects: List[object] = []
+        self.effects: list[object] = []
 
 
 class EventA(Event):
