@@ -34,7 +34,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install tox tox-gh-actions coverage
+          pip install tox tox-gh-actions coverage[toml]
       - name: Test with tox
         run: tox
       - name: Code Climate Coverage Action
@@ -43,4 +43,3 @@ jobs:
           CC_TEST_REPORTER_ID: f9441442730130d385df69241a779ac3b663756ed21881179826e3fab7e01924
         with:
           coverageCommand: coverage xml
-          debug: true
