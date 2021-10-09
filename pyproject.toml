@@ -28,7 +28,7 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"
@@ -48,13 +48,13 @@ build-backend = "poetry.core.masonry.api"
 legacy_tox_ini = """
 [tox]
 isolated_build = true
-envlist = clean, py37, py38, py39, report
+envlist = clean, py38, py39, py310, report
 
 [gh-actions]
 python =
-    3.7: py37
     3.8: py38
     3.9: py39
+    3.10: py310
 
 [testenv]
 commands =
@@ -63,8 +63,8 @@ deps =
     pytest
     pytest-cov
 depends =
-    {py37,py38,py39}: clean
-    report: py37,py38,py39
+    {py38,py39,py310}: clean
+    report: py38,py39,py310
 
 [testenv:report]
 deps = coverage[toml]
