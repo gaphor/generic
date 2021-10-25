@@ -27,7 +27,7 @@ excellent readthedocs.org project. Development takes place on
 
 - Add Support for Python 3.10, Drop Support for Python 3.7
 - Enable Pre-commit Hooks for isort, toml, yaml, pyupgrade, docformatter, and flake8
-- Migrate to GitHub Actions @danyeaw (#3)
+- Migrate to GitHub Actions
 
 ## 1.0.0
 
