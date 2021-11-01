@@ -46,7 +46,7 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = u"generic"
+project = "generic"
 copyright = f"2011, Andrey Popp, 2019-{date.today().year}, Arjan Molenaar and Dan Yeaw"
 
 # The version info for the project you're documenting, acts as replacement for
@@ -189,7 +189,7 @@ latex_elements = {  # type: ignore[var-annotated]
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-    ("index", "generic.tex", u"generic Documentation", u"Andrey Popp", "manual"),
+    ("index", "generic.tex", "generic Documentation", "Andrey Popp", "manual"),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -217,7 +217,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [("index", "generic", u"generic Documentation", [u"Andrey Popp"], 1)]
+man_pages = [("index", "generic", "generic Documentation", ["Andrey Popp"], 1)]
 
 # If true, show URL addresses after external links.
 # man_show_urls = False
@@ -232,8 +232,8 @@ texinfo_documents = [
     (
         "index",
         "generic",
-        u"generic Documentation",
-        u"Andrey Popp",
+        "generic Documentation",
+        "Andrey Popp",
         "generic",
         "One line description of project.",
         "Miscellaneous",
