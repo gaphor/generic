@@ -1,4 +1,4 @@
 # Keep until RTD fully support pyproject.toml
-Sphinx==4.3.1
+Sphinx==4.3.2
 sphinx-rtd-theme==1.0.0
 tomli==1.2.2
