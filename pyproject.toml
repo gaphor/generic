@@ -34,7 +34,7 @@ python = "^3.8"
 pytest = "^6.2"
 pytest-cov = "^2.12"
 pytest-runner = "^5.3"
-black = { version = "^21.12b0", python = "^3.7" }
+black = { version = "^22.1", python = "^3.7" }
 mypy = "0.931"
 pre-commit = "^2.17"
 bw_sphinxtheme = "^0.1.8"
