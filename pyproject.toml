@@ -31,7 +31,7 @@ classifiers = [
 python = "^3.8"
 
 [tool.poetry.dev-dependencies]
-pytest = "^6.2"
+pytest = "^7.0"
 pytest-cov = "^2.12"
 pytest-runner = "^5.3"
 black = { version = "^22.1", python = "^3.7" }
