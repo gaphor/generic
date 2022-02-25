@@ -286,7 +286,7 @@ testing = ["fields", "hunter", "process-tests", "six", "pytest-xdist", "virtuale
 
 [[package]]
 name = "pytest-runner"
-version = "5.3.1"
+version = "5.3.2"
 description = "Invoke py.test as distutils command with dependency resolution"
 category = "dev"
 optional = false
@@ -553,8 +553,8 @@ pytest-cov = [
     {file = "pytest_cov-2.12.1-py2.py3-none-any.whl", hash = "sha256:261bb9e47e65bd099c89c3edf92972865210c36813f80ede5277dceb77a4a62a"},
 ]
 pytest-runner = [
-    {file = "pytest-runner-5.3.1.tar.gz", hash = "sha256:0fce5b8dc68760f353979d99fdd6b3ad46330b6b1837e2077a89ebcf204aac91"},
-    {file = "pytest_runner-5.3.1-py3-none-any.whl", hash = "sha256:85f93af814438ee322b4ea08fe3f5c2ad53b253577f3bd84b2ad451fee450ac5"},
+    {file = "pytest-runner-5.3.2.tar.gz", hash = "sha256:48934ec94301f6727d30615af1960539ff62063f6c9b71b7227174e51ba5fb34"},
+    {file = "pytest_runner-5.3.2-py3-none-any.whl", hash = "sha256:c7d785ea6c612396c11ddbaf467764d2cc746ef96a713fbe1a296c221503b7c3"},
 ]
 pyyaml = [
     {file = "PyYAML-5.4.1-cp27-cp27m-macosx_10_9_x86_64.whl", hash = "sha256:3b2b1824fe7112845700f815ff6a489360226a5609b96ec2190a45e62a9fc922"},
