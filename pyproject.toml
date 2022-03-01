@@ -33,7 +33,7 @@ python = "^3.8"
 [tool.poetry.dev-dependencies]
 pytest = "^7.0"
 pytest-cov = "^2.12"
-pytest-runner = "^5.3"
+pytest-runner = "^6.0"
 black = { version = "^22.1", python = "^3.7" }
 mypy = "0.931"
 pre-commit = "^2.17"
