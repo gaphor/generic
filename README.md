@@ -23,6 +23,11 @@ excellent readthedocs.org project. Development takes place on
 
 # Changes
 
+## 1.1.0
+
+- Rename `master` branch to `main`
+- `generic.event.Manager` executes all handlers and throws an `ExceptionGroup` in case of errors
+
 ## 1.0.1
 
 - Add Support for Python 3.10, Drop Support for Python 3.7
