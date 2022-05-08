@@ -5,6 +5,8 @@ This module provides API for event management.
 
 from typing import Callable, Set, Type
 
+from exceptiongroup import ExceptionGroup
+
 from generic.registry import Registry, TypeAxis
 
 __all__ = "Manager"
@@ -42,13 +44,21 @@ class Manager:
     def handle(self, event: Event) -> None:
         """Fire ``event``
 
-        All subscribers will be executed with no determined order.
+        All subscribers will be executed with no determined order. If a
+        handler raises an exceptions, an `ExceptionGroup` will be raised
+        containing all raised exceptions.
         """
         handler_sets = self.registry.query(event)
         for handler_set in handler_sets:
             if handler_set:
+                exceptions = []
                 for handler in set(handler_set):
-                    handler(event)
+                    try:
+                        handler(event)
+                    except BaseException as e:
+                        exceptions.append(e)
+                if exceptions:
+                    raise ExceptionGroup("Error while handling events", exceptions)
 
     def _register_handler_set(self, event_type: Type[Event]) -> HandlerSet:
         """Register new handler set for ``event_type``."""
