@@ -1,15 +1,6 @@
 """Event management system.
 
-This module provides API for event management. There are two APIs provided:
-
-* Global event management API: subscribe, unsubscribe, handle.
-* Local event management API: Manager
-
-If you run only one instance of your application per Python
-interpreter you can stick with global API, but if you want to have
-more than one application instances running inside one interpreter and
-to have different configurations for them -- you should use local API
-and have one instance of Manager object per application instance.
+This module provides API for event management.
 """
 
 from typing import Callable, Set, Type
@@ -26,10 +17,7 @@ HandlerSet = Set[Handler]
 class Manager:
     """Event manager.
 
-    Provides API for subscribing for and firing events. There's also global
-    event manager instantiated at module level with functions
-    :func:`.subscribe`, :func:`.handle` and decorator :func:`.subscriber` aliased
-    to corresponding methods of class.
+    Provides API for subscribing for and firing events.
     """
 
     registry: Registry[HandlerSet]
