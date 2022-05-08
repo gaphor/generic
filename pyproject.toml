@@ -29,6 +29,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.8"
+exceptiongroup = "^1.0.0-rc.5"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1"

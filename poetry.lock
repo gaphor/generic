@@ -97,6 +97,17 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "exceptiongroup"
+version = "1.0.0rc5"
+description = "Backport of PEP 654 (exception groups)"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.extras]
+test = ["pytest (>=6)"]
+
+[[package]]
 name = "filelock"
 version = "3.6.0"
 description = "A platform independent file lock."
@@ -371,7 +382,7 @@ testing = ["coverage (>=4)", "coverage-enable-subprocess (>=1)", "flaky (>=3)", 
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "79d464bcfe246e843005ff88d4ddc655a5196d74978599b33ccb890a1d3952fa"
+content-hash = "eba382a768aa480dee8fdcc297e96e6bd5db4c2faf7b9d368b70a58036dcc083"
 
 [metadata.files]
 atomicwrites = [
@@ -468,6 +479,10 @@ coverage = [
 distlib = [
     {file = "distlib-0.3.4-py2.py3-none-any.whl", hash = "sha256:6564fe0a8f51e734df6333d08b8b94d4ea8ee6b99b5ed50613f731fd4089f34b"},
     {file = "distlib-0.3.4.zip", hash = "sha256:e4b58818180336dc9c529bfb9a0b58728ffc09ad92027a3f30b7cd91e3458579"},
+]
+exceptiongroup = [
+    {file = "exceptiongroup-1.0.0rc5-py3-none-any.whl", hash = "sha256:295a9d7847f9ad08267f47c701a676ec70a64200a360dd49eb513f72209b09f4"},
+    {file = "exceptiongroup-1.0.0rc5.tar.gz", hash = "sha256:665422550b9653acd46e9cd35d933f28c5158ca4c058c53619cfa112915cd69e"},
 ]
 filelock = [
     {file = "filelock-3.6.0-py3-none-any.whl", hash = "sha256:f8314284bfffbdcfa0ff3d7992b023d4c628ced6feb957351d4c48d059f56bc0"},

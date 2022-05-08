@@ -1,18 +1,11 @@
 """Event management system.
 
-This module provides API for event management. There are two APIs provided:
-
-* Global event management API: subscribe, unsubscribe, handle.
-* Local event management API: Manager
-
-If you run only one instance of your application per Python
-interpreter you can stick with global API, but if you want to have
-more than one application instances running inside one interpreter and
-to have different configurations for them -- you should use local API
-and have one instance of Manager object per application instance.
+This module provides API for event management.
 """
 
 from typing import Callable, Set, Type
+
+from exceptiongroup import ExceptionGroup
 
 from generic.registry import Registry, TypeAxis
 
@@ -26,10 +19,7 @@ HandlerSet = Set[Handler]
 class Manager:
     """Event manager.
 
-    Provides API for subscribing for and firing events. There's also global
-    event manager instantiated at module level with functions
-    :func:`.subscribe`, :func:`.handle` and decorator :func:`.subscriber` aliased
-    to corresponding methods of class.
+    Provides API for subscribing for and firing events.
     """
 
     registry: Registry[HandlerSet]
@@ -54,13 +44,21 @@ class Manager:
     def handle(self, event: Event) -> None:
         """Fire ``event``
 
-        All subscribers will be executed with no determined order.
+        All subscribers will be executed with no determined order. If a
+        handler raises an exceptions, an `ExceptionGroup` will be raised
+        containing all raised exceptions.
         """
         handler_sets = self.registry.query(event)
         for handler_set in handler_sets:
             if handler_set:
+                exceptions = []
                 for handler in set(handler_set):
-                    handler(event)
+                    try:
+                        handler(event)
+                    except BaseException as e:
+                        exceptions.append(e)
+                if exceptions:
+                    raise ExceptionGroup("Error while handling events", exceptions)
 
     def _register_handler_set(self, event_type: Type[Event]) -> HandlerSet:
         """Register new handler set for ``event_type``."""
