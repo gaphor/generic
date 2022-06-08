@@ -98,7 +98,7 @@ python-versions = "*"
 
 [[package]]
 name = "exceptiongroup"
-version = "1.0.0rc7"
+version = "1.0.0rc8"
 description = "Backport of PEP 654 (exception groups)"
 category = "main"
 optional = false
@@ -481,8 +481,8 @@ distlib = [
     {file = "distlib-0.3.4.zip", hash = "sha256:e4b58818180336dc9c529bfb9a0b58728ffc09ad92027a3f30b7cd91e3458579"},
 ]
 exceptiongroup = [
-    {file = "exceptiongroup-1.0.0rc7-py3-none-any.whl", hash = "sha256:82dc1cfc21bb5f921a25925e80ec696c71b7d108c6c63bd8a786abe2b73c3263"},
-    {file = "exceptiongroup-1.0.0rc7.tar.gz", hash = "sha256:2019e6e9d6ef84ff65c5c7c451b75802c662d53bcb124abf47ad118d39f9a1ca"},
+    {file = "exceptiongroup-1.0.0rc8-py3-none-any.whl", hash = "sha256:ab0a968e1ef769e55d9a596f4a89f7be9ffedbc9fdefdb77cc68cf5c33ce1035"},
+    {file = "exceptiongroup-1.0.0rc8.tar.gz", hash = "sha256:6990c24f06b8d33c8065cfe43e5e8a4bfa384e0358be036af9cc60b6321bd11a"},
 ]
 filelock = [
     {file = "filelock-3.6.0-py3-none-any.whl", hash = "sha256:f8314284bfffbdcfa0ff3d7992b023d4c628ced6feb957351d4c48d059f56bc0"},
