@@ -27,6 +27,8 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
       - name: Set up Python
         uses: actions/setup-python@v3.1.2
+        with:
+          python-version: '3.x'
       - name: Lint with Pre-commit
         uses: pre-commit/action@v3.0.0
 
