@@ -35,7 +35,7 @@ exceptiongroup = "^1.0.0-rc.5"
 pytest = "^7.1"
 pytest-cov = "^4.0"
 pytest-runner = "^6.0"
-black = { version = "^22.8", python = "^3.7" }
+black = { version = "^22.10", python = "^3.7" }
 mypy = "0.982"
 pre-commit = "^2.20"
 bw_sphinxtheme = "^0.1.8"
