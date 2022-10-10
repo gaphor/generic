@@ -5,7 +5,7 @@ from generic.multimethod import has_multimethods, multimethod
 
 def test_multimethod():
     @has_multimethods
-    class Dummy(object):
+    class Dummy:
         @multimethod(int)
         def foo(self, x):
             return x + 1
@@ -22,7 +22,7 @@ def test_multimethod():
 
 def test_multimethod_with_two_arguments():
     @has_multimethods
-    class Dummy(object):
+    class Dummy:
         @multimethod(int, int)
         def foo(self, x, y):
             return x * y
@@ -39,7 +39,7 @@ def test_multimethod_with_two_arguments():
 
 def test_multimethod_otherwise_clause():
     @has_multimethods
-    class Dummy(object):
+    class Dummy:
         @multimethod(int)
         def foo(self, x):
             return x + 1
@@ -55,7 +55,7 @@ def test_multimethod_otherwise_clause():
 
 def test_multimethod_otherwise_clausewith_two_arguments():
     @has_multimethods
-    class Dummy(object):
+    class Dummy:
         @multimethod(int, int)
         def foo(self, x, y):
             return x * y
@@ -70,7 +70,7 @@ def test_multimethod_otherwise_clausewith_two_arguments():
 
 def test_inheritance():
     @has_multimethods
-    class Dummy(object):
+    class Dummy:
         @multimethod(int)
         def foo(self, x):
             return x + 1
@@ -111,7 +111,7 @@ def test_override_in_same_class_not_allowed():
     with pytest.raises(ValueError):
 
         @has_multimethods
-        class Dummy(object):
+        class Dummy:
             @multimethod(str, str)
             def foo(self, x, y):
                 return x + y
@@ -123,7 +123,7 @@ def test_override_in_same_class_not_allowed():
 
 def test_inheritance_override():
     @has_multimethods
-    class Dummy(object):
+    class Dummy:
         @multimethod(int)
         def foo(self, x):
             return x + 1

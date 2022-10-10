@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # generic documentation build configuration file, created by
 # sphinx-quickstart on Sat Dec  3 16:59:36 2011.
