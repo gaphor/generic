@@ -38,6 +38,8 @@ jobs:
     needs: lint
     if: ${{ needs.pre_job.outputs.should_skip != 'true' }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     strategy:
       max-parallel: 4
       matrix:
