@@ -45,13 +45,14 @@ tox = "^3.27"
 legacy_tox_ini = """
 [tox]
 isolated_build = true
-envlist = clean, py38, py39, py310, report
+envlist = clean, py38, py39, py310, py311, report
 
 [gh-actions]
 python =
     3.8: py38
     3.9: py39
     3.10: py310
+    3.11: py311
 
 [testenv]
 commands =
@@ -60,8 +61,8 @@ deps =
     pytest
     pytest-cov
 depends =
-    {py38,py39,py310}: clean
-    report: py38,py39,py310
+    {py38,py39,py310,py311}: clean
+    report: py38,py39,py310,py311
 
 [testenv:report]
 deps = coverage[toml]
