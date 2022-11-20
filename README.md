@@ -23,6 +23,12 @@ excellent readthedocs.org project. Development takes place on
 
 # Changes
 
+## 1.1.1
+
+- Add support for Python 3.11
+- Move mypy configuration to pyproject.toml
+- Enable automatic release of new versions with CI
+
 ## 1.1.0
 
 - Rename `master` branch to `main`
