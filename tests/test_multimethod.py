@@ -14,7 +14,6 @@ def test_multimethod():
         def foo(self, x):
             return f"{x}1"
 
-
     assert Dummy().foo(1) == 2
     assert Dummy().foo("1") == "11"
     with pytest.raises(TypeError):
@@ -70,7 +69,6 @@ def test_multimethod_otherwise_clausewith_two_arguments():
 
 
 def test_inheritance():
-
     @has_multimethods
     class Dummy:
         @multimethod(int)
@@ -80,8 +78,6 @@ def test_inheritance():
         @foo.register(float)  # type: ignore[no-redef]
         def foo(self, x):
             return x + 1.5
-
-
 
     @has_multimethods
     class DummySub(Dummy):
@@ -96,7 +92,6 @@ def test_inheritance():
         @Dummy.foo.register(bool)  # type: ignore[no-redef]
         def foo(self, x):
             return not x
-
 
     assert Dummy().foo(1) == 2
     assert Dummy().foo(1.5) == 3.0
