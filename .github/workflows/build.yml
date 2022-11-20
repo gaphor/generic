@@ -1,10 +1,9 @@
 name: build
 
 on:
-  pull_request:
   push:
-    branches:
-      - main
+  release:
+    types: [created, published]
 
 jobs:
   skip-check:
