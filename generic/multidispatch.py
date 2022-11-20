@@ -3,7 +3,7 @@
 This code is a Python 3, slimmed down version of the
 generic package by Andrey Popp.
 
-Only the generic function code is left in tact -- no generic methods.
+Only the generic function code is left intact -- no generic methods.
 The interface has been made in line with `functools.singledispatch`.
 
 Note that this module does not support annotated functions.
@@ -133,6 +133,6 @@ class FunctionDispatcher(Generic[T]):
 
 def _arity(argspec: inspect.FullArgSpec) -> int:
     """Determinal positional arity of argspec."""
-    args = argspec.args if argspec.args else []
-    defaults = argspec.defaults if argspec.defaults else []
+    args = argspec.args or []
+    defaults = argspec.defaults or []
     return len(args) - len(defaults)

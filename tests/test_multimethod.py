@@ -12,7 +12,8 @@ def test_multimethod():
 
         @foo.register(str)  # type: ignore[no-redef]
         def foo(self, x):
-            return x + "1"
+            return f"{x}1"
+
 
     assert Dummy().foo(1) == 2
     assert Dummy().foo("1") == "11"
@@ -69,6 +70,7 @@ def test_multimethod_otherwise_clausewith_two_arguments():
 
 
 def test_inheritance():
+
     @has_multimethods
     class Dummy:
         @multimethod(int)
@@ -79,11 +81,13 @@ def test_inheritance():
         def foo(self, x):
             return x + 1.5
 
+
+
     @has_multimethods
     class DummySub(Dummy):
         @Dummy.foo.register(str)
         def foo(self, x):
-            return x + "1"
+            return f"{x}1"
 
         @foo.register(tuple)  # type: ignore[no-redef]
         def foo(self, x):
@@ -92,6 +96,7 @@ def test_inheritance():
         @Dummy.foo.register(bool)  # type: ignore[no-redef]
         def foo(self, x):
             return not x
+
 
     assert Dummy().foo(1) == 2
     assert Dummy().foo(1.5) == 3.0

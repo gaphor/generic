@@ -84,7 +84,7 @@ class Registry(Generic[T]):
         corresponding axes, in order, using ``None`` as a placeholder for
         skipped axes."""
         axes_dict = self._axes_dict
-        aligned: list[S | None] = [None for i in range(len(axes_dict))]
+        aligned: list[S | None] = [None for _ in range(len(axes_dict))]
 
         args_len = len(args)
         if args_len + len(kw) > len(aligned):
@@ -106,7 +106,7 @@ class Registry(Generic[T]):
 
             aligned[i] = v
 
-        # Trim empty tail nodes for faster look ups
+        # Trim empty tail nodes for faster look-ups
         while aligned and aligned[-1] is None:
             del aligned[-1]
 
