@@ -5,6 +5,9 @@ on:
   release:
     types: [created, published]
 
+env:
+  POETRY_VERSION: 1.2.2
+
 jobs:
   skip-check:
     runs-on: ubuntu-latest
