@@ -58,3 +58,14 @@ jobs:
           CC_TEST_REPORTER_ID: f9441442730130d385df69241a779ac3b663756ed21881179826e3fab7e01924
         with:
           coverageCommand: coverage xml
+      - name: Build
+        run: poetry build
+      - name: Upload Assets (release only)
+        uses: AButler/upload-release-assets@v2.0
+        if: github.event_name == 'release' && matrix.python-version == '3.11'
+        with:
+          files: "dist/*"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish to PyPI (release only)
+        if: github.event_name == 'release' && matrix.python-version == '3.11'
+        run: poetry publish -u __token__ -p ${{ secrets.PYPI_TOKEN }}
