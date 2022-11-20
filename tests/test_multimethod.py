@@ -12,7 +12,7 @@ def test_multimethod():
 
         @foo.register(str)  # type: ignore[no-redef]
         def foo(self, x):
-            return x + "1"
+            return f"{x}1"
 
     assert Dummy().foo(1) == 2
     assert Dummy().foo("1") == "11"
@@ -83,7 +83,7 @@ def test_inheritance():
     class DummySub(Dummy):
         @Dummy.foo.register(str)
         def foo(self, x):
-            return x + "1"
+            return f"{x}1"
 
         @foo.register(tuple)  # type: ignore[no-redef]
         def foo(self, x):

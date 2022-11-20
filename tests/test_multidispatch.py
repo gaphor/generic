@@ -33,7 +33,7 @@ def test_one_argument():
     with pytest.raises(TypeError):
         dispatcher("s")
 
-    dispatcher.register_rule(lambda x: x + "1", str)
+    dispatcher.register_rule(lambda x: f"{x}1", str)
     assert dispatcher(1) == 2
     assert dispatcher("1") == "11"
     with pytest.raises(TypeError):

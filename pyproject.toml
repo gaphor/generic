@@ -41,21 +41,18 @@ pre-commit = "^2.20"
 bw_sphinxtheme = "^0.1.8"
 tox = "^3.27"
 
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
-
 [tool.tox]
 legacy_tox_ini = """
 [tox]
 isolated_build = true
-envlist = clean, py38, py39, py310, report
+envlist = clean, py38, py39, py310, py311, report
 
 [gh-actions]
 python =
     3.8: py38
     3.9: py39
     3.10: py310
+    3.11: py311
 
 [testenv]
 commands =
@@ -64,8 +61,8 @@ deps =
     pytest
     pytest-cov
 depends =
-    {py38,py39,py310}: clean
-    report: py38,py39,py310
+    {py38,py39,py310,py311}: clean
+    report: py38,py39,py310,py311
 
 [testenv:report]
 deps = coverage[toml]
@@ -85,7 +82,11 @@ testpaths = [
     "tests",
     "docs",
     ]
-addopts = "--doctest-modules --doctest-glob='*.rst'"
+addopts = [
+    "--doctest-modules",
+    "--doctest-glob='*.rst'",
+    "--import-mode=importlib",
+]
 
 [tool.isort]
 multi_line_output = 3
@@ -98,3 +99,28 @@ skip = ".venv,build,dist"
 
 [tool.coverage.run]
 source = ["generic"]
+
+[tool.mypy]
+python_version = 3.9
+warn_return_any = true
+warn_unused_configs = true
+warn_redundant_casts = true
+check_untyped_defs = true
+strict_optional = true
+show_error_codes = true
+ignore_missing_imports=true
+warn_unused_ignores = true
+namespace_packages = true
+
+[[tool.mypy.overrides]]
+module = [
+    "pytest.*",
+    "conf",
+]
+ignore_missing_imports = true
+warn_unreachable = true
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+

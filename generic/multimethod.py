@@ -86,9 +86,7 @@ class MethodDispatcher(FunctionDispatcher[T]):
         self.local.unbound_rules = []
 
     def __get__(self, obj, cls):
-        if obj is None:
-            return self
-        return types.MethodType(self, obj)
+        return self if obj is None else types.MethodType(self, obj)
 
     def register(self, *argtypes: KeyType) -> Callable[[T], T]:
         """Register new case for multimethod for ``argtypes``"""
