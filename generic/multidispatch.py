@@ -134,5 +134,5 @@ class FunctionDispatcher(Generic[T]):
 def _arity(argspec: inspect.FullArgSpec) -> int:
     """Determinal positional arity of argspec."""
     args = argspec.args or []
-    defaults = argspec.defaults or []
+    defaults: tuple[Any, ...] | list = argspec.defaults or []
     return len(args) - len(defaults)
