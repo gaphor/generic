@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "generic"
-version = "1.1.0"
+version = "1.1.1"
 description = "Generic programming library for Python"
 authors = [
     "Andrey Popp <8mayday@gmail.com>",
