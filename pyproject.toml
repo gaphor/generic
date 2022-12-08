@@ -39,7 +39,7 @@ black = { version = "^22.10", python = "^3.7" }
 mypy = "0.991"
 pre-commit = "^2.20"
 bw_sphinxtheme = "^0.1.8"
-tox = "^3.27"
+tox = "^4.0"
 
 [tool.tox]
 legacy_tox_ini = """
