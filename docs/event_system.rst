@@ -6,9 +6,6 @@ event systems in your application. By event system I mean an API for
 *subscribing* for some types of events and to *handle* those events so previously
 subscribed *handlers* are being executed.
 
-.. contents::
-   :local:
-
 Basic usage
 -----------
 
