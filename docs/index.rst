@@ -10,7 +10,8 @@ generic:
 
 .. toctree::
    :maxdepth: 3
-
+   :hidden:
+   
    multidispatching
    event_system
    registry
