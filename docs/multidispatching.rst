@@ -8,9 +8,6 @@ and ``isinstance`` calls.
 All you need is inside ``generic.multidispatch`` module. See examples below to
 learn how to use it to define multifunctions and multimethods.
 
-.. contents::
-   :local:
-
 First the basics:
 
   >>> class Cat: pass
