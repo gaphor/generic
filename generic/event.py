@@ -81,7 +81,6 @@ class Manager:
 
             >>> mymanager.handle(MyEvent())
         """
-
         def registrator(func: Handler) -> Handler:
             self.subscribe(func, event_type)
             return func

@@ -30,7 +30,6 @@ def multidispatch(*argtypes: KeyType) -> Callable[[T], FunctionDispatcher[T]]:
     decorated function with :class:`.FunctionDispatcher` object, which
     is responsible for multiple dispatch feature.
     """
-
     def _replace_with_dispatcher(func: T) -> FunctionDispatcher[T]:
         nonlocal argtypes
         argspec = inspect.getfullargspec(func)
@@ -54,7 +53,8 @@ def multidispatch(*argtypes: KeyType) -> Callable[[T], FunctionDispatcher[T]]:
 class FunctionDispatcher(Generic[T]):
     """Multidispatcher for functions.
 
-    This object dispatch calls to function by its argument types. Usually it is
+    This object dispatch calls to function by its argument types.
+    Usually it is
     produced by :func:`.multidispatch` decorator.
 
     You should not manually create objects of this type.
@@ -113,7 +113,6 @@ class FunctionDispatcher(Generic[T]):
         :func:`.multidispatch` call, which also indicated the number of
         arguments multidispatch dispatches on.
         """
-
         def register_rule(func: T) -> T:
             """Register rule wrapper function."""
             self.register_rule(func, *argtypes)

@@ -27,7 +27,6 @@ def multimethod(*argtypes: KeyType) -> Callable[[T], MethodDispatcher[T]]:
     Should be used only for decorating methods and enclosing class should have
     :func:`.has_multimethods` decorator.
     """
-
     def _replace_with_dispatcher(func):
         nonlocal argtypes
         argspec = inspect.getfullargspec(func)
@@ -59,7 +58,8 @@ def has_multimethods(cls: type[C]) -> type[C]:
 class MethodDispatcher(FunctionDispatcher[T]):
     """Multiple dispatch for methods.
 
-    This object dispatch call to method by its class and arguments types.
+    This object dispatch call to method by its class and arguments
+    types.
     Usually it is produced by :func:`.multimethod` decorator.
 
     You should not manually create objects of this type.
@@ -90,7 +90,6 @@ class MethodDispatcher(FunctionDispatcher[T]):
 
     def register(self, *argtypes: KeyType) -> Callable[[T], T]:
         """Register new case for multimethod for ``argtypes``"""
-
         def make_declaration(meth):
             self.register_unbound_rule(meth, *argtypes)
             return self
@@ -100,7 +99,6 @@ class MethodDispatcher(FunctionDispatcher[T]):
     @property
     def otherwise(self) -> Callable[[T], T]:
         """Decorator which registers "catch-all" case for multimethod."""
-
         def make_declaration(meth):
             self.register_unbound_rule(meth, *([object] * (self.params_arity - 1)))
             return self
