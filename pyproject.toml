@@ -29,16 +29,53 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.8"
-exceptiongroup = "^1.0.0"
-sphinx = { version = ">=4.3,<6.2", optional = true }
-furo = { version = "^2022", optional = true }
+exceptiongroup = "^1.0.0-rc.5"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.2"
 pytest-cov = "^4.0"
+pytest-runner = "^6.0"
+black = { version = "^23.1.0", python = "^3.7" }
+mypy = "0.991"
+pre-commit = "^3.0.3"
+bw_sphinxtheme = "^0.1.8"
+tox = "^4.4.4"
 
-[tool.poetry.extras]
-docs = [ "sphinx", "furo" ]
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+isolated_build = true
+envlist = clean, py38, py39, py310, py311, report
+
+[gh-actions]
+python =
+    3.8: py38
+    3.9: py39
+    3.10: py310
+    3.11: py311
+
+[testenv]
+commands =
+    pytest --cov --cov-append --cov-report=term-missing {posargs}
+deps =
+    pytest
+    pytest-cov
+depends =
+    {py38,py39,py310,py311}: clean
+    report: py38,py39,py310,py311
+
+[testenv:report]
+deps = coverage[toml]
+skip_install = true
+commands =
+    coverage report
+    coverage html
+
+[testenv:clean]
+deps = coverage[toml]
+skip_install = true
+commands = coverage erase
+"""
 
 [tool.pytest.ini_options]
 testpaths = [
@@ -50,15 +87,6 @@ addopts = [
     "--doctest-glob='*.rst'",
     "--import-mode=importlib",
 ]
-
-[tool.isort]
-multi_line_output = 3
-include_trailing_comma = true
-force_grid_wrap = 0
-use_parentheses = true
-line_length = 88
-known_third_party = ["pytest"]
-skip = ".venv,build,dist"
 
 [tool.coverage.run]
 source = ["generic"]
@@ -82,6 +110,25 @@ module = [
 ]
 ignore_missing_imports = true
 warn_unreachable = true
+
+[tool.ruff]
+exclude = [
+    ".venv",
+    "dist",
+]
+ignore = ["E501"]
+line-length = 88
+select = [
+    "B",
+    "B9",
+    "C",
+    "E",
+    "F",
+    "W",
+]
+
+[tool.ruff.mccabe]
+max-complexity = 18
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
