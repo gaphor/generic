@@ -51,15 +51,6 @@ addopts = [
     "--import-mode=importlib",
 ]
 
-[tool.isort]
-multi_line_output = 3
-include_trailing_comma = true
-force_grid_wrap = 0
-use_parentheses = true
-line_length = 88
-known_third_party = ["pytest"]
-skip = ".venv,build,dist"
-
 [tool.coverage.run]
 source = ["generic"]
 
@@ -82,6 +73,25 @@ module = [
 ]
 ignore_missing_imports = true
 warn_unreachable = true
+
+[tool.ruff]
+exclude = [
+    ".venv",
+    "dist",
+]
+ignore = ["E501"]
+line-length = 88
+select = [
+    "B",
+    "B9",
+    "C",
+    "E",
+    "F",
+    "W",
+]
+
+[tool.ruff.mccabe]
+max-complexity = 18
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

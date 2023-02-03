@@ -37,7 +37,7 @@ def test_one_argument():
     assert dispatcher(1) == 2
     assert dispatcher("1") == "11"
     with pytest.raises(TypeError):
-        dispatcher(tuple())
+        dispatcher(())
 
 
 def test_two_arguments():

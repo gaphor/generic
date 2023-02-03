@@ -50,7 +50,7 @@ def has_multimethods(cls: type[C]) -> type[C]:
     Should only be used for decorating classes which have methods decorated with
     :func:`.multimethod` decorator.
     """
-    for name, obj in cls.__dict__.items():
+    for _name, obj in cls.__dict__.items():
         if isinstance(obj, MethodDispatcher):
             obj.proceed_unbound_rules(cls)
     return cls
