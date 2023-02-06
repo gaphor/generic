@@ -10,7 +10,6 @@ from generic.multidispatch import FunctionDispatcher, multidispatch
 def create_dispatcher(
     params_arity, args=None, varargs=None, keywords=None, defaults=None
 ) -> FunctionDispatcher:
-
     return FunctionDispatcher(
         FullArgSpec(
             args=args,
