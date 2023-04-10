@@ -34,7 +34,7 @@ sphinx = { version = ">=4.3,<6.2", optional = true }
 furo = { version = ">=2022,<2024", optional = true }
 
 [tool.poetry.dev-dependencies]
-pytest = "^7.2"
+pytest = "^7.3"
 pytest-cov = "^4.0"
 
 [tool.poetry.extras]
