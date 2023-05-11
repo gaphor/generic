@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import functools
 import inspect
+import logging
 import threading
 import types
 from typing import Any, Callable, TypeVar, Union, cast
@@ -81,7 +82,7 @@ class MethodDispatcher(FunctionDispatcher[T]):
         """Process all unbound rule by binding them to ``cls`` type."""
         for argtypes, func in self.local.unbound_rules:
             argtypes = (cls,) + argtypes
-            print("register rule", argtypes)
+            logging.info("register rule", argtypes)
             self.register_rule(func, *argtypes)
         self.local.unbound_rules = []
 
