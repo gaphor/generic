@@ -17,6 +17,8 @@ __all__ = ("multimethod", "has_multimethods")
 C = TypeVar("C")
 T = TypeVar("T", bound=Union[Callable[..., Any], type])
 
+logger = logging.getLogger(__name__)
+
 
 def multimethod(*argtypes: KeyType) -> Callable[[T], MethodDispatcher[T]]:
     """Declare method as multimethod.
@@ -82,7 +84,7 @@ class MethodDispatcher(FunctionDispatcher[T]):
         """Process all unbound rule by binding them to ``cls`` type."""
         for argtypes, func in self.local.unbound_rules:
             argtypes = (cls,) + argtypes
-            logging.info("register rule", argtypes)
+            logger.debug("register rule", argtypes)
             self.register_rule(func, *argtypes)
         self.local.unbound_rules = []
 
