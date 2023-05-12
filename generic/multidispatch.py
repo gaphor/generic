@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import functools
 import inspect
+import logging
 from typing import Any, Callable, Generic, TypeVar, Union, cast
 
 from generic.registry import Registry, TypeAxis
@@ -21,6 +22,8 @@ __all__ = "multidispatch"
 
 T = TypeVar("T", bound=Union[Callable[..., Any], type])
 KeyType = Union[type, None]
+
+logger = logging.getLogger(__name__)
 
 
 def multidispatch(*argtypes: KeyType) -> Callable[[T], FunctionDispatcher[T]]:
@@ -126,7 +129,7 @@ class FunctionDispatcher(Generic[T]):
         trimmed_args = args[: self.params_arity]
         rule = self.registry.lookup(*trimmed_args)
         if not rule:
-            print(self.registry._tree)
+            logger.debug(self.registry._tree)
             raise TypeError(f"No available rule found for {trimmed_args!r}")
         return rule(*args, **kwargs)
 

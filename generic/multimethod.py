@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import functools
 import inspect
+import logging
 import threading
 import types
 from typing import Any, Callable, TypeVar, Union, cast
@@ -15,6 +16,8 @@ __all__ = ("multimethod", "has_multimethods")
 
 C = TypeVar("C")
 T = TypeVar("T", bound=Union[Callable[..., Any], type])
+
+logger = logging.getLogger(__name__)
 
 
 def multimethod(*argtypes: KeyType) -> Callable[[T], MethodDispatcher[T]]:
@@ -81,7 +84,7 @@ class MethodDispatcher(FunctionDispatcher[T]):
         """Process all unbound rule by binding them to ``cls`` type."""
         for argtypes, func in self.local.unbound_rules:
             argtypes = (cls,) + argtypes
-            print("register rule", argtypes)
+            logger.debug("register rule", argtypes)
             self.register_rule(func, *argtypes)
         self.local.unbound_rules = []
 
