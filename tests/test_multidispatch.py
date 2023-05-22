@@ -1,5 +1,6 @@
 """Tests for :module:`generic.multidispatch`."""
 
+import logging
 from inspect import FullArgSpec
 
 import pytest
@@ -222,3 +223,19 @@ def test_on_classes():
 
     assert A(1, 1).v == 2
     assert A("1", "2").v == "21"
+
+
+def test_logging(caplog):
+    @multidispatch(str, str)
+    def func(x, y):
+        return x + y
+
+    caplog.set_level(logging.DEBUG)
+    with pytest.raises(TypeError):
+        func(1, 2)
+
+    rec = caplog.records[0]
+
+    assert rec.levelname == "DEBUG"
+    assert rec.module == "multidispatch"
+    assert rec.name == "generic.multidispatch"
