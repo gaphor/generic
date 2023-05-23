@@ -30,7 +30,7 @@ classifiers = [
 [tool.poetry.dependencies]
 python = "^3.8"
 exceptiongroup = "^1.0.0"
-sphinx = { version = ">=4.3,<6.3", optional = true }
+sphinx = { version = ">=4.3,<7.1", optional = true }
 furo = { version = ">=2022,<2024", optional = true }
 
 [tool.poetry.dev-dependencies]
