@@ -6,7 +6,7 @@ on:
     types: [created, published]
 
 env:
-  POETRY_VERSION: 1.2.2
+  POETRY_VERSION: 1.5.1
 
 jobs:
   skip-check:
@@ -34,7 +34,7 @@ jobs:
       - name: Lint with Pre-commit
         uses: pre-commit/action@v3.0.0
 
-  test:
+  build:
     needs: lint
     if: ${{ needs.pre_job.outputs.should_skip != 'true' }}
     runs-on: ubuntu-latest
@@ -44,6 +44,10 @@ jobs:
       max-parallel: 4
       matrix:
         python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+    name: build (python ${{ matrix.python-version }})
+    outputs:
+      targz: generic-${{ steps.meta.outputs.version }}.tar.gz
+      wheel: generic-${{ steps.meta.outputs.version }}-py3-none-any.whl
     steps:
       - uses: actions/checkout@v3.5.3
       - name: Set up Python ${{ matrix.python-version }}
@@ -56,6 +60,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install poetry==$POETRY_VERSION
           poetry config virtualenvs.in-project true
+      - name: Collect Project Data
+        id: meta
+        run: .github/scripts/metadata.sh
       - name: Install dependencies
         run: poetry install --no-interaction
       - name: Test
@@ -66,15 +73,36 @@ jobs:
           CC_TEST_REPORTER_ID: f9441442730130d385df69241a779ac3b663756ed21881179826e3fab7e01924
         with:
           coverageCommand: poetry run coverage xml
-      - name: Build (release only)
-        if: github.event_name == 'release' && matrix.python-version == '3.11'
+      - name: Create Source Dist and Wheel
+        if: ${{ matrix.python_version == env.python_version }}
         run: poetry build
-      - name: Upload Assets (release only)
-        uses: AButler/upload-release-assets@v2.0
-        if: github.event_name == 'release' && matrix.python-version == '3.11'
+      - name: Upload generic-${{ steps.meta.output.version }}.tar.gz
+        if: ${{ matrix.python_version == env.python_version }}
+        uses: actions/upload-artifact@v3
         with:
-          files: "dist/*"
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Publish to PyPI (release only)
-        if: github.event_name == 'release' && matrix.python-version == '3.11'
-        run: poetry publish -u __token__ -p ${{ secrets.PYPI_TOKEN }}
+          name: generic-${{ steps.meta.outputs.version }}.tar.gz
+          path: dist/generic-${{ steps.meta.outputs.version }}.tar.gz
+      - name: Upload generic-${{ steps.meta.outputs.version }}-py3-none-any.whl
+        if: ${{ matrix.python_version == env.python_version }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: generic-${{ steps.meta.outputs.version }}-py3-none-any.whl
+          path: dist/generic-${{ steps.meta.outputs.version }}-py3-none-any.whl
+
+  publish-to-pypi:
+    name: Publish to PyPI (release only)
+    needs: build
+    runs-on: ubuntu-22.04
+    permissions:
+      id-token: write
+    if: ${{ github.event_name == 'release' }}
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: ${{ needs.build.outputs.targz }}
+          path: dist
+      - uses: actions/download-artifact@v3
+        with:
+          name: ${{ needs.build.outputs.wheel }}
+          path: dist
+      - uses: pypa/gh-action-pypi-publish@release/v1
