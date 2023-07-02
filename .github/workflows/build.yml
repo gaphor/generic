@@ -118,12 +118,15 @@ jobs:
       id-token: write
     if: ${{ github.event_name == 'release' }}
     steps:
-      - uses: actions/download-artifact@v3
+      - name: Download tar.gz
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # v3.0.2
         with:
           name: ${{ needs.build.outputs.targz }}
           path: dist
-      - uses: actions/download-artifact@v3
+      - name: Download wheel
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # v3.0.2
         with:
           name: ${{ needs.build.outputs.wheel }}
           path: dist
-      - uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@f5622bde02b04381239da3573277701ceca8f6a0 # release/v1
