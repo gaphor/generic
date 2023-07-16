@@ -23,6 +23,17 @@ excellent readthedocs.org project. Development takes place on
 
 # Changes
 
+## 1.1.2
+
+- Replace print statements with logging
+- Enable trusted publisher for PyPI
+- Create Security Policy
+- Update LICENSE to BSD 3-Clause
+- Add support for Python 3.12
+- Simplify build: drop tox
+- Update documentation theme to Furo
+- Switch linting to ruff
+
 ## 1.1.1
 
 - Add support for Python 3.11
