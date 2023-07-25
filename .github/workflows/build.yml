@@ -123,6 +123,11 @@ jobs:
       id-token: write
     if: ${{ github.event_name == 'release' }}
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@cba0d00b1fc9a034e1e642ea0f1103c282990604 # v2.5.0
+        with:
+          egress-policy: audit
+
       - name: Download tar.gz
         uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # v3.0.2
         with:
