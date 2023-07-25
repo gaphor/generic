@@ -94,7 +94,7 @@ jobs:
       - name: Test
         run: poetry run pytest --cov=generic
       - name: Code Climate Coverage Action
-        uses: paambaati/codeclimate-action@5f637ccd517bc8960de0fe59379dd922bcba9486 # v4.0.0
+        uses: paambaati/codeclimate-action@9dea053ab1947f448753ac842b9980de2e44fe88 # v4.0.0
         env:
           CC_TEST_REPORTER_ID: f9441442730130d385df69241a779ac3b663756ed21881179826e3fab7e01924
         with:
