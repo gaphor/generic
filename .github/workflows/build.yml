@@ -139,4 +139,4 @@ jobs:
           name: ${{ needs.build.outputs.wheel }}
           path: dist
       - name: Publish package distributions to PyPI
-        uses: pypa/gh-action-pypi-publish@f8c70e705ffc13c3b4d1221169b84f12a75d6ca8 # release/v1
+        uses: pypa/gh-action-pypi-publish@ade57f54dcc56d4858ca681c80269c26dc7b9149 # release/v1
