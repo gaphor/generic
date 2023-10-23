@@ -26,7 +26,7 @@ jobs:
           egress-policy: audit
 
       - id: skip_check
-        uses: fkirc/skip-duplicate-actions@12aca0a884f6137d619d6a8a09fcc3406ced5281 # v5.3.0
+        uses: fkirc/skip-duplicate-actions@f75f66ce1886f00957d99748a42c724f4330bdcf # v5.3.1
         with:
           concurrent_skipping: 'same_content'
           do_not_skip: '["release", "workflow_dispatch", "schedule"]'
