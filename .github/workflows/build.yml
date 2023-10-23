@@ -46,7 +46,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236 # v4.7.1
         with:
-          python-version: '3.x'
+          python-version: ${{ env.python-version }}
       - name: Lint with Pre-commit
         uses: pre-commit/action@646c83fcd040023954eafda54b4db0192ce70507 # v3.0.0
       - name: Check Poetry lock file integrity
