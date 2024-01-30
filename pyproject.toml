@@ -31,7 +31,7 @@ classifiers = [
 python = "^3.8"
 exceptiongroup = "^1.0.0"
 sphinx = { version = ">=4.3,<7.2", optional = true }
-furo = { version = ">=2022,<2024", optional = true }
+furo = { version = ">=2022,<2025", optional = true }
 
 [tool.poetry.dev-dependencies]
 pytest = "^8.0"
