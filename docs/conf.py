@@ -12,7 +12,6 @@
 
 import importlib.metadata
 import sys
-from datetime import date
 from pathlib import Path
 
 project_dir = Path(__file__).resolve().parent.parent
@@ -45,7 +44,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "generic"
-copyright = f"2011, Andrey Popp, 2019-{date.today().year}, Arjan Molenaar and Dan Yeaw"
+copyright = "2011, Andrey Popp, 2019, Arjan Molenaar and Dan Yeaw"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

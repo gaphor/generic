@@ -1,0 +1,12 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: Generic
+Upstream-Contact: Generic Library contributors
+Source: https://github.com/gaphor/generic
+
+Files: *
+Copyright: 2010 Andrey Popp, 2019 Arjan Molenaar & Dan Yeaw
+License: BSD-3-Clause
+
+Files: generic/registry.py
+Copyright: 2009-2010 Christopher Michael Rossi, 2019 Arjan Molenaar & Dan Yeaw
+License: BSD-3-Clause
