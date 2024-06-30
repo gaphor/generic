@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+from sys import version_info
 from typing import Callable
 
 import pytest
-from exceptiongroup import ExceptionGroup
+if version_info < (3, 11):
+    from exceptiongroup import ExceptionGroup
 
 from generic.event import Event, Manager
 
