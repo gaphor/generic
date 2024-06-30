@@ -3,9 +3,11 @@
 This module provides API for event management.
 """
 
+from sys import version_info
 from typing import Callable, Set, Type
 
-from exceptiongroup import ExceptionGroup
+if version_info < (3, 11):
+    from exceptiongroup import ExceptionGroup
 
 from generic.registry import Registry, TypeAxis
 
