@@ -2,8 +2,16 @@ name: build
 
 on:
   push:
+    branches:
+      - main
+    paths-ignore:
+      - '*.md'
+  pull_request:
+    branches:
+      - main
   release:
-    types: [created, published]
+    types: [published]
+  workflow_dispatch:
 
 env:
   python-version: '3.12'

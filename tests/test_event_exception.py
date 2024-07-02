@@ -4,6 +4,7 @@ from sys import version_info
 from typing import Callable
 
 import pytest
+
 if version_info < (3, 11):
     from exceptiongroup import ExceptionGroup
 
