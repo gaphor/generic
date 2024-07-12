@@ -92,7 +92,7 @@ jobs:
         with:
           coverageCommand: poetry run coverage xml
       - name: Create Source Dist and Wheel
-        if: ${{ matrix.python-version == env.python.version }}
+        if: ${{ matrix.python-version == env.python-version }}
         run: poetry build
       - name: Upload generic-${{ steps.meta.outputs.version }}.tar.gz
         if: ${{ matrix.python-version == env.python-version }}
