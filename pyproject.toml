@@ -1,24 +1,14 @@
-[tool.poetry]
+[build-system]
+requires = [ "hatchling",]
+build-backend = "hatchling.build"
+
+[project]
 name = "generic"
 version = "1.1.3"
 description = "Generic programming library for Python"
-authors = [
-    "Andrey Popp <8mayday@gmail.com>",
-    "Arjan Molenaar <gaphor@gmail.com>"
-]
-maintainers = [
-    "Arjan Molenaar <gaphor@gmail.com>",
-    "Dan Yeaw <dan@yeaw.me>"
-]
-
-license = "BSD License"
 readme = "README.md"
-homepage = "https://generic.readthedocs.io/"
-repository = "https://github.com/gaphor/generic"
-documentation = "https://generic.readthedocs.io/"
-
-keywords = ["generic", "multi dispatch", "dispatch", "event"]
-
+requires-python = "<4.0,>=3.9"
+keywords = [ "dispatch", "event", "generic", "multi dispatch",]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
@@ -26,35 +16,45 @@ classifiers = [
     "License :: OSI Approved :: BSD License",
     "Programming Language :: Python",
 ]
+dependencies = [ 'exceptiongroup>=1.2.1; python_version < "3.11"',]
+dynamic = []
 
-[tool.poetry.dependencies]
-python = "^3.8"
-exceptiongroup = {version = "^1.0.0", python = "<3.11"}
+[project.license]
+file = "LICENSES/BSD-3-Clause.txt"
 
-[tool.poetry.dev-dependencies]
-pytest = "^8.3"
-pytest-cov = "^5.0"
+[[project.authors]]
+name = "Andrey Popp"
+email = "8mayday@gmail.com"
 
-[tool.poetry.group.docs]
-optional=true
+[[project.authors]]
+name = "Arjan Molenaar"
+email = "gaphor@gmail.com"
 
-[tool.poetry.group.docs.dependencies]
-sphinx = ">=4.3,<8.0"
-furo = ">=2022,<2025"
+[[project.maintainers]]
+name = "Arjan Molenaar"
+email = "gaphor@gmail.com"
 
-[tool.pytest.ini_options]
-testpaths = [
-    "tests",
-    "docs",
-    ]
-addopts = [
-    "--doctest-modules",
-    "--doctest-glob='*.rst'",
-    "--import-mode=importlib",
+[[project.maintainers]]
+name = "Dan Yeaw"
+email = "dan@yeaw.me"
+
+[project.urls]
+homepage = "https://generic.readthedocs.io/"
+repository = "https://github.com/gaphor/generic"
+documentation = "https://generic.readthedocs.io/"
+
+[project.optional-dependencies]
+docs = [
+    "furo<2025,>=2022",
+    "sphinx<8.0,>=4.3",
 ]
 
+[tool.pytest.ini_options]
+testpaths = [ "tests", "docs",]
+addopts = [ "--doctest-modules", "--doctest-glob='*.rst'", "--import-mode=importlib",]
+
 [tool.coverage.run]
-source = ["generic"]
+source = [ "generic",]
 
 [tool.mypy]
 python_version = 3.9
@@ -64,25 +64,21 @@ warn_redundant_casts = true
 check_untyped_defs = true
 strict_optional = true
 show_error_codes = true
-ignore_missing_imports=true
+ignore_missing_imports = true
 warn_unused_ignores = true
 namespace_packages = true
 
 [[tool.mypy.overrides]]
-module = [
-    "pytest.*",
-    "conf",
-]
+module = [ "pytest.*", "conf",]
 ignore_missing_imports = true
 warn_unreachable = true
 
 [tool.ruff]
-exclude = [
-    ".venv",
-    "dist",
-]
-ignore = ["E501"]
+exclude = [ ".venv", "dist",]
 line-length = 88
+
+[tool.ruff.lint]
+ignore = ["E501",]
 select = [
     "B",
     "B9",
@@ -92,10 +88,11 @@ select = [
     "W",
 ]
 
-[tool.ruff.mccabe]
+[tool.ruff.lint.mccabe]
 max-complexity = 18
 
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
-
+[tool.uv]
+dev-dependencies = [
+    "pytest >=8.3,<9.0",
+    "pytest-cov >=5.0,<6.0",
+]
