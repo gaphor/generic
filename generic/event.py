@@ -57,7 +57,7 @@ class Manager:
                 for handler in set(handler_set):
                     try:
                         handler(event)
-                    except BaseException as e:
+                    except Exception as e:
                         exceptions.append(e)
                 if exceptions:
                     raise ExceptionGroup("Error while handling events", exceptions)
