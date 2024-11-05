@@ -18,7 +18,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  python-version: '3.12'
+  python-version: '3.13'
 
 permissions:
   contents: read
@@ -67,7 +67,7 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: ['3.9', '3.10', '3.11', '3.12']
+        python-version: ['3.9', '3.10', '3.11', '3.12', '3.13']
     name: build (python ${{ matrix.python-version }})
     outputs:
       targz: generic-${{ steps.meta.outputs.version }}.tar.gz
