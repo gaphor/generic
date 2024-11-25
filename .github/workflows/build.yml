@@ -25,7 +25,7 @@ permissions:
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
     steps:
@@ -39,8 +39,8 @@ jobs:
             pypi.org:443
             github.com:443
             api.github.com:443
-            objects.githubusercontent.com:443
-            raw.githubusercontent.com:443
+            *.githubusercontent.com:443
+            ghcr.io
 
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
@@ -61,7 +61,7 @@ jobs:
 
   build:
     needs: lint
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
     strategy:
@@ -85,9 +85,9 @@ jobs:
             files.pythonhosted.org:443
             pypi.org:443
             github.com:443
+            *.githubusercontent.com:443
+            ghcr.io
             keys.openpgp.org:443
-            objects.githubusercontent.com:443
-            raw.githubusercontent.com:443
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
@@ -130,7 +130,7 @@ jobs:
   publish-to-pypi:
     name: Publish to PyPI (release only)
     needs: build
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     permissions:
       id-token: write
     if: ${{ github.event_name == 'release' }}
