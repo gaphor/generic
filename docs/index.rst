@@ -19,13 +19,9 @@ generic:
 Installation
 ------------
 
-You can get generic by issuing *easy_install*::
+You can get generic with *pip*::
 
-  % easy_install generic
-
-or *pip* command::
-
-  % pip install generic
+  % python -m pip install generic
 
 In case you find a bug or have a feature request, please file a ticket at
 `GitHub Issues`_.
@@ -35,12 +31,12 @@ In case you find a bug or have a feature request, please file a ticket at
 Development process
 -------------------
 
-Development takes place at `GitHub`_, you can clone source code repository with the
+Development takes place at `GitHub`_, you can clone the source code repository with the
 following command::
 
   % git clone git://github.com/gaphor/generic.git
 
-In case submitting patch or GitHub pull request please ensure you have
-corresponding tests for your bugfix or new functionality.
+We love contributions! If you are submitting a GitHub pull request please ensure you
+have tests for your bugfix or new functionality.
 
 .. _GitHub: https://github.com/gaphor/generic
