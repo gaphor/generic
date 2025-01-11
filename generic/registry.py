@@ -101,7 +101,7 @@ class Registry(Generic[T]):
             i, axis = i_axis
             if aligned[i] is not None:
                 raise ValueError(
-                    "Axis defined twice between positional and " "keyword arguments"
+                    "Axis defined twice between positional and keyword arguments"
                 )
 
             aligned[i] = v
