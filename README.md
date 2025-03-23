@@ -23,6 +23,10 @@ excellent readthedocs.org project. Development takes place on
 
 # Changes
 
+## 1.1.4
+
+- Dependency updates
+
 ## 1.1.3
 
 - Dependency updates
