@@ -23,6 +23,15 @@ excellent readthedocs.org project. Development takes place on
 
 # Changes
 
+## 1.1.6
+
+- Refactoring
+
+## 1.1.5
+
+- Fix regression with super type dispatching
+- Dependency updates
+
 ## 1.1.4
 
 - Dependency updates
