@@ -102,6 +102,26 @@ def test_subtype_evaluation():
     assert dispatcher(o_sub) == (o_sub, o_sub)
 
 
+def test_subtype_and_none_evaluation():
+    class Super:
+        pass
+
+    class Sub(Super):
+        pass
+
+    dispatcher = create_dispatcher(2, args=["x", "y"])
+
+    dispatcher.register_rule(lambda x, y: (x, y), Super, None)
+    dispatcher.register_rule(lambda x, y: x == y, Sub, Sub)
+
+    o_super = Super()
+    assert dispatcher(o_super, None) == (o_super, None)
+    o_sub = Sub()
+    assert dispatcher(o_sub, None) == (o_sub, None)
+    with pytest.raises(TypeError):
+        dispatcher(object())
+
+
 def test_register_rule_with_wrong_arity():
     dispatcher = create_dispatcher(1, args=["x"])
     dispatcher.register_rule(lambda x: x, int)
