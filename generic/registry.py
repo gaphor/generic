@@ -52,8 +52,7 @@ class Registry(Generic[T]):
 
     def query(self, *arg_objs: V, **kw_objs: V) -> Generator[T | None, None, None]:
         objs = self._align_with_axes(arg_objs, kw_objs)
-        axes = self._axes
-        return self._query(self._tree, objs, axes)
+        return (f for f in self._query(self._tree, objs, self._axes) if f is not None)
 
     def _query(
         self, tree_node: _TreeNode[T], objs: Sequence[V | None], axes: Sequence[Axis]
