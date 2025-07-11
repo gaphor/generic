@@ -7,7 +7,17 @@ This implementation was borrowed from happy[1] project by Chris Rossi.
 
 from __future__ import annotations
 
-from typing import Any, Dict, Generator, Generic, KeysView, Sequence, TypeVar, Union, Iterator
+from typing import (
+    Any,
+    Dict,
+    Generator,
+    Generic,
+    KeysView,
+    Sequence,
+    TypeVar,
+    Union,
+    Iterator,
+)
 
 __all__ = ("Registry", "SimpleAxis", "TypeAxis")
 
