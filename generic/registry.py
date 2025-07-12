@@ -7,7 +7,17 @@ This implementation was borrowed from happy[1] project by Chris Rossi.
 
 from __future__ import annotations
 
-from typing import Any, Dict, Generator, Generic, KeysView, Sequence, TypeVar, Union
+from typing import (
+    Any,
+    Dict,
+    Generator,
+    Generic,
+    KeysView,
+    Sequence,
+    TypeVar,
+    Union,
+    Iterator,
+)
 
 __all__ = ("Registry", "SimpleAxis", "TypeAxis")
 
@@ -50,9 +60,9 @@ class Registry(Generic[T]):
     def lookup(self, *arg_objs: V, **kw_objs: V) -> T | None:
         return next(self.query(*arg_objs, **kw_objs), None)
 
-    def query(self, *arg_objs: V, **kw_objs: V) -> Generator[T | None, None, None]:
+    def query(self, *arg_objs: V, **kw_objs: V) -> Iterator[T | None]:
         objs = self._align_with_axes(arg_objs, kw_objs)
-        return (f for f in self._query(self._tree, objs, self._axes) if f is not None)
+        return filter(None, self._query(self._tree, objs, self._axes))
 
     def _query(
         self, tree_node: _TreeNode[T], objs: Sequence[V | None], axes: Sequence[Axis]

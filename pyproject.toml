@@ -87,8 +87,10 @@ exclude = [
     ".venv",
     "dist",
 ]
-ignore = ["E501"]
 line-length = 88
+
+[tool.ruff.lint]
+ignore = ["E501"]
 select = [
     "B",
     "B9",
