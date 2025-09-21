@@ -84,7 +84,7 @@ class MethodDispatcher(FunctionDispatcher[T]):
         """Process all unbound rule by binding them to ``cls`` type."""
         for argtypes, func in self.local.unbound_rules:
             argtypes = (cls,) + argtypes
-            logger.debug("register rule", argtypes)
+            logger.debug("register rule %s", argtypes)
             self.register_rule(func, *argtypes)
         self.local.unbound_rules = []
 
