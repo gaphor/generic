@@ -1,8 +1,8 @@
 # Generic programming library for Python
 
 [![Build state](https://github.com/gaphor/generic/workflows/build/badge.svg)](https://github.com/gaphor/generic/actions)
-[![Maintainability](https://api.codeclimate.com/v1/badges/c7be2d28400687b1375a/maintainability)](https://codeclimate.com/github/gaphor/generic/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/c7be2d28400687b1375a/test_coverage)](https://codeclimate.com/github/gaphor/generic/test_coverage)
+[![Maintainability](https://qlty.sh/gh/gaphor/projects/generic/maintainability.svg)](https://qlty.sh/gh/gaphor/projects/generic)
+[![Code Coverage](https://qlty.sh/gh/gaphor/projects/generic/coverage.svg)](https://qlty.sh/gh/gaphor/projects/generic)
 [![Documentation Status](https://readthedocs.org/projects/generic/badge/?version=latest)](https://generic.readthedocs.io/en/latest/?badge=latest)
 [![Matrix](https://img.shields.io/badge/chat-on%20Matrix-success)](https://app.element.io/#/room/#gaphor_Lobby:gitter.im)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/gaphor/generic/badge)](https://securityscorecards.dev/viewer/?platform=github.com&org=gaphor&repo=generic)
