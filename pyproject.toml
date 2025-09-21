@@ -23,7 +23,7 @@ classifiers = [
     "Programming Language :: Python",
 ]
 
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 
 dependencies = [
     "exceptiongroup>=1.0.0 ; python_version < '3.11'",
