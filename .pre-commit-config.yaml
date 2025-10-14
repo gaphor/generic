@@ -1,6 +1,6 @@
 repos:
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: 412de98d50e846f31ea6f4b0ad036f2c24a7a024  # frozen: v1.17.1
+  rev: 9f70dc58c23dfcca1b97af99eaeee3140a807c7e  # frozen: v1.18.2
   hooks:
   - id: mypy
 - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -10,7 +10,7 @@ repos:
   - id: check-yaml
   - id: end-of-file-fixer
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: '54a455f7ce629598b7535ff828fd5fb796f4b83f'  # frozen: v0.12.9
+  rev: 'f9351c924055bf6c7b4a4670237d3ce141e9f57c'  # frozen: v0.14.0
   hooks:
     - id: ruff
       args: [--fix]
