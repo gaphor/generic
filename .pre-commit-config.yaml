@@ -10,7 +10,7 @@ repos:
   - id: check-yaml
   - id: end-of-file-fixer
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: 'f9351c924055bf6c7b4a4670237d3ce141e9f57c'  # frozen: v0.14.0
+  rev: '3db93a2be6f214ed722bf7bce095ec1b1715422a'  # frozen: v0.14.2
   hooks:
     - id: ruff
       args: [--fix]
