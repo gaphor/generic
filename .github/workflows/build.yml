@@ -30,7 +30,7 @@ jobs:
       contents: read
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@df199fb7be9f65074067a9eb93f12bb4c5547cf2 # v2.13.3
+        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
         with:
           disable-sudo: true
           egress-policy: block
@@ -50,12 +50,12 @@ jobs:
         with:
           python-version: ${{ env.python-version }}
       - name: Lint with Pre-commit
-        uses: pre-commit/action@2c7b3805fd2a0fd8c1884dcaebf91fc102a13ecd # v3.0.1
+        run: pipx run --pip-args='--constraint=.github/github-requirements.txt' pre-commit run --all-files
       - name: Check REUSE compliance
         run: pip install reuse && python -m reuse lint
       - name: Check Poetry lock file integrity
         run: |
-          python${{ env.python-version }} -m pip install --constraint=.github/constraints.txt poetry
+          python${{ env.python-version }} -m pip install --constraint=.github/github-requirements.txt poetry
           poetry config virtualenvs.in-project true
           poetry check
 
@@ -74,7 +74,7 @@ jobs:
       wheel: generic-${{ steps.meta.outputs.version }}-py3-none-any.whl
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@df199fb7be9f65074067a9eb93f12bb4c5547cf2 # v2.13.3
+        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
         with:
           disable-sudo: true
           egress-policy: block
@@ -95,7 +95,7 @@ jobs:
           allow-prereleases: true
       - name: Install Poetry
         run: |
-          python${{ matrix.python-version }} -m pip install --constraint=.github/constraints.txt poetry
+          python${{ matrix.python-version }} -m pip install --constraint=.github/github-requirements.txt poetry
           poetry config virtualenvs.in-project true
       - name: Collect Project Data
         id: meta
@@ -107,7 +107,7 @@ jobs:
           poetry run pytest --cov=generic
           poetry run coverage lcov
       - name: Upload Code Coverage to Qlty.sh
-        uses: qltysh/qlty-action/coverage@v2
+        uses: qltysh/qlty-action/coverage@a19242102d17e497f437d7466aa01b528537e899 # v2.2.0
         with:
           token: ${{ secrets.QLTY_COVERAGE_TOKEN }}
           files: coverage.lcov
@@ -116,13 +116,13 @@ jobs:
         run: poetry build
       - name: Upload generic-${{ steps.meta.outputs.version }}.tar.gz
         if: ${{ matrix.python-version == env.python-version }}
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: generic-${{ steps.meta.outputs.version }}.tar.gz
           path: dist/generic-${{ steps.meta.outputs.version }}.tar.gz
       - name: Upload generic-${{ steps.meta.outputs.version }}-py3-none-any.whl
         if: ${{ matrix.python-version == env.python-version }}
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: generic-${{ steps.meta.outputs.version }}-py3-none-any.whl
           path: dist/generic-${{ steps.meta.outputs.version }}-py3-none-any.whl
@@ -136,17 +136,17 @@ jobs:
     if: ${{ github.event_name == 'release' }}
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@df199fb7be9f65074067a9eb93f12bb4c5547cf2 # v2.13.3
+        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
         with:
           egress-policy: audit
 
       - name: Download tar.gz
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: ${{ needs.build.outputs.targz }}
           path: dist
       - name: Download wheel
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: ${{ needs.build.outputs.wheel }}
           path: dist
