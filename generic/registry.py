@@ -1,8 +1,9 @@
+# SPDX-License-Identifier: BSD-4-Clause
+# SPDX-FileCopyrightText: 2009-2010 Christopher Michael Rossi
 """Registry.
 
-This implementation was borrowed from happy[1] project by Chris Rossi.
-
-[1]: http://bitbucket.org/chrisrossi/happy
+This implementation was borrowed from the happy project by Chris Rossi.
+Full license text: LICENSES/BSD-4-Clause.txt
 """
 
 from __future__ import annotations
