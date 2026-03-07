@@ -23,7 +23,7 @@ classifiers = [
     "Programming Language :: Python",
 ]
 
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 
 dependencies = [
     "exceptiongroup>=1.0.0 ; python_version < '3.11'",
@@ -63,7 +63,7 @@ addopts = [
 source = ["generic"]
 
 [tool.mypy]
-python_version = 3.9
+python_version = 3.10
 warn_return_any = true
 warn_unused_configs = true
 warn_redundant_casts = true

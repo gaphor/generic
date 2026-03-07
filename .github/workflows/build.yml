@@ -18,14 +18,14 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  python-version: '3.13'
+  python-version: '3.14'
 
 permissions:
   contents: read
 
 jobs:
   lint:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-slim
     permissions:
       contents: read
     steps:
@@ -67,7 +67,7 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: ['3.9', '3.10', '3.11', '3.12', '3.13']
+        python-version: ['3.10', '3.11', '3.12', '3.13', '3.14']
     name: build (python ${{ matrix.python-version }})
     outputs:
       targz: generic-${{ steps.meta.outputs.version }}.tar.gz
@@ -130,7 +130,7 @@ jobs:
   publish-to-pypi:
     name: Publish to PyPI (release only)
     needs: build
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-slim
     permissions:
       id-token: write
     if: ${{ github.event_name == 'release' }}
