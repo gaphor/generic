@@ -11,7 +11,7 @@ maintainers = [
     { name = "Dan Yeaw", email = "dan@yeaw.me" },
 ]
 license = "BSD-3-Clause"
-license-files = [ "LICENSE.txt" ]
+license-files = [ "LICENSES/BSD-3-Clause.txt" ]
 
 readme = "README.md"
 
