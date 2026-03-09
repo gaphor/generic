@@ -10,6 +10,8 @@ maintainers = [
     { name = "Arjan Molenaar", email = "gaphor@gmail.com" },
     { name = "Dan Yeaw", email = "dan@yeaw.me" },
 ]
+license = "BSD-3-Clause"
+license-files = [ "LICENSE.txt" ]
 
 readme = "README.md"
 
@@ -19,7 +21,6 @@ classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "Intended Audience :: Information Technology",
-    "License :: OSI Approved :: BSD License",
     "Programming Language :: Python",
 ]
 

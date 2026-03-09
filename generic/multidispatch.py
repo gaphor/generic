@@ -2,11 +2,6 @@
 
 This code is a Python 3, slimmed down version of the
 generic package by Andrey Popp.
-
-Only the generic function code is left intact -- no generic methods.
-The interface has been made in line with `functools.singledispatch`.
-
-Note that this module does not support annotated functions.
 """
 
 from __future__ import annotations
