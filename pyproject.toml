@@ -1,6 +1,6 @@
 [project]
 name = "generic"
-version = "1.1.6"
+version = "1.1.7"
 description = "Generic programming library for Python"
 authors = [
     { name = "Andrey Popp",  email = "8mayday@gmail.com" },
@@ -10,6 +10,8 @@ maintainers = [
     { name = "Arjan Molenaar", email = "gaphor@gmail.com" },
     { name = "Dan Yeaw", email = "dan@yeaw.me" },
 ]
+license = "BSD-3-Clause"
+license-files = [ "LICENSES/BSD-3-Clause.txt" ]
 
 readme = "README.md"
 
@@ -19,11 +21,10 @@ classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "Intended Audience :: Information Technology",
-    "License :: OSI Approved :: BSD License",
     "Programming Language :: Python",
 ]
 
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 
 dependencies = [
     "exceptiongroup>=1.0.0 ; python_version < '3.11'",
@@ -63,7 +64,7 @@ addopts = [
 source = ["generic"]
 
 [tool.mypy]
-python_version = 3.9
+python_version = 3.10
 warn_return_any = true
 warn_unused_configs = true
 warn_redundant_casts = true

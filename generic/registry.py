@@ -1,9 +1,4 @@
-"""Registry.
-
-This implementation was borrowed from happy[1] project by Chris Rossi.
-
-[1]: http://bitbucket.org/chrisrossi/happy
-"""
+"""Registry."""
 
 from __future__ import annotations
 
