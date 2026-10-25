@@ -1,6 +1,6 @@
 [project]
 name = "generic"
-version = "1.1.7"
+version = "1.1.8"
 description = "Generic programming library for Python"
 authors = [
     { name = "Andrey Popp",  email = "8mayday@gmail.com" },
@@ -24,11 +24,7 @@ classifiers = [
     "Programming Language :: Python",
 ]
 
-requires-python = ">=3.10"
-
-dependencies = [
-    "exceptiongroup>=1.0.0 ; python_version < '3.11'",
-]
+requires-python = ">=3.11"
 
 [project.urls]
 homepage = "https://generic.readthedocs.io/"
@@ -64,7 +60,7 @@ addopts = [
 source = ["generic"]
 
 [tool.mypy]
-python_version = 3.10
+python_version = 3.11
 warn_return_any = true
 warn_unused_configs = true
 warn_redundant_casts = true
