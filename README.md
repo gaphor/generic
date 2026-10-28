@@ -23,6 +23,10 @@ excellent readthedocs.org project. Development takes place on
 
 # Changes
 
+## 1.1.8
+
+- Drop support for Python 3.10, add support for Python 3.15
+
 ## 1.1.7
 
 - Fix a licensing issue by relicencing the registry module
