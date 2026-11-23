@@ -30,7 +30,7 @@ jobs:
       contents: read
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2 # v2.22.2
+        uses: step-security/harden-runner@aebdcf6156ab6691adf63218240e476564a1ed4c # v2.23.0
         with:
           disable-sudo: true
           egress-policy: block
@@ -74,7 +74,7 @@ jobs:
       wheel: generic-${{ steps.meta.outputs.version }}-py3-none-any.whl
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2 # v2.22.2
+        uses: step-security/harden-runner@aebdcf6156ab6691adf63218240e476564a1ed4c # v2.23.0
         with:
           disable-sudo: true
           egress-policy: block
@@ -107,7 +107,7 @@ jobs:
           poetry run pytest --cov=generic
           poetry run coverage lcov
       - name: Upload Code Coverage to Qlty.sh
-        uses: qltysh/qlty-action/coverage@ebcd284bf32e36a030afe15f1e136c7be08b9506 # v2.5.0
+        uses: qltysh/qlty-action/coverage@a46e29cfd54065ae8a2c6b1fd3446aed1b1a4257 # v2.8.0
         with:
           token: ${{ secrets.QLTY_COVERAGE_TOKEN }}
           files: coverage.lcov
@@ -136,7 +136,7 @@ jobs:
     if: ${{ github.event_name == 'release' }}
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2 # v2.22.2
+        uses: step-security/harden-runner@aebdcf6156ab6691adf63218240e476564a1ed4c # v2.23.0
         with:
           egress-policy: audit
 
